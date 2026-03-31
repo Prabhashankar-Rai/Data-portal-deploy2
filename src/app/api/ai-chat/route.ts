@@ -347,9 +347,14 @@ CRITICAL SQL RULES FOR DUCKDB:
 }
 
 // Generate short narration
-const narrationPrompt = `Provide a VERY CONCISE analytics insight(2 - 3 lines max) based on the user's question and this resulting data sample (top 5 rows): ${JSON.stringify(df.slice(0, 5))}.
-    Question: ${ messages[messages.length - 1].content }
-Write ONLY 2 - 3 business - focused lines.Be direct.DO NOT convert formatting.If it's a ratio, output a raw percentage (e.g. 91%), DO NOT prefix with RM or $ currency as ratios are not financial absolutes.`;
+const narrationPrompt =
+  "Provide a VERY CONCISE analytics insight (2-3 lines max) based on the user's question and this resulting data sample (top 5 rows): " +
+  JSON.stringify(df.slice(0, 5)) +
+  ". Question: " +
+  messages[messages.length - 1].content +
+  ". Write ONLY 2-3 business-focused lines. Be direct. DO NOT convert formatting. If it is a ratio, output a raw percentage (e.g. 91%), DO NOT prefix with RM or $ currency as ratios are not financial absolutes.";
+
+
 
     let insights = "Here is the data you requested.";
     let narrationUsage = { total_tokens: 0 };
