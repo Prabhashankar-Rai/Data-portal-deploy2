@@ -282,11 +282,9 @@ ${columnList}
 If a metric formula uses columns that are completely absent from this list, they are considered missing. You must NOT generate SQL for these and instead reply directly with the missing columns.
 
 CRITICAL SQL RULES FOR DUCKDB:
-1. ALWAYS use the table \`${viewName}\`. EVERY query MUST contain \`FROM ${viewName}\`.
+1. ALWAYS use the required dataset view. EVERY query MUST contain a FROM clause.
 2. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
-3. NEVER write a generic SELECT without joining to ${viewName}. Avoid SELECT SUM minus SUM without FROM.
-4. YEAR filtering: Use inferred date column from schema instead of hardcoding column names.
-5. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
+3. NEVER write a generic SELECT without joining to the required dataset view. Avoid SELECT SUM minus SUM without FROM.5. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
 6. Always GROUP BY selected columns.
 7. DATA FILTERING rules apply only to agent queries.
 8. ALWAYS sort results using aggregated metrics.
