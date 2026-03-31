@@ -354,23 +354,34 @@ const narrationPrompt =
 
 
 
-    let insights = "Here is the data you requested.";
-    let narrationUsage = { total_tokens: 0 };
-    try {
-      const narrationResponse = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        temperature: 0.3,
-        messages: [{ role: 'user', content: narrationPrompt }]
-      });
-      if (narrationResponse.choices[0].message.content) {
-        insights = narrationResponse.choices[0].message.content;
+    // Generate short narration
+let insights = "Here is the data you requested.";
+let narrationUsage = { total_tokens: 0 };
+
+try {
+  const narrationResponse = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "user",
+        content: narrationPrompt
       }
-      if (narrationResponse.usage) {
-        narrationUsage = narrationResponse.usage;
-      }
-    } catch (e) {
-      console.error("Narration generation error:", e);
-    }
+    ],
+    max_tokens: 120,
+    temperature: 0.3
+  });
+
+  insights =
+    narrationResponse.choices?.[0]?.message?.content ||
+    insights;
+
+  narrationUsage =
+    narrationResponse.usage ||
+    narrationUsage;
+
+} catch (e) {
+  console.error("Narration generation error:", e);
+}
 
     const payload = {
       role: 'assistant',
