@@ -342,7 +342,7 @@ CRITICAL SQL RULES FOR DUCKDB:
       if (error) {
         return NextResponse.json({
           role: 'assistant',
-          content: `** SQL Error during execution:** ${ error?.message || String(error) } `
+          content: "**SQL Error during execution:** " + (error?.message || String(error))
   });
 }
 
