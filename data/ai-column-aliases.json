@@ -1,0 +1,23 @@
+{
+    "gross incurred claims": ["gross incurred claim", "gic"],
+    "gross incurred claim": ["gic"],
+    "net incurred claim": ["nic", "net incurred"],
+    "gross paid claim": ["gross paid claim", "gpd"],
+    "net paid claim": ["net paid claim", "npd"],
+    "gross written premium": ["gross written premium", "gwp"],
+    "net written premium": ["net written premium", "nwp"],
+    "gross earned premium": ["gross earned premium", "gep"],
+    "net earned premium": ["net earned premium", "nep"],
+    "gross commission": ["gross commmision", "gross_comm", "gross commission"],
+    "net commission": ["net commission", "net_comm"],
+    "no of claims": ["number of claims", "noc", "no of claim"],
+    "no of policies": ["number of policies", "nop_t", "nop"],
+    "gross written premium cy": ["gross written premium cy", "gwp_cy", "gwp cy"],
+    "gross written premium py": ["gross written premium py", "gwp_py", "gwp py"],
+    "gross written premium budget cy": ["gross written premium budget cy", "gwp_budget", "gwp_budget_cy"],
+    "renewed no of policies": ["renewed no of policies", "renewed_nop"],
+    "renewable no of policies": ["renewable no of policies", "renewable_nop"],
+    "renewed gross written premium": ["renewed gross written premium", "renewed_gwp"],
+    "renewable gross written premium": ["renewable gross written premium", "renewable_gwp"],
+    "no of claims paid": ["no of claims paid", "number of claims paid", "noc_paid"]
+}

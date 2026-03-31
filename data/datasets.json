@@ -1,0 +1,794 @@
+[
+  {
+    "id": "uw-data",
+    "displayLabel": "UW data",
+    "fileName": "UW.csv",
+    "filePath": "C:\\Users\\PrabhashankarRai\\Desktop\\Enterpprise portal - Git\\Enterpprise portal - Git\\portal-ui\\public\\data-download\\UW.csv",
+    "purpose": "UW data for 2025 & 2026",
+    "aiEnabled": true,
+    "columns": [
+      {
+        "name": "ac_year",
+        "visible": true,
+        "filter": "date"
+      },
+      {
+        "name": "bu",
+        "visible": true,
+        "filter": "multi"
+      },
+      {
+        "name": "channel",
+        "visible": true,
+        "filter": "multi"
+      },
+      {
+        "name": "mainclass",
+        "visible": true,
+        "filter": "multi"
+      },
+      {
+        "name": "subclass",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "subclass_name",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "gwp",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gep",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic (in_sub)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic_ex_sub",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(ex_sub)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "frequency (gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "severity (gic)",
+        "visible": true,
+        "filter": "none"
+      }
+    ],
+    "createdBy": "ADMIN",
+    "updatedAt": "2026-03-16T08:59:00.720Z"
+  },
+  {
+    "id": "competency",
+    "displayLabel": "Competency",
+    "fileName": "competency_sample_jira.csv",
+    "filePath": "C:\\Users\\PrabhashankarRai\\Desktop\\Enterpprise portal - Git\\Enterpprise portal - Git\\portal-ui\\public\\data-download\\competency_sample_jira.csv",
+    "purpose": "Compentency for emp",
+    "aiEnabled": true,
+    "columns": [
+      {
+        "name": "Summary",
+        "visible": true,
+        "filter": "multi"
+      },
+      {
+        "name": "Issue Type",
+        "visible": false,
+        "filter": "multi"
+      },
+      {
+        "name": "CSOL",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "CPYthon",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "Ctableau",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "Cpentaho",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "Ccom",
+        "visible": true,
+        "filter": "none"
+      }
+    ],
+    "createdBy": "ADMIN",
+    "updatedAt": "2026-03-14T15:09:16.940Z"
+  },
+  {
+    "id": "fci-data",
+    "displayLabel": "FCI data",
+    "fileName": "FCI data.csv",
+    "filePath": "C:\\Users\\PrabhashankarRai\\Desktop\\Enterpprise portal - Git\\Enterpprise portal - Git\\portal-ui\\public\\data-download\\FCI data.csv",
+    "purpose": "2024 & 2025 Recon ACY",
+    "columns": [
+      {
+        "name": "ac_year",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "bu",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "channel",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "mainclass",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "subclass",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "subclass_name",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "gwp",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gep",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic (in_sub)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic_ex_sub",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(ex_sub)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "frequency (gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "severity (gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "ac_year",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "bu",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "channel",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "mainclass",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "subclass",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "subclass-name",
+        "visible": false,
+        "filter": "none"
+      },
+      {
+        "name": "gwp",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gep",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "gic_ex_sub",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "lr(ex_sub)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "frequency (gic)",
+        "visible": true,
+        "filter": "none"
+      },
+      {
+        "name": "severity (gic)",
+        "visible": true,
+        "filter": "none"
+      }
+    ],
+    "createdBy": "ADMIN",
+    "updatedAt": "2026-03-06T07:06:08.222Z"
+  },
+  {
+    "id": "agent-data",
+    "displayLabel": "Agent Data",
+    "fileName": "Agent ",
+    "filePath": "C:\\Users\\PrabhashankarRai\\Downloads\\Enterprise-Portal-2026-main\\Enterprise-Portal-2026-main\\public\\Data Download\\Agent Data.csv",
+    "purpose": "Data from 2023 to 2026 till date",
+    "aiEnabled": true,
+    "downloadEnabled": false,
+    "columns": [
+      {
+        "name": "src",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "source"
+      },
+      {
+        "name": "ytd_flag",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "ac_month_date",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "child_agent_no",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "agent_no",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Agent Number"
+      },
+      {
+        "name": "introducer_no",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Introducer Number"
+      },
+      {
+        "name": "agent_type",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Agent Type"
+      },
+      {
+        "name": "agent_status",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "lob",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "business type, line of buisness"
+      },
+      {
+        "name": "policy_type",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "product_desc",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "reporting_branch_name",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Branch"
+      },
+      {
+        "name": "reporting_line",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Reporting line"
+      },
+      {
+        "name": "channel",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Channel"
+      },
+      {
+        "name": "source",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "agent_start_date",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "agent_end_date",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "piam_expiry_date",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "piam_licence_no",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "new_lost_flag",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "lob_profit_segment",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "total_profit_segment",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "inactive_status",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "curr_behavioural_segment",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "sales_group",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "his_behavioural_segment",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "rm_no",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "rm_name",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "risk_type",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "sum_insured",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "gwp_total",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": ""
+      },
+      {
+        "name": "gwp",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross written premium"
+      },
+      {
+        "name": "nwp",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net written premium"
+      },
+      {
+        "name": "gep",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross earned premium"
+      },
+      {
+        "name": "nep",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net earned premium"
+      },
+      {
+        "name": "nop_t",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Number of policies"
+      },
+      {
+        "name": "nor_t",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "No of risk"
+      },
+      {
+        "name": "nop_total_epr",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Number of earned policies till the particular period"
+      },
+      {
+        "name": "nor_total_epr",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Number of earned risk till the particular period"
+      },
+      {
+        "name": "gic",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross Incurred claim"
+      },
+      {
+        "name": "nic",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net Incurred claim"
+      },
+      {
+        "name": "noc",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Number of claims"
+      },
+      {
+        "name": "gpd",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross paid claim"
+      },
+      {
+        "name": "npd",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net paid claim"
+      },
+      {
+        "name": "gos",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross outstanding"
+      },
+      {
+        "name": "nos",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net outstanding"
+      },
+      {
+        "name": "gross_comm",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross commmision"
+      },
+      {
+        "name": "net_comm",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net Commission"
+      }
+    ],
+    "createdBy": "ADMIN",
+    "updatedAt": "2026-03-24T09:46:00.097Z"
+  },
+  {
+    "id": "sales-data",
+    "displayLabel": "Sales Data",
+    "fileName": "Sales",
+    "filePath": "C:\\Users\\PrabhashankarRai\\Downloads\\Enterprise-Portal-2026-main\\Enterprise-Portal-2026-main\\public\\Data Download\\sales-data.csv",
+    "purpose": "sales data ",
+    "aiEnabled": true,
+    "columns": [
+      {
+        "name": "src",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Source"
+      },
+      {
+        "name": "mtd_flag",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "mly_flag",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "ac_date",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Accounting date"
+      },
+      {
+        "name": "reporting_line",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Reporting line"
+      },
+      {
+        "name": "reporting_branch",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Reporting branch"
+      },
+      {
+        "name": "child_branch_code",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "source",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "channel",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Channel"
+      },
+      {
+        "name": "lob",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Line of Business"
+      },
+      {
+        "name": "policy_type",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "nop_t",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "nor_t",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "nop_total_epr",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "nor_total_epr",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false
+      },
+      {
+        "name": "gwp",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross written premium"
+      },
+      {
+        "name": "nwp",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net written premium"
+      },
+      {
+        "name": "gep",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross Earned premium"
+      },
+      {
+        "name": "nep",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net Earned premium"
+      },
+      {
+        "name": "noc",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Number of claims"
+      },
+      {
+        "name": "gic",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross incurred claim"
+      },
+      {
+        "name": "nic",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net Incurred claim"
+      },
+      {
+        "name": "gos",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross Outstanding"
+      },
+      {
+        "name": "nos",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net Oustanding"
+      },
+      {
+        "name": "gpd",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Gross paid claim"
+      },
+      {
+        "name": "npd",
+        "visible": true,
+        "filter": "none",
+        "aiRestricted": false,
+        "description": "Net paid claim"
+      }
+    ],
+    "createdBy": "ADMIN",
+    "updatedAt": "2026-03-17T07:19:11.414Z"
+  }
+]

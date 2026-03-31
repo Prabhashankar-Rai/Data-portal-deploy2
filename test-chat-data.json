@@ -1,0 +1,45 @@
+{
+  "sql": "SELECT agent_no, (SUM(nwp) / SUM(gwp)) * 100 AS retention_ratio\nFROM insurance_data_filtered\nWHERE src <> 'JRNL' AND EXTRACT(YEAR FROM ac_month_date) = 2025\nGROUP BY agent_no\nHAVING SUM(gwp) > 0 AND SUM(nwp) > 0\nORDER BY retention_ratio DESC NULLS LAST\nLIMIT 10;",
+  "df": [
+    {
+      "agent_no": "00487181",
+      "retention_ratio": 252.73539251974557
+    },
+    {
+      "agent_no": "03654333",
+      "retention_ratio": 102.17566393534673
+    },
+    {
+      "agent_no": "01555479",
+      "retention_ratio": 100.40413111809612
+    },
+    {
+      "agent_no": "01555345",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555568",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555648",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555413",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555828",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555597",
+      "retention_ratio": 100
+    },
+    {
+      "agent_no": "01555802",
+      "retention_ratio": 100
+    }
+  ]
+}

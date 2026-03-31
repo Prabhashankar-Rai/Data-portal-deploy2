@@ -1,0 +1,80 @@
+{
+  "specific": [
+    {
+      "agent_no": "02026233",
+      "total_nwp": 6050.0599999999995,
+      "total_gwp": 6201.05,
+      "calculated_retention": 97.56508978318188,
+      "bad_retention": 3535.0490800627094
+    },
+    {
+      "agent_no": "00487181",
+      "total_nwp": 196655.91100000002,
+      "total_gwp": 77810.98999999999,
+      "calculated_retention": 252.73539251974566,
+      "bad_retention": 9580.670128352725
+    }
+  ],
+  "top10": [
+    {
+      "agent_no": "02026841",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02026893",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02026981",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02026718",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02377873",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "01341579",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02770153",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02026722",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "02154424",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    },
+    {
+      "agent_no": "03739702",
+      "total_nwp": 0,
+      "total_gwp": 0,
+      "retention_ratio": null
+    }
+  ]
+}

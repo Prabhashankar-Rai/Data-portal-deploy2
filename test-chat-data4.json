@@ -1,0 +1,95 @@
+{
+  "sql": "SELECT lob, SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM ac_month_date) = 2024) AS gwp_2024, SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM ac_month_date) = 2025) AS gwp_2025 FROM insurance_data_filtered WHERE src <> 'JRNL' GROUP BY lob ORDER BY lob DESC NULLS LAST;",
+  "df": [
+    {
+      "lob": "ZNA",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "Workmen Compensation",
+      "gwp_2024": 1438345.0799999998,
+      "gwp_2025": 2210044.03
+    },
+    {
+      "lob": "UNK",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "Personal Accident",
+      "gwp_2024": 15490303.900000006,
+      "gwp_2025": 15026330.510000005
+    },
+    {
+      "lob": "PKG",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "OTH",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "OFF",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "Motor",
+      "gwp_2024": 183308838.1100005,
+      "gwp_2025": 190080543.46000054
+    },
+    {
+      "lob": "Medical",
+      "gwp_2024": 69466212.49999978,
+      "gwp_2025": 71030833.94999996
+    },
+    {
+      "lob": "Marine Hull",
+      "gwp_2024": 11676092.47,
+      "gwp_2025": 14134375.420000002
+    },
+    {
+      "lob": "Marine Cargo",
+      "gwp_2024": 5687852.74,
+      "gwp_2025": 7012018.650000001
+    },
+    {
+      "lob": "Liability",
+      "gwp_2024": 10047030.260000002,
+      "gwp_2025": 10979278.430000002
+    },
+    {
+      "lob": "Group Hospital & Surgical",
+      "gwp_2024": null,
+      "gwp_2025": null
+    },
+    {
+      "lob": "Fire",
+      "gwp_2024": 98304173.40000007,
+      "gwp_2025": 80538567.24
+    },
+    {
+      "lob": "Engineering",
+      "gwp_2024": 17182564.380000003,
+      "gwp_2025": 25035447.85
+    },
+    {
+      "lob": "Bond",
+      "gwp_2024": 843604.8099999998,
+      "gwp_2025": 1419958.33
+    },
+    {
+      "lob": "Aviation",
+      "gwp_2024": -11037.12000000002,
+      "gwp_2025": 503611.98
+    },
+    {
+      "lob": "Accident",
+      "gwp_2024": 20460288.880000003,
+      "gwp_2025": 22364926.87
+    }
+  ]
+}

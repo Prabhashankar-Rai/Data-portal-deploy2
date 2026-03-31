@@ -1,0 +1,95 @@
+{
+  "sql": "SELECT lob, SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM ac_month_date) = 2024 AND src <> 'JRNL') AS gwp_2024, SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM ac_month_date) = 2025 AND src <> 'JRNL') AS gwp_2025 FROM insurance_data_filtered GROUP BY lob ORDER BY gwp_2025 DESC NULLS LAST",
+  "df": [
+    {
+      "lob": "Motor",
+      "gwp_2024": 183308838.11000016,
+      "gwp_2025": 190080543.46000043
+    },
+    {
+      "lob": "Fire",
+      "gwp_2024": 98304173.40000002,
+      "gwp_2025": 80538567.23999994
+    },
+    {
+      "lob": "Medical",
+      "gwp_2024": 69466212.49999976,
+      "gwp_2025": 71030833.94999996
+    },
+    {
+      "lob": "Engineering",
+      "gwp_2024": 17182564.38,
+      "gwp_2025": 25035447.85
+    },
+    {
+      "lob": "Accident",
+      "gwp_2024": 20460288.880000003,
+      "gwp_2025": 22364926.87
+    },
+    {
+      "lob": "Personal Accident",
+      "gwp_2024": 15490303.900000002,
+      "gwp_2025": 15026330.510000007
+    },
+    {
+      "lob": "Marine Hull",
+      "gwp_2024": 11676092.47,
+      "gwp_2025": 14134375.420000002
+    },
+    {
+      "lob": "Liability",
+      "gwp_2024": 10047030.26,
+      "gwp_2025": 10979278.430000002
+    },
+    {
+      "lob": "Marine Cargo",
+      "gwp_2024": 5687852.739999997,
+      "gwp_2025": 7012018.65
+    },
+    {
+      "lob": "Workmen Compensation",
+      "gwp_2024": 1438345.0799999998,
+      "gwp_2025": 2210044.03
+    },
+    {
+      "lob": "Bond",
+      "gwp_2024": 843604.81,
+      "gwp_2025": 1419958.33
+    },
+    {
+      "lob": "Aviation",
+      "gwp_2024": -11037.120000000017,
+      "gwp_2025": 503611.9799999999
+    },
+    {
+      "lob": "ZNA",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "UNK",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "PKG",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "OTH",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "OFF",
+      "gwp_2024": 0,
+      "gwp_2025": 0
+    },
+    {
+      "lob": "Group Hospital & Surgical",
+      "gwp_2024": null,
+      "gwp_2025": null
+    }
+  ]
+}

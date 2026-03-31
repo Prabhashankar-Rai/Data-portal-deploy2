@@ -1,0 +1,18 @@
+[
+  {
+    "question": "what is the total GWP for year 2025?",
+    "status": 200,
+    "cached": false,
+    "latency_ms": 3523,
+    "prompt_tokens": 921,
+    "query": "SELECT SUM(COALESCE(TRY_CAST(\"gwp\" AS DOUBLE), 0)) AS total_gwp FROM \"dataset_view\" WHERE EXTRACT(YEAR FROM \"ac_year\") = 2025;"
+  },
+  {
+    "question": "what is the total GWP for year 2025?",
+    "status": 200,
+    "cached": true,
+    "latency_ms": 50,
+    "prompt_tokens": 921,
+    "query": "SELECT SUM(COALESCE(TRY_CAST(\"gwp\" AS DOUBLE), 0)) AS total_gwp FROM \"dataset_view\" WHERE EXTRACT(YEAR FROM \"ac_year\") = 2025;"
+  }
+]

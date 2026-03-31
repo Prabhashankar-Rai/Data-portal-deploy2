@@ -1,0 +1,57 @@
+{
+  "users": [
+    {
+      "user_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "email": "prabhashankar.rai@fairfaxasia.com",
+      "password_hash": "1234",
+      "first_name": "User ",
+      "last_name": "1",
+      "is_active": true,
+      "last_login": null,
+      "created_at": "2026-03-06T07:07:57.418Z"
+    }
+  ],
+  "roles": [
+    {
+      "role_id": "cbfa7fb0-b2fb-42ff-9e03-5403035059aa",
+      "role_name": "Branch Manager",
+      "description": null,
+      "created_at": "2026-03-06T07:08:18.075Z"
+    }
+  ],
+  "user_roles": [
+    {
+      "user_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "role_id": "cbfa7fb0-b2fb-42ff-9e03-5403035059aa",
+      "assigned_at": "2026-03-06T07:08:58.363Z"
+    }
+  ],
+  "audit_logs": [
+    {
+      "log_id": "8c863416-eb84-4d98-a912-f3638318c868",
+      "user_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "action": "update_user_roles",
+      "entity_type": "User",
+      "entity_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "details": {
+        "assignedRoles": [
+          "cbfa7fb0-b2fb-42ff-9e03-5403035059aa"
+        ]
+      },
+      "created_at": "2026-03-06T07:08:30.819Z"
+    },
+    {
+      "log_id": "8c3a833e-0d36-4c63-b678-efb07ea0d906",
+      "user_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "action": "update_user_roles",
+      "entity_type": "User",
+      "entity_id": "80fd6bcf-3e71-4e77-8f4f-ef22b45f51e0",
+      "details": {
+        "assignedRoles": [
+          "cbfa7fb0-b2fb-42ff-9e03-5403035059aa"
+        ]
+      },
+      "created_at": "2026-03-06T07:08:58.363Z"
+    }
+  ]
+}
