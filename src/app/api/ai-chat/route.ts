@@ -342,59 +342,59 @@ CRITICAL SQL RULES FOR DUCKDB:
       if (error) {
         return NextResponse.json({
           role: 'assistant',
-          content: `** SQL Error during execution:** ${ error?.message || String(error) } ` `
+          content: `** SQL Error during execution:** ${ error?.message || String(error) } `
   });
 }
 
 // Generate short narration
 const narrationPrompt = `Provide a VERY CONCISE analytics insight(2 - 3 lines max) based on the user's question and this resulting data sample (top 5 rows): ${JSON.stringify(df.slice(0, 5))}.
-    Question: ${messages[messages.length - 1].content}
+    Question: ${ messages[messages.length - 1].content }
 Write ONLY 2 - 3 business - focused lines.Be direct.DO NOT convert formatting.If it's a ratio, output a raw percentage (e.g. 91%), DO NOT prefix with RM or $ currency as ratios are not financial absolutes.`;
 
-let insights = "Here is the data you requested.";
-let narrationUsage = { total_tokens: 0 };
-try {
-  const narrationResponse = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    temperature: 0.3,
-    messages: [{ role: 'user', content: narrationPrompt }]
-  });
-  if (narrationResponse.choices[0].message.content) {
-    insights = narrationResponse.choices[0].message.content;
-  }
-  if (narrationResponse.usage) {
-    narrationUsage = narrationResponse.usage;
-  }
-} catch (e) {
-  console.error("Narration generation error:", e);
-}
+    let insights = "Here is the data you requested.";
+    let narrationUsage = { total_tokens: 0 };
+    try {
+      const narrationResponse = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        temperature: 0.3,
+        messages: [{ role: 'user', content: narrationPrompt }]
+      });
+      if (narrationResponse.choices[0].message.content) {
+        insights = narrationResponse.choices[0].message.content;
+      }
+      if (narrationResponse.usage) {
+        narrationUsage = narrationResponse.usage;
+      }
+    } catch (e) {
+      console.error("Narration generation error:", e);
+    }
 
-const payload = {
-  role: 'assistant',
-  content: insights,
-  has_data: true,
-  df: df,
-  chart_type: chart_type,
-  chart_orientation: chart_orientation || 'v',
-  sql_query: sql_query,
-  usage: {
-    total_tokens: (completion.usage?.total_tokens || 0) + (narrationUsage.total_tokens || 0)
-  }
-};
+    const payload = {
+      role: 'assistant',
+      content: insights,
+      has_data: true,
+      df: df,
+      chart_type: chart_type,
+      chart_orientation: chart_orientation || 'v',
+      sql_query: sql_query,
+      usage: {
+        total_tokens: (completion.usage?.total_tokens || 0) + (narrationUsage.total_tokens || 0)
+      }
+    };
 
-chatCache.set(cacheKey, payload);
-return NextResponse.json(payload);
+    chatCache.set(cacheKey, payload);
+    return NextResponse.json(payload);
   }
 
 // Normal text response
 const textPayload = {
-  role: 'assistant',
-  content: responseMessage.content || "I am unable to assist with that.",
-  has_data: false,
-  usage: completion.usage
-};
-chatCache.set(cacheKey, textPayload);
-return NextResponse.json(textPayload);
+    role: 'assistant',
+    content: responseMessage.content || "I am unable to assist with that.",
+    has_data: false,
+    usage: completion.usage
+  };
+  chatCache.set(cacheKey, textPayload);
+  return NextResponse.json(textPayload);
 
 } catch (error: any) {
   console.error('AI Chat Error:', error);
