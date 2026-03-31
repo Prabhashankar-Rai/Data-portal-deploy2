@@ -284,9 +284,9 @@ If a metric formula uses columns that are completely absent from this list, they
 CRITICAL SQL RULES FOR DUCKDB:
 1. ALWAYS use the table \`${viewName}\`. EVERY single query MUST contain \`FROM ${viewName}\`!
 2. NEVER hallucinate metrics. If a column isn't in the schema, it doesn't exist.
-3. NEVER write a generic SELECT without joining to \`${viewName}\` if aggregating over the dataset. (No \`SELECT (SUM(...) FILTER...) - SUM(...)\` without a FROM clause!)
+3. NEVER write a generic SELECT without joining to ${viewName} if aggregating over the dataset. (No SELECT SUM(...) FILTER ... minus SUM(...) without a FROM clause.)
 4. YEAR filtering: Use dynamically inferred date column (from the Columns list) rather than hardcoding 'ac_month_date'. Example: EXTRACT(YEAR FROM "actual_date_column").
-5. MONTH abbreviation formatting: Use strftime("actual_date_column", '%b') instead of TO_CHAR.
+5. MONTH abbreviation formatting: Use strftime(actual_date_column, '%b') instead of TO_CHAR.
 6. Always GROUP BY the exact column you SELECT.
 7. DATA FILTERING: For agent-related queries ONLY (e.g., extracting or grouping by 'agent_name' or 'agent_no'), append \`WHERE src <> 'JRNL'\`. For ALL OTHER general and overall business queries (like grouping by 'lob', 'year', 'branch'), DO NOT exclude anything. You MUST include all 'src' types to match system dashboards.
 8. ALWAYS sort results (ORDER BY priority): NEVER order by standard text columns unless specifically asked for alphabetical order. YOU MUST ORDER BY THE HIGHEST AGGREGATED METRIC ALIAS DESCENDING. Example: If returning \`lob, SUM(gwp) FILTER(...) AS gwp_2024, SUM(gwp) FILTER(...) AS gwp_2025\`, you MUST end the query with \`ORDER BY gwp_2025 DESC NULLS LAST\` (sort by the newest/highest metric). Do NOT default to \`ORDER BY lob DESC\`.
