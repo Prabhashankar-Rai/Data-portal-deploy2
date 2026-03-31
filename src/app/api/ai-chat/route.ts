@@ -282,17 +282,17 @@ ${columnList}
 If a metric formula uses columns that are completely absent from this list, they are considered missing. You must NOT generate SQL for these and instead reply directly with the missing columns.
 
 CRITICAL SQL RULES FOR DUCKDB:
-1. ALWAYS use the table \`${viewName}\`. EVERY single query MUST contain \`FROM ${viewName}\`!
-2. NEVER hallucinate metrics. If a column isn't in the schema, it doesn't exist.
-3. NEVER write a generic SELECT without joining to ${viewName} if aggregating over the dataset. (No SELECT SUM(...) FILTER ... minus SUM(...) without a FROM clause.)
-4. YEAR filtering: Use dynamically inferred date column (from the Columns list) rather than hardcoding 'ac_month_date'. Example: EXTRACT(YEAR FROM "actual_date_column").
-5. MONTH abbreviation formatting: Use strftime(actual_date_column, '%b') instead of TO_CHAR.
-6. Always GROUP BY the exact column you SELECT.
-7. DATA FILTERING: For agent-related queries ONLY (e.g., extracting or grouping by 'agent_name' or 'agent_no'), append \`WHERE src <> 'JRNL'\`. For ALL OTHER general and overall business queries (like grouping by 'lob', 'year', 'branch'), DO NOT exclude anything. You MUST include all 'src' types to match system dashboards.
-8. ALWAYS sort results (ORDER BY priority): NEVER order by standard text columns unless specifically asked for alphabetical order. YOU MUST ORDER BY THE HIGHEST AGGREGATED METRIC ALIAS DESCENDING. Example: If returning \`lob, SUM(gwp) FILTER(...) AS gwp_2024, SUM(gwp) FILTER(...) AS gwp_2025\`, you MUST end the query with \`ORDER BY gwp_2025 DESC NULLS LAST\` (sort by the newest/highest metric). Do NOT default to \`ORDER BY lob DESC\`.
-9. PREVENTING NEGATIVE/ZERO DIVISORS: For any ratio metric or ranking involving premiums (like Retention Ratio), you MUST append a \`HAVING SUM(denominator) > 0 AND SUM(numerator) > 0\` clause to filter out agents with negative or zero premium totals (such as negative NWP or zero GWP).
-10. TIME COMPARISONS: When asked to compare metrics across different years, DO NOT group by year putting years in rows. Instead, use conditional aggregation to put them side-by-side as columns. Example: \`SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM "actual_date_column") = 2024) AS gwp_2024, SUM(gwp) FILTER (WHERE EXTRACT(YEAR FROM "actual_date_column") = 2025) AS gwp_2025\`.
-11. RATIO METRICS: Whenever calculating a ratio (like Loss Ratio, Retention Ratio), YOU MUST also SELECT the numerator and denominator source columns as separate columns in the query output so the user sees the base values. Example: \`SUM(nwp) AS total_nwp, SUM(gwp) AS total_gwp, (SUM(nwp)/SUM(gwp))*100 AS retention_ratio\`.
+1. ALWAYS use the table \`${viewName}\`. EVERY query MUST contain \`FROM ${viewName}\`.
+2. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
+3. NEVER write a generic SELECT without joining to ${viewName}. Avoid SELECT SUM minus SUM without FROM.
+4. YEAR filtering: Use inferred date column from schema instead of hardcoding column names.
+5. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
+6. Always GROUP BY selected columns.
+7. DATA FILTERING rules apply only to agent queries.
+8. ALWAYS sort results using aggregated metrics.
+9. Avoid negative or zero divisor values.
+10. Use conditional aggregation for year comparisons.
+11. Include numerator and denominator columns for ratios.
 \`;
 
     const runAnalyticsQuery = {
