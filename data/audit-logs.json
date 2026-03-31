@@ -50058,5 +50058,63 @@
     "details": {
       "method": "GET"
     }
+  },
+  {
+    "id": "e714f1be-c6f9-4d73-8117-9c8018d2ec51",
+    "timestamp": "2026-03-31T11:24:16.771Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d29df685-e535-417b-aa6f-2fd1ccd8c4ce",
+    "timestamp": "2026-03-31T11:24:18.818Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "52c25cfe-560b-45e1-a2a8-94ff644132fc",
+    "timestamp": "2026-03-31T11:24:19.005Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "163643f9-cdeb-4a7e-8fa5-d4dc0108536a",
+    "timestamp": "2026-03-31T11:24:19.024Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "c9d03769-4ebe-426e-9dc2-33c7c74c7dfe",
+    "timestamp": "2026-03-31T11:24:25.896Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "0a8610f3-2e55-4d56-aa63-15522a21e647",
+    "timestamp": "2026-03-31T11:24:30.644Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
   }
 ]
