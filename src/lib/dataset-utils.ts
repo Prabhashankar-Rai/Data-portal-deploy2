@@ -1,41 +1,81 @@
-import fs from 'fs/promises';
-import path from 'path';
-import os from 'os';
 import pool from './db';
+import { parse } from 'csv-parse/sync';
 
 /**
- * Gets a reliable file path for a dataset.
- * If the dataset has csv_content in the DB, it writes it to a temporary file in /tmp.
- * Otherwise, it returns the legacy filePath stored in the metadata.
+ * Ensures that a PostgreSQL table exists for the given dataset.
+ * If the table doesn't exist, it creates and populates it from the Dataset table's csv_content.
+ * Returns the name of the table.
  */
-export async function getWorkingDatasetPath(datasetId: string): Promise<string> {
+export async function getWorkingDatasetTable(datasetId: string): Promise<string> {
+    const tableName = `ds_${datasetId.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()}`;
+    
     try {
-        const res = await pool.query('SELECT file_path, csv_content FROM Dataset WHERE dataset_id = $1', [datasetId]);
+        // Check if table exists
+        const tableCheck = await pool.query(`
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables 
+                WHERE table_name = $1
+            )
+        `, [tableName]);
+
+        if (tableCheck.rows[0].exists) {
+            return tableName;
+        }
+
+        console.log(`[DatasetUtils] Creating table ${tableName} for dataset ${datasetId}...`);
         
-        if (res.rows.length === 0) {
-            throw new Error(`Dataset ${datasetId} not found in database.`);
+        // Fetch CSV content
+        const res = await pool.query('SELECT csv_content FROM Dataset WHERE dataset_id = $1', [datasetId]);
+        
+        if (res.rows.length === 0 || !res.rows[0].csv_content) {
+            throw new Error(`Dataset ${datasetId} has no CSV content in the database.`);
         }
 
-        const { file_path, csv_content } = res.rows[0];
+        const csvContent = res.rows[0].csv_content;
+        
+        // Parse CSV to get headers and rows
+        const records = parse(csvContent, {
+            columns: true,
+            skip_empty_lines: true,
+            trim: true
+        });
 
-        // If we have content in the DB, write to /tmp and return that path
-        if (csv_content) {
-            const tmpDir = os.tmpdir();
-            const tmpPath = path.join(tmpDir, `dataset-${datasetId}-${Date.now()}.csv`);
-            await fs.writeFile(tmpPath, csv_content, 'utf-8');
-            console.log(`[DatasetUtils] Created temporary file for ${datasetId} at ${tmpPath}`);
-            return tmpPath;
+        if (records.length === 0) {
+            throw new Error(`Dataset ${datasetId} CSV is empty.`);
         }
 
-        // Fallback to legacy file path (absolute or relative to public)
-        let resolvedPath = file_path;
-        if (!path.isAbsolute(resolvedPath)) {
-            resolvedPath = path.join(process.cwd(), 'public', 'data-download', path.basename(resolvedPath));
+        const headers = Object.keys(records[0]);
+        const sanitizedHeaders = headers.map(h => 
+            h.replace(/[^a-zA-Z0-9]/g, '_').toLowerCase()
+        );
+
+        // Create table
+        const columnDefinitions = sanitizedHeaders.map(h => `"${h}" TEXT`).join(', ');
+        await pool.query(`CREATE TABLE IF NOT EXISTS "${tableName}" (${columnDefinitions})`);
+
+        // Insert data in batches
+        const batchSize = 100;
+        for (let i = 0; i < records.length; i += batchSize) {
+            const batch = records.slice(i, i + batchSize);
+            const values: any[] = [];
+            const placeholders: string[] = [];
+            
+            batch.forEach((record: any, rowIndex: number) => {
+                const rowPlaceholders = headers.map((h, colIndex) => 
+                    `$${values.length + 1}`
+                );
+                headers.forEach(h => values.push(record[h]));
+                placeholders.push(`(${rowPlaceholders.join(', ')})`);
+            });
+
+            const insertQuery = `INSERT INTO "${tableName}" ("${sanitizedHeaders.join('", "')}") VALUES ${placeholders.join(', ')}`;
+            await pool.query(insertQuery, values);
         }
 
-        return resolvedPath;
+        console.log(`[DatasetUtils] Table ${tableName} created and populated for ${datasetId}.`);
+        return tableName;
     } catch (err) {
-        console.error(`[DatasetUtils] Error resolving path for ${datasetId}:`, err);
+        console.error(`[DatasetUtils] Error synchronizing table for ${datasetId}:`, err);
         throw err;
     }
 }

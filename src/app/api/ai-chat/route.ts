@@ -6,9 +6,8 @@ import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
 import pool from '@/lib/db';
 import NodeCache from 'node-cache';
-
-// Bypass Turbopack static tracing using eval
-const duckdb = eval('require("duckdb")');
+import * as nodeFs from 'fs';
+import { getWorkingDatasetTable } from '@/lib/dataset-utils';
 
 // Global cache for HMR dev environments
 const globalForCache = globalThis as unknown as {
@@ -110,30 +109,7 @@ async function getUserAccessFilters() {
   })).filter((f: any) => f.column_name);
 }
 
-function buildDuckDBViewQuery(filters: any[], csvPath: string): string {
-  let query = `SELECT * FROM read_csv_auto('${csvPath}', normalize_names=true)`;
-
-  if (filters && filters.length > 0) {
-    const clauses = filters.map(f => {
-      const op = f.operator === '=' ? '=' : (f.operator === '!=' || f.operator === '<>' ? '!=' : '=');
-      let val = String(f.element_value).replace(/'/g, "''");
-
-      return `lower(${f.column_name}) ${op} lower('${val}')`;
-    });
-    query += ` WHERE ${clauses.join(' AND ')}`;
-  }
-
-  return query;
-}
-
-import { getWorkingDatasetPath } from '@/lib/dataset-utils';
-import { promises as fs } from 'fs';
-import * as nodeFs from 'fs';
-
 export async function POST(req: NextRequest) {
-  let db: any = null;
-  let conn: any = null;
-  let workingPath: string | null = null;
   try {
     const { messages, datasetId } = await req.json();
 
@@ -150,18 +126,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'OpenAI API key not configured. Please set OPENAI_API_KEY in your environment.' }, { status: 500 });
     }
 
-    db = new duckdb.Database(':memory:');
-    conn = db.connect();
-
-    const runQuery = (query: string): Promise<any[]> => {
-      return new Promise((resolve, reject) => {
-        conn.all(query, (err: any, res: any) => {
-          if (err) reject(err);
-          else resolve(res);
-        });
-      });
-    };
-
     const lastUserMessage = [...messages].reverse().find((m: any) => m.role === 'user')?.content || '';
 
     // Check Global Cache
@@ -172,15 +136,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ...cachedPayload, cached: true });
     }
 
-    // Use utility to get the working path (supports DB-backed CSVs)
-    let dataset: any = null; 
+    // Get or create the PostgreSQL table for this dataset
+    let tableName: string;
+    let dataset: any = null;
     try {
-      workingPath = await getWorkingDatasetPath(datasetId);
-      // We still need the dataset metadata for column info later
+      tableName = await getWorkingDatasetTable(datasetId);
       const dsRes = await pool.query('SELECT columns_json FROM Dataset WHERE dataset_id = $1', [datasetId]);
       dataset = { columns: dsRes.rows[0]?.columns_json || [] };
     } catch (e: any) {
-      return NextResponse.json({ error: e.message || 'Dataset not found.' }, { status: 404 });
+      return NextResponse.json({ error: e.message || 'Dataset synchronization failed.' }, { status: 500 });
     }
 
     const openai = new OpenAI({ apiKey });
@@ -227,8 +191,8 @@ export async function POST(req: NextRequest) {
     }
 
     const viewName = 'insurance_data_filtered';
-    const viewQuery = buildDuckDBViewQuery(filters, workingPath || '');
-    await runQuery(`CREATE OR REPLACE VIEW ${viewName} AS ${viewQuery}`);
+    // Note: In PostgreSQL, we'll use the table name directly.
+    // The system prompt will be updated to use the real table name.
 
     const systemPrompt = `You are a helpful and professional enterprise AI assistant for a data portal, with strong SQL reasoning skills.
 
@@ -263,34 +227,31 @@ ${metricRules}
 If the user asks an analytics or data query (e.g., "What is the total?", "Top 5 rows", "Compare data for 2024 vs 2025"), you MUST call the 'run_analytics_query' function to execute SQL against the database. 
 DO NOT try to answer data questions without calling the function.
 
-The data is available in a view named: '${viewName}'
+The data is available in a table named: '"${tableName}"'
 Columns available in the dataset schema:
 ${columnList}
 
 If a metric formula uses columns that are completely absent from this list, they are considered missing. You must NOT generate SQL for these and instead reply directly with the missing columns.
 
-CRITICAL SQL RULES FOR DUCKDB:
-1. ALWAYS use the required dataset view. EVERY query MUST contain a FROM clause.
-2. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
-3. NEVER write a generic SELECT without joining to the required dataset view. Avoid SELECT SUM minus SUM without FROM.
+CRITICAL SQL RULES FOR POSTGRESQL:
+1. ALWAYS use the required dataset table. EVERY query MUST contain a FROM clause.
+2. Quote the table name precisely: "${tableName}"
+3. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
 4. Always GROUP BY selected columns.
-5. DATA FILTERING rules apply only to agent queries.
-6. ALWAYS sort results using aggregated metrics.
-7. Avoid negative or zero divisor values.
-8. Use conditional aggregation for year comparisons.
-9. Include numerator and denominator columns for ratios.
-10. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
+5. Use conditional aggregation for year comparisons (CASE WHEN year = 2024 THEN value ELSE 0 END).
+6. Include numerator and denominator columns for ratios.
+7. Use common PostgreSQL date functions like DATE_PART or TO_CHAR if needed.
 `;
 
     const runAnalyticsQuery = {
       type: "function" as const,
       function: {
         name: "run_analytics_query",
-        description: "Executes a DuckDB SQL query against the insurance database to answer analytics questions and generate charts.",
+        description: "Executes a PostgreSQL SQL query against the dataset table to answer analytics questions and generate charts.",
         parameters: {
           type: "object",
           properties: {
-            sql_query: { type: "string", description: "The DuckDB SQL query to execute. Must query the view specified. Do not use PostgreSQL specific syntax that duckdb does not support." },
+            sql_query: { type: "string", description: "The PostgreSQL SQL query to execute. Must query the table specified." },
             chart_type: { type: "string", enum: ["bar", "line", "pie", "none", "comparison"], description: "The recommended chart type for the data visualization." },
             chart_orientation: { type: "string", enum: ["v", "h"], description: "The orientation of the bar chart (vertical or horizontal)." }
           },
@@ -319,8 +280,9 @@ CRITICAL SQL RULES FOR DUCKDB:
       let df: any[] = [];
       let error = null;
       try {
-        console.log("Executing AI SQL:", sql_query);
-        df = await runQuery(sql_query);
+        console.log("Executing AI PostgreSQL SQL:", sql_query);
+        const res = await pool.query(sql_query);
+        df = res.rows;
       } catch (e: any) {
         console.error("SQL Error:", e);
         error = e.message;
@@ -386,14 +348,5 @@ CRITICAL SQL RULES FOR DUCKDB:
   } catch (error: any) {
     console.error('AI Chat Error:', error);
     return NextResponse.json({ error: error.message || 'Failed to process AI request' }, { status: 500 });
-  } finally {
-    if (conn) try { conn.close(); } catch (e) { }
-    if (db) try { db.close(); } catch (e) { }
-    if (workingPath && workingPath.includes('dataset-')) {
-      try {
-        await fs.unlink(workingPath);
-        console.log(`[AIChat] Cleaned up temp file: ${workingPath}`);
-      } catch (e) { }
-    }
   }
 }

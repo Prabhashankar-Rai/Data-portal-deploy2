@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
-import { createReadStream } from 'fs';
-import readline from 'readline';
 import pool from '@/lib/db';
 import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
+import { getWorkingDatasetTable } from '@/lib/dataset-utils';
 
 async function fetchDatasetMetadata(id: string) {
   try {
@@ -24,38 +23,6 @@ async function fetchDatasetMetadata(id: string) {
   }
 }
 
-function clean(value: string) {
-  return value.trim().replace(/^"(.*)"$/, '$1');
-}
-
-function parseCSVLine(line: string): string[] {
-  if (line.indexOf('"') === -1) {
-    return line.split(',').map(v => clean(v));
-  }
-
-  const cells: string[] = [];
-  let inQuotes = false;
-  let cell = '';
-  for (let i = 0; i < line.length; i++) {
-    const c = line[i];
-    if (c === '"') {
-      if (inQuotes && line[i + 1] === '"') {
-        cell += '"';
-        i++;
-      } else {
-        inQuotes = !inQuotes;
-      }
-    } else if (c === ',' && !inQuotes) {
-      cells.push(clean(cell));
-      cell = '';
-    } else {
-      cell += c;
-    }
-  }
-  cells.push(clean(cell));
-  return cells;
-}
-
 async function getAuthAndFilters(requestedId: string) {
   let rowFilters: any[] = [];
   const cookieStore = await cookies();
@@ -68,7 +35,7 @@ async function getAuthAndFilters(requestedId: string) {
   if (role !== 'ADMIN') {
     if (!userId) return { error: 'Unauthorized', status: 401 };
 
-    const db = getDb(); // Still using json-db for static user settings
+    const db = getDb();
     const userGroupIds = db.User_Groups
       .filter((ug: any) => ug.user_id === userId)
       .map((ug: any) => ug.group_id);
@@ -102,16 +69,12 @@ async function getAuthAndFilters(requestedId: string) {
     rowFilters = rowFilters.map((f: any) => ({
       ...f,
       column_name: accessElements[f.element_id]
-    })).filter((f: any) => f.column_name); // Valid filters only
+    })).filter((f: any) => f.column_name);
   }
   return { rowFilters };
 }
 
-
-import { getWorkingDatasetPath } from '@/lib/dataset-utils';
-import { promises as fs } from 'fs';
-
-// GET for backward compatibility and metadata
+// GET for metadata and filter options
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
@@ -125,86 +88,52 @@ export async function GET(
   const authResult = await getAuthAndFilters(requestedId);
   if (authResult.error) return NextResponse.json({ error: authResult.error }, { status: authResult.status });
 
-  const { searchParams } = new URL(req.url);
-  const isMeta = searchParams.get('meta') === 'true';
-
-  let workingPath = '';
   try {
-    workingPath = await getWorkingDatasetPath(requestedId);
-    const fileStream = createReadStream(workingPath, 'utf8');
-    const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
+    const tableName = await getWorkingDatasetTable(requestedId);
+    
+    // Get column names from PostgreSQL schema
+    const colRes = await pool.query(`
+        SELECT column_name 
+        FROM information_schema.columns 
+        WHERE table_name = $1
+        ORDER BY ordinal_position
+    `, [tableName]);
+    
+    const validColumns = colRes.rows.map(r => r.column_name);
 
-    let isFirstLine = true;
-    let validColumns: string[] = [];
-    let validIndexes: number[] = [];
-    const filterOptions: Record<string, Set<string>> = {};
+    // Get filter options (distinct values) for visible columns
+    // To speed up, we only do this if meta=true
+    const { searchParams } = new URL(req.url);
+    const isMeta = searchParams.get('meta') === 'true';
+    const filterOptions: Record<string, string[]> = {};
 
-    for await (const line of rl) {
-      if (!line.trim()) continue;
-      const values = parseCSVLine(line);
-
-      if (isFirstLine) {
-        values.forEach((col, i) => {
-          if (col.length > 0) {
-            validColumns.push(col);
-            validIndexes.push(i);
-            filterOptions[col] = new Set();
-          }
-        });
-        isFirstLine = false;
-        continue;
-      }
-
-      if (isMeta) {
-        let allFull = true;
-        for (let i = 0; i < validColumns.length; i++) {
-          const colName = validColumns[i];
-          const val = values[validIndexes[i]];
-          if (val !== undefined && val !== '') {
-            // we cap filter options at 200 to prevent runaway memory if there are many unique values
-            if (filterOptions[colName].size < 200) {
-              filterOptions[colName].add(val);
-            }
-          }
-          if (filterOptions[colName].size < 200) allFull = false;
+    if (isMeta) {
+        // We limit distinct values to 100 for metadata performance
+        for (const col of validColumns) {
+            const distinctRes = await pool.query(`
+                SELECT DISTINCT "${col}" 
+                FROM "${tableName}" 
+                WHERE "${col}" IS NOT NULL AND "${col}" != ''
+                LIMIT 100
+            `);
+            filterOptions[col] = distinctRes.rows.map(r => String(r[col])).sort();
         }
-        // Optional optimization: if all filter sets are at 200, we could stop early to save time if dataset is huge.
-        // However, we want accurate dropdowns. Scanning 650K rows takes 1.5s, which is fine.
-      } else {
-        // Break if we are not meta and we just wanted 10 items (for testing backward compatibility)
-        break;
-      }
     }
 
-    rl.close();
-    fileStream.destroy();
-
-    const resultOptions: Record<string, string[]> = {};
-    for (const [col, set] of Object.entries(filterOptions)) {
-      resultOptions[col] = Array.from(set).sort();
-    }
-
-    return NextResponse.json({ columns: validColumns, filterOptions: resultOptions, rows: [] });
+    return NextResponse.json({ columns: validColumns, filterOptions, rows: [] });
   } catch (error: any) {
-    return NextResponse.json({ error: `Unable to read dataset file: ${error?.message || String(error)}` }, { status: 500 });
-  } finally {
-    if (workingPath && workingPath.includes('dataset-')) {
-      try { await fs.unlink(workingPath); } catch {}
-    }
+    return NextResponse.json({ error: `Dataset sync error: ${error?.message || String(error)}` }, { status: 500 });
   }
 }
 
-// POST for preview and export with filters applied directly from backend stream
+// POST for preview and export using PostgreSQL filters
 export async function POST(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   const requestedId = id.trim().toLowerCase();
-  const dataset = await fetchDatasetMetadata(requestedId);
-
-  if (!dataset) return NextResponse.json({ error: 'Dataset not found' }, { status: 404 });
-
+  
   const authResult = await getAuthAndFilters(requestedId);
   if (authResult.error) return NextResponse.json({ error: authResult.error }, { status: authResult.status });
   const rowFilters = authResult.rowFilters || [];
@@ -222,155 +151,106 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   }
 
-  let workingPath = '';
   try {
-    workingPath = await getWorkingDatasetPath(requestedId);
-    const fileStream = createReadStream(workingPath, 'utf8');
-    const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
-    const encoder = new TextEncoder();
+    const tableName = await getWorkingDatasetTable(requestedId);
+    
+    // Build WHERE clause
+    const whereClauses: string[] = [];
+    const queryParams: any[] = [];
 
-    let isFirstLine = true;
-    let validColumns: string[] = [];
-    let validIndexes: number[] = [];
-    let rowsReturned = 0;
-
-    const stream = new ReadableStream({
-      async start(controller) {
-        if (isPreview) {
-          controller.enqueue(encoder.encode('{"rows":['));
-        } else if (isExport) {
-          controller.enqueue(encoder.encode((selectedColumns || []).join(',') + '\n'));
-        }
-
-        let isFirstRow = true;
-
-        try {
-          for await (const line of rl) {
-            if (!line.trim()) continue;
-            const values = parseCSVLine(line);
-
-            if (isFirstLine) {
-              values.forEach((col, i) => {
-                if (col.length > 0) {
-                  validColumns.push(col);
-                  validIndexes.push(i);
-                }
-              });
-              isFirstLine = false;
-              continue;
-            }
-
-            if (isPreview && rowsReturned >= 10) {
-              break;
-            }
-
-            const row: any = {};
-            for (let i = 0; i < validColumns.length; i++) {
-              const colName = validColumns[i];
-              row[colName] = values[validIndexes[i]] !== undefined ? values[validIndexes[i]] : '';
-            }
-
-            let includeRow = true;
-            if (rowFilters.length > 0) {
-              includeRow = rowFilters.every((f: any) => {
-                const colName = f.column_name;
-                const userVal = f.element_value;
-                const actualColKey = Object.keys(row).find(k => k.trim().toLowerCase() === colName.trim().toLowerCase());
-                const rowVal = actualColKey ? row[actualColKey] : undefined;
-                if (rowVal === undefined) return true;
-
-                if (f.operator === '=') {
-                  const matchVal = String(rowVal).toLowerCase();
-                  const filterVal = String(userVal).toLowerCase();
-                  if (matchVal === filterVal) return true;
-
-                  // Handle LOB code abbreviations defined in the access matrix (e.g. FIR -> Fire, MOT -> Motor)
-                  if (colName.trim().toLowerCase() === 'lob' && filterVal.length === 3 && matchVal.startsWith(filterVal)) {
-                    return true;
-                  }
-                  return false;
-                } else if (f.operator === '!=' || f.operator === '<>') {
-                  const matchVal = String(rowVal).toLowerCase();
-                  const filterVal = String(userVal).toLowerCase();
-                  if (matchVal === filterVal) return false;
-
-                  // Handle LOB code abbreviations defined in the access matrix (e.g. FIR -> Fire, MOT -> Motor)
-                  if (colName.trim().toLowerCase() === 'lob' && filterVal.length === 3 && matchVal.startsWith(filterVal)) {
-                    return false;
-                  }
-                  return true;
-                }
-                return true;
-              });
-            }
-
-            if (includeRow && clientFilters) {
-              for (const [colName, f] of Object.entries(clientFilters) as any) {
-                if (!f || !f.operator) continue;
-                const actualColKey = Object.keys(row).find(k => k.trim().toLowerCase() === colName.trim().toLowerCase());
-                const rowVal = actualColKey ? row[actualColKey] : undefined;
-                if (rowVal === undefined) continue;
-
-                if (f.operator === 'eq' && typeof f.value === 'string' && f.value) {
-                  if (rowVal !== f.value) includeRow = false;
-                } else if (f.operator === 'between' && Array.isArray(f.value)) {
-                  const [start, end] = f.value;
-                  if (start && end) {
-                    if (rowVal < start || rowVal > end) includeRow = false;
-                  }
-                } else if (f.operator === 'in' && Array.isArray(f.value) && f.value.length > 0) {
-                  if (!f.value.includes(rowVal)) includeRow = false;
-                } else if (f.operator === 'contains' && typeof f.value === 'string' && f.value) {
-                  if (!String(rowVal).toLowerCase().includes(f.value.toLowerCase())) includeRow = false;
-                }
-              }
-            }
-
-            if (includeRow) {
-              if (isPreview) {
-                const prefix = isFirstRow ? '' : ',';
-                controller.enqueue(encoder.encode(prefix + JSON.stringify(row)));
-                isFirstRow = false;
-                rowsReturned++;
-              } else if (isExport) {
-                const exportRowStr = (selectedColumns || []).map((c: string) => {
-                  const val = row[c] !== undefined ? String(row[c]) : '';
-                  if (val.includes(',') || val.includes('"')) {
-                    return '"' + val.replace(/"/g, '""') + '"';
-                  }
-                  return val;
-                }).join(',');
-                controller.enqueue(encoder.encode(exportRowStr + '\n'));
-              }
-            }
-          }
-
-          if (isPreview) {
-            controller.enqueue(encoder.encode('], "columns": ' + JSON.stringify(validColumns) + '}'));
-          }
-          controller.close();
-          rl.close();
-          if (fileStream && !fileStream.destroyed) fileStream.destroy();
-        } catch (err) {
-          controller.error(err);
-          rl.close();
-          if (fileStream && !fileStream.destroyed) fileStream.destroy();
-        }
-      }
+    // Apply security row filters
+    rowFilters.forEach((f, i) => {
+        const col = f.column_name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+        queryParams.push(f.element_value.toLowerCase());
+        whereClauses.push(`LOWER("${col}") ${f.operator === '!=' ? '!=' : '='} $${queryParams.length}`);
     });
 
-    const headers: HeadersInit = isExport
-      ? { 'Content-Type': 'text/csv', 'Content-Disposition': `attachment; filename="${requestedId}.csv"` }
-      : { 'Content-Type': 'application/json' };
+    // Apply client-side filters
+    if (clientFilters) {
+        for (const [colName, f] of Object.entries(clientFilters) as any) {
+            if (!f || !f.operator || f.value === undefined || f.value === '') continue;
+            const col = colName.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+            
+            if (f.operator === 'eq') {
+                queryParams.push(f.value);
+                whereClauses.push(`"${col}" = $${queryParams.length}`);
+            } else if (f.operator === 'contains') {
+                queryParams.push(`%${f.value}%`);
+                whereClauses.push(`"${col}" ILIKE $${queryParams.length}`);
+            } else if (f.operator === 'in' && Array.isArray(f.value) && f.value.length > 0) {
+                const placeholders = f.value.map((_: any) => {
+                    queryParams.push(_);
+                    return `$${queryParams.length}`;
+                });
+                whereClauses.push(`"${col}" IN (${placeholders.join(', ')})`);
+            } else if (f.operator === 'between' && Array.isArray(f.value)) {
+                const [start, end] = f.value;
+                if (start && end) {
+                    queryParams.push(start, end);
+                    whereClauses.push(`"${col}" BETWEEN $${queryParams.length - 1} AND $${queryParams.length}`);
+                }
+            }
+        }
+    }
 
-    return new NextResponse(stream, { headers });
-    return new NextResponse(stream, { headers });
+    const whereString = whereClauses.length > 0 ? `WHERE ${whereClauses.join(' AND ')}` : '';
+
+    if (isPreview) {
+        const selectCols = selectedColumns && selectedColumns.length > 0 
+            ? selectedColumns.map((c: string) => `"${c}"`).join(', ')
+            : '*';
+        
+        const previewRes = await pool.query(`
+            SELECT ${selectCols} FROM "${tableName}" 
+            ${whereString} 
+            LIMIT 100
+        `, queryParams);
+
+        return NextResponse.json({ rows: previewRes.rows });
+    }
+
+    if (isExport) {
+        // For export, we'll manually stream rows to avoid memory issues with huge datasets
+        const client = await pool.connect();
+        try {
+            const selectCols = selectedColumns && selectedColumns.length > 0 
+                ? selectedColumns.map((c: string) => `"${c}"`).join(', ')
+                : '*';
+            
+            // Note: In a real production app, we'd use pg-query-stream here.
+            // For now, we'll fetch in one go or use a cursor if available.
+            // Since this is a simple implementation, we'll do a basic SELECT.
+            const exportRes = await client.query(`
+                SELECT ${selectCols} FROM "${tableName}" 
+                ${whereString}
+            `, queryParams);
+
+            const csvContent = [
+                selectedColumns.join(','),
+                ...exportRes.rows.map(row => 
+                    selectedColumns.map((c: string) => {
+                        const val = String(row[c] || '');
+                        return val.includes(',') || val.includes('"') 
+                            ? `"${val.replace(/"/g, '""')}"` 
+                            : val;
+                    }).join(',')
+                )
+            ].join('\n');
+
+            return new NextResponse(csvContent, {
+                headers: {
+                    'Content-Type': 'text/csv',
+                    'Content-Disposition': `attachment; filename="${requestedId}.csv"`
+                }
+            });
+        } finally {
+            client.release();
+        }
+    }
+
+    return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (error: any) {
-    return NextResponse.json({ error: `Unable to process dataset file: ${error?.message || String(error)}` }, { status: 500 });
-  } finally {
-    // Note: The ReadableStream start() callback is where the rl.close() and fileStream.destroy() are already handled.
-    // However, the temporary file needs to be deleted eventually. Since the stream is long-lived, 
-    // we might have a race condition if we delete it here immediately. 
-    // Usually, /tmp is handled by the OS, but for reliability, we'll keep it simple for now.
+    console.error('Data route error:', error);
+    return NextResponse.json({ error: `Data processing error: ${error?.message || String(error)}` }, { status: 500 });
   }
 }
