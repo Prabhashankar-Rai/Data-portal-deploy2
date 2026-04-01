@@ -1,22 +1,5 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const DATA_FILE = path.join(process.cwd(), 'data', 'datasets.json');
-
-async function readDatasets(): Promise<any[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-async function writeDatasets(datasets: any[]) {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(datasets, null, 2), 'utf8');
-}
+import pool from '@/lib/db';
 
 export async function DELETE(
   request: Request,
@@ -24,19 +7,20 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const datasets = await readDatasets();
-    const filtered = datasets.filter((d: any) => d.id !== id);
     
-    if (filtered.length === datasets.length) {
+    const res = await pool.query('DELETE FROM Dataset WHERE dataset_id = $1 RETURNING *', [id]);
+    
+    if (res.rowCount === 0) {
       return NextResponse.json({ error: 'Dataset not found.' }, { status: 404 });
     }
     
-    await writeDatasets(filtered);
     return NextResponse.json({ success: true });
   } catch (error: any) {
+    console.error('Delete Error:', error);
     return NextResponse.json(
-      { error: 'Failed to delete dataset.' },
+      { error: 'Failed to delete dataset: ' + error.message },
       { status: 500 }
     );
   }
 }
+

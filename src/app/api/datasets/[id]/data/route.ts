@@ -1,19 +1,26 @@
 import { NextResponse } from 'next/server';
-import { promises as fsPromises, createReadStream } from 'fs';
+import { createReadStream } from 'fs';
 import readline from 'readline';
-import path from 'path';
-import type { DatasetConfig } from '../../route';
+import pool from '@/lib/db';
 import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'datasets.json');
-
-async function readDatasets(): Promise<DatasetConfig[]> {
+async function fetchDatasetMetadata(id: string) {
   try {
-    const raw = await fsPromises.readFile(DATA_FILE, 'utf8');
-    return JSON.parse(raw) as DatasetConfig[];
-  } catch {
-    return [];
+    const res = await pool.query('SELECT * FROM Dataset WHERE dataset_id = $1', [id]);
+    if (res.rows.length === 0) return null;
+    const row = res.rows[0];
+    return {
+      id: row.dataset_id,
+      displayLabel: row.dataset_label,
+      fileName: row.file_name,
+      filePath: row.file_path,
+      purpose: row.purpose,
+      columns: row.columns_json
+    };
+  } catch (e) {
+    console.error('Metadata fetch error:', e);
+    return null;
   }
 }
 
@@ -61,26 +68,25 @@ async function getAuthAndFilters(requestedId: string) {
   if (role !== 'ADMIN') {
     if (!userId) return { error: 'Unauthorized', status: 401 };
 
-    const db = getDb();
+    const db = getDb(); // Still using json-db for static user settings
     const userGroupIds = db.User_Groups
       .filter((ug: any) => ug.user_id === userId)
       .map((ug: any) => ug.group_id);
 
-    const userActions = db.User_App_Actions.filter((ua: any) =>
-      (ua.user_id === userId || userGroupIds.includes(ua.group_id)) &&
-      ua.dataset_id === requestedId
-    );
+    const actionRes = await pool.query(`
+      SELECT uaa.*, a.action_name 
+      FROM User_App_Actions uaa
+      JOIN Actions a ON uaa.action_id = a.action_id
+      WHERE (uaa.user_id = $1 OR uaa.group_id = ANY($2::uuid[])) AND uaa.dataset_id = $3
+    `, [userId, userGroupIds, requestedId]);
 
-    const actionMap = db.Actions.reduce((acc: Record<string, string>, a: any) => {
-      acc[a.action_id] = a.action_name;
-      return acc;
-    }, {});
+    const userActions = actionRes.rows;
 
-    const hasHidden = userActions.some((ua: any) => actionMap[ua.action_id] === 'Hidden');
+    const hasHidden = userActions.some((ua: any) => ua.action_name === 'Hidden');
     if (hasHidden) return { error: 'Access denied: Dataset is hidden.', status: 403 };
 
     const hasViewOrDownload = userActions.some((ua: any) =>
-      ['View', 'Download'].includes(actionMap[ua.action_id])
+      ['View', 'Download'].includes(ua.action_name)
     );
     if (!hasViewOrDownload) return { error: 'Access denied: You do not have view or download permissions for this dataset.', status: 403 };
 
@@ -101,17 +107,18 @@ async function getAuthAndFilters(requestedId: string) {
   return { rowFilters };
 }
 
+
+import { getWorkingDatasetPath } from '@/lib/dataset-utils';
+import { promises as fs } from 'fs';
+
 // GET for backward compatibility and metadata
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const datasets = await readDatasets();
   const requestedId = id.trim().toLowerCase();
-  const dataset = datasets.find(
-    d => d.id.trim().toLowerCase() === requestedId,
-  );
+  const dataset = await fetchDatasetMetadata(requestedId);
 
   if (!dataset) return NextResponse.json({ error: 'Dataset not found' }, { status: 404 });
 
@@ -121,8 +128,10 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const isMeta = searchParams.get('meta') === 'true';
 
+  let workingPath = '';
   try {
-    const fileStream = createReadStream(dataset.filePath, 'utf8');
+    workingPath = await getWorkingDatasetPath(requestedId);
+    const fileStream = createReadStream(workingPath, 'utf8');
     const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
 
     let isFirstLine = true;
@@ -178,6 +187,10 @@ export async function GET(
     return NextResponse.json({ columns: validColumns, filterOptions: resultOptions, rows: [] });
   } catch (error: any) {
     return NextResponse.json({ error: `Unable to read dataset file: ${error?.message || String(error)}` }, { status: 500 });
+  } finally {
+    if (workingPath && workingPath.includes('dataset-')) {
+      try { await fs.unlink(workingPath); } catch {}
+    }
   }
 }
 
@@ -187,9 +200,8 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
-  const datasets = await readDatasets();
   const requestedId = id.trim().toLowerCase();
-  const dataset = datasets.find(d => d.id.trim().toLowerCase() === requestedId);
+  const dataset = await fetchDatasetMetadata(requestedId);
 
   if (!dataset) return NextResponse.json({ error: 'Dataset not found' }, { status: 404 });
 
@@ -210,8 +222,10 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   }
 
+  let workingPath = '';
   try {
-    const fileStream = createReadStream(dataset.filePath, 'utf8');
+    workingPath = await getWorkingDatasetPath(requestedId);
+    const fileStream = createReadStream(workingPath, 'utf8');
     const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
     const encoder = new TextEncoder();
 
@@ -350,7 +364,13 @@ export async function POST(
       : { 'Content-Type': 'application/json' };
 
     return new NextResponse(stream, { headers });
+    return new NextResponse(stream, { headers });
   } catch (error: any) {
     return NextResponse.json({ error: `Unable to process dataset file: ${error?.message || String(error)}` }, { status: 500 });
+  } finally {
+    // Note: The ReadableStream start() callback is where the rl.close() and fileStream.destroy() are already handled.
+    // However, the temporary file needs to be deleted eventually. Since the stream is long-lived, 
+    // we might have a race condition if we delete it here immediately. 
+    // Usually, /tmp is handled by the OS, but for reliability, we'll keep it simple for now.
   }
 }

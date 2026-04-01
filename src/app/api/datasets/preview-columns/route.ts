@@ -7,28 +7,44 @@ function clean(value: string) {
 }
 
 export async function POST(request: Request) {
-  const { filePath } = (await request.json()) as { filePath?: string };
+  const { filePath, csvContent } = (await request.json()) as { filePath?: string, csvContent?: string };
 
-  if (!filePath) {
+  if (!filePath && !csvContent) {
     return NextResponse.json(
-      { error: 'filePath is required' },
+      { error: 'filePath or csvContent is required' },
       { status: 400 },
     );
   }
 
   try {
-    const fileStream = createReadStream(filePath, 'utf8');
-    const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
-    
     let firstLine = '';
-    for await (const line of rl) {
-      if (line.trim()) {
-        firstLine = line;
-        break; // Stop reading after the first non-empty line
+
+    if (csvContent) {
+      // Split by newline and take the first non-empty line
+      const lines = csvContent.split(/\r?\n/);
+      for (const line of lines) {
+        if (line.trim()) {
+          firstLine = line;
+          break;
+        }
       }
+    } else if (filePath) {
+      const fileStream = createReadStream(filePath, 'utf8');
+      const rl = readline.createInterface({ input: fileStream, crlfDelay: Infinity });
+      
+      for await (const line of rl) {
+        if (line.trim()) {
+          firstLine = line;
+          break; 
+        }
+      }
+      rl.close();
+      fileStream.destroy();
     }
-    rl.close();
-    fileStream.destroy();
+
+    if (!firstLine) {
+      return NextResponse.json({ error: 'CSV is empty' }, { status: 400 });
+    }
 
     const columns = firstLine.split(',').map(clean).filter((c: string) => c.length > 0);
     return NextResponse.json({ columns });

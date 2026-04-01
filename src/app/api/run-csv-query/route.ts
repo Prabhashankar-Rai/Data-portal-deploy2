@@ -7,6 +7,7 @@ import { cookies } from 'next/headers';
 import path from 'path';
 import { getDb, saveDb } from '@/lib/json-db';
 import { promises as fs } from 'fs';
+import pool from '@/lib/db';
 
 function runQuery(query: string, conn: any): Promise<any[]> {
     return new Promise((resolve, reject) => {
@@ -122,16 +123,19 @@ async function buildDuckDBViewQuery(
     return query;
 }
 
+import { getWorkingDatasetPath } from '@/lib/dataset-utils';
+
 export async function POST(req: NextRequest) {
 
     let duckdb: any;
     let db: any = null;
     let conn: any = null;
+    let workingPath: string | null = null;
 
     try {
 
         // 🔥 Load DuckDB ONLY at runtime
-        duckdb = require("duckdb");
+        duckdb = eval('require("duckdb")');
 
         const { sql_query, question, datasetId } =
             await req.json();
@@ -162,41 +166,13 @@ export async function POST(req: NextRequest) {
 
         const startTime = Date.now();
 
-        // Load dataset metadata
-        const datasetPath =
-            path.join(process.cwd(), 'data', 'datasets.json');
-
-        let datasets: any[] = [];
-
+        // Use utility to get the working path (supports DB-backed CSVs)
         try {
-            const raw =
-                await fs.readFile(datasetPath, 'utf8');
-
-            datasets =
-                JSON.parse(raw);
-
-        } catch (e) {
-            console.error("Dataset read error", e);
-        }
-
-        const dataset =
-            datasets.find((d: any) =>
-                d.id === datasetId
-            );
-
-        if (!dataset || !dataset.filePath) {
-
+            workingPath = await getWorkingDatasetPath(datasetId);
+        } catch (e: any) {
             return NextResponse.json(
-                { error: 'Dataset not found' },
+                { error: e.message || 'Dataset not found' },
                 { status: 404 }
-            );
-        }
-
-        if (!dataset.aiEnabled) {
-
-            return NextResponse.json(
-                { error: 'Dataset not AI enabled' },
-                { status: 403 }
             );
         }
 
@@ -215,7 +191,7 @@ export async function POST(req: NextRequest) {
             db.connect();
 
         const normalizedPath =
-            dataset.filePath
+            workingPath
                 .split('\\')
                 .join('/');
 
@@ -382,6 +358,15 @@ export async function POST(req: NextRequest) {
             try {
                 db.close();
             } catch { }
+        }
+
+        if (workingPath && workingPath.includes('dataset-')) {
+            try {
+                await fs.unlink(workingPath);
+                console.log(`[RunQuery] Cleaned up temp file: ${workingPath}`);
+            } catch (e) {
+                // Ignore cleanup errors
+            }
         }
     }
 }

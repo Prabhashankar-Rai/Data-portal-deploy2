@@ -23,12 +23,13 @@ type DatasetConfig = {
   updatedAt: string;
 };
 
-const emptyForm: Omit<DatasetConfig, 'id' | 'createdBy' | 'updatedAt'> = {
+const emptyForm: Omit<DatasetConfig, 'id' | 'createdBy' | 'updatedAt'> & { csvContent?: string } = {
   displayLabel: '',
   fileName: '',
   filePath: '',
   purpose: '',
   columns: [],
+  csvContent: '',
 };
 
 export default function DatasetAdminPage() {
@@ -64,13 +65,31 @@ export default function DatasetAdminPage() {
       filePath: ds.filePath,
       purpose: ds.purpose,
       columns: ds.columns || [],
+      csvContent: '', // Don't load full content in edit mode unless re-uploading
     });
     setError(null);
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const content = event.target?.result as string;
+      setForm(prev => ({
+        ...prev,
+        fileName: file.name,
+        csvContent: content,
+        filePath: `[Upload: ${file.name}]`, // Visual indicator
+      }));
+    };
+    reader.readAsText(file);
+  };
+
   const handleLoadColumns = async () => {
-    if (!form.filePath) {
-      setError('Please provide a file path before loading columns.');
+    if (!form.filePath && !form.csvContent) {
+      setError('Please provide a file path or upload a file before loading columns.');
       return;
     }
     setError(null);
@@ -79,7 +98,10 @@ export default function DatasetAdminPage() {
       const res = await fetch('/api/datasets/preview-columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filePath: form.filePath }),
+        body: JSON.stringify({ 
+          filePath: form.filePath,
+          csvContent: form.csvContent 
+        }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -101,8 +123,8 @@ export default function DatasetAdminPage() {
   };
 
   const handleSave = async () => {
-    if (!form.displayLabel || !form.fileName || !form.filePath) {
-      setError('Display label, file name and file path are required.');
+    if (!form.displayLabel || !form.fileName) {
+      setError('Display label and file name are required.');
       return;
     }
     setSaving(true);
@@ -126,6 +148,8 @@ export default function DatasetAdminPage() {
         : [...datasets, data];
       setDatasets(updated);
       setEditing(data);
+      // Clear content after save to prevent massive state bloat
+      setForm(prev => ({ ...prev, csvContent: '' }));
     } catch (e: any) {
       setError(e?.message || 'Unexpected error while saving dataset.');
     } finally {
@@ -165,7 +189,7 @@ export default function DatasetAdminPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dataset Registry</h1>
         <p className="mt-1 text-sm text-gray-600">
-          Register and manage datasets that appear in the Data Download section.
+          Register and manage datasets that appear in the Data Portal. Now supports direct cloud upload!
         </p>
       </div>
 
@@ -248,25 +272,25 @@ export default function DatasetAdminPage() {
             <div className="grid gap-4 md:grid-cols-2">
               <div>
                 <label className="block text-xs font-semibold text-gray-700">
-                  File Name
+                  Upload CSV File (Direct to Cloud)
                 </label>
                 <input
-                  type="text"
-                  value={form.fileName}
-                  onChange={e => setForm(f => ({ ...f, fileName: e.target.value }))}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
-                  placeholder="e.g. policy.csv"
+                  type="file"
+                  accept=".csv"
+                  onChange={handleFileChange}
+                  className="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-1.5 text-xs shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
                 />
               </div>
               <div>
                 <label className="block text-xs font-semibold text-gray-700">
-                  File Path (local)
+                  Manual File Path (Legacy / Local)
                 </label>
                 <input
                   type="text"
                   value={form.filePath}
                   onChange={e => setForm(f => ({ ...f, filePath: e.target.value }))}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  disabled={!!form.csvContent}
+                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100"
                   placeholder="e.g. C:\Data\policy.csv"
                 />
               </div>
@@ -295,7 +319,7 @@ export default function DatasetAdminPage() {
               <button
                 type="button"
                 onClick={handleLoadColumns}
-                disabled={loadingColumns || !form.filePath}
+                disabled={loadingColumns || (!form.filePath && !form.csvContent)}
                 className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loadingColumns ? 'Loading…' : 'Load Columns'}

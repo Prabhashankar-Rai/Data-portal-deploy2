@@ -50116,5 +50116,1256 @@
     "details": {
       "method": "POST"
     }
+  },
+  {
+    "id": "f866fa0e-1357-41a1-b563-845149cc6837",
+    "timestamp": "2026-04-01T04:53:12.826Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6c7c97a5-95a0-44d6-b36d-fb00cc1d943b",
+    "timestamp": "2026-04-01T04:53:16.750Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "fbae1e82-691c-4644-8a8e-f2f836d37d06",
+    "timestamp": "2026-04-01T04:53:16.870Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "e5bd92fa-8b77-41ba-be34-37d62d2989ae",
+    "timestamp": "2026-04-01T04:53:16.894Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "002cd22d-e1c2-4fd1-af6f-5e5e283b7dcc",
+    "timestamp": "2026-04-01T04:53:22.590Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "236473ef-45f2-4ade-80bc-8b59c467838f",
+    "timestamp": "2026-04-01T04:53:25.118Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "6fdecf0b-f4ee-4fc4-ae02-92fcb466f46e",
+    "timestamp": "2026-04-01T04:53:30.620Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "aef32171-6984-45d3-bcab-eb1791af1533",
+    "timestamp": "2026-04-01T04:53:30.700Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "fc829a8f-3d5f-49b7-97b0-d9cc58305699",
+    "timestamp": "2026-04-01T04:53:30.712Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "b2448c14-3146-42c2-80de-c5d26916d2d9",
+    "timestamp": "2026-04-01T04:53:33.327Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/agent-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: agent-data)"
+    }
+  },
+  {
+    "id": "c00056e9-e3d9-4fa4-bbe8-7d81d5d2bca1",
+    "timestamp": "2026-04-01T04:53:35.716Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/sales-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: sales-data)"
+    }
+  },
+  {
+    "id": "a4acc353-3c5a-4043-81ac-10492ab0821d",
+    "timestamp": "2026-04-01T04:53:37.058Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/fci-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: fci-data)"
+    }
+  },
+  {
+    "id": "4cc42f7a-1aaf-47dc-8026-582ccda4c78f",
+    "timestamp": "2026-04-01T04:53:37.978Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/competency/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: competency)"
+    }
+  },
+  {
+    "id": "35786273-e90c-4a60-8b44-b064f2719806",
+    "timestamp": "2026-04-01T04:53:38.907Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/uw-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: uw-data)"
+    }
+  },
+  {
+    "id": "85e3c061-2127-4228-b34f-8ed4803d69e3",
+    "timestamp": "2026-04-01T04:53:41.774Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "3c35600e-15d3-4706-85ac-a095f8f13aab",
+    "timestamp": "2026-04-01T04:53:41.800Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "adacd3df-0144-4d86-8b87-f828750e094d",
+    "timestamp": "2026-04-01T09:26:35.983Z",
+    "userRole": "admin",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6767c340-6b4e-45cf-a760-34fc240131a4",
+    "timestamp": "2026-04-01T09:26:43.322Z",
+    "userRole": "admin",
+    "action": "logout"
+  },
+  {
+    "id": "030bdf50-664e-47cf-aed2-a434bad64535",
+    "timestamp": "2026-04-01T09:26:44.314Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "909d7521-0505-42ce-8233-4ee140331caf",
+    "timestamp": "2026-04-01T09:26:44.503Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "23f2f6b7-fa35-4d22-a8c4-214c085de831",
+    "timestamp": "2026-04-01T09:26:44.779Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/_log",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "93aebc12-1098-45e2-85de-9764bd1dd2f8",
+    "timestamp": "2026-04-01T09:26:44.820Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "43ee4752-c79c-4fc0-bdc7-da3e8fe73ec7",
+    "timestamp": "2026-04-01T09:26:47.507Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "729bb84c-a859-4582-84d2-757d4cf010d6",
+    "timestamp": "2026-04-01T09:26:51.300Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "aeae7103-322d-49e7-b3ea-5e33a1dbe87b",
+    "timestamp": "2026-04-01T09:26:54.754Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4fa1bd9a-b6ae-4ffa-87b3-ad40a6e50b67",
+    "timestamp": "2026-04-01T09:26:56.932Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/users",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "da6c7c1b-a771-4dfb-b310-3b8dd90bd2ec",
+    "timestamp": "2026-04-01T09:26:58.611Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e0f2cabb-6353-42d8-a5fc-9e443072ad9c",
+    "timestamp": "2026-04-01T09:31:49.755Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e84db471-c3e0-4853-bb12-741e328d8da2",
+    "timestamp": "2026-04-01T09:31:50.264Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "ac7b0157-0779-4492-853b-a37ebf7188f6",
+    "timestamp": "2026-04-01T09:31:50.408Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "aa08049a-ad36-4e35-83ff-7f36eefb92bf",
+    "timestamp": "2026-04-01T09:31:51.400Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/tableau-dashboards",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a0e31ecc-f6fd-4b7d-974d-b919dcda6a60",
+    "timestamp": "2026-04-01T09:31:51.523Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "e7da4a16-7756-497e-a149-9c847fc8e114",
+    "timestamp": "2026-04-01T09:31:51.537Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "ec4a7537-79d7-40d7-958f-c84c765e801f",
+    "timestamp": "2026-04-01T09:31:52.260Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "17a5caf7-aaff-43f6-84fa-6ce3c9cdc10a",
+    "timestamp": "2026-04-01T09:31:52.437Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "fd286394-7a5d-4b1c-a3ed-01e5da9fe83b",
+    "timestamp": "2026-04-01T09:31:52.457Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "efd094d0-501c-456d-9f36-ede77d6fc37c",
+    "timestamp": "2026-04-01T09:31:54.024Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5407c62d-306e-48c0-9bed-69fc7fd8544c",
+    "timestamp": "2026-04-01T09:48:14.533Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "88b1ae03-e1eb-4713-9682-61ef172d9c83",
+    "timestamp": "2026-04-01T10:51:00.489Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cb4134a4-8d4c-49a4-a280-f38949926c79",
+    "timestamp": "2026-04-01T14:52:20.260Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3bb22b2a-079f-45e9-9aca-6f443adad31c",
+    "timestamp": "2026-04-01T14:52:20.301Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "34be3b46-c5af-4ce6-b733-9f5a96ed2f09",
+    "timestamp": "2026-04-01T14:52:25.154Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "4d36f88d-89b4-4fde-b7f0-8234abec4725",
+    "timestamp": "2026-04-01T14:52:37.235Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "706b0007-a4ef-49a5-9921-77e6c007de36",
+    "timestamp": "2026-04-01T14:52:49.574Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e4fdb5a3-741e-4ff4-b9f4-2efa645ac571",
+    "timestamp": "2026-04-01T14:52:50.175Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "de6b0f83-0038-401c-b8f4-edd4dbe4a5c5",
+    "timestamp": "2026-04-01T14:52:50.208Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "0102affd-f777-454a-98e8-1350961f73a4",
+    "timestamp": "2026-04-01T14:52:58.843Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/tableau-dashboards",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2dc834de-4298-4971-9a70-328f9ba3cfd6",
+    "timestamp": "2026-04-01T14:52:59.072Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "47484b27-4793-4840-9c80-735fb4c5e388",
+    "timestamp": "2026-04-01T14:52:59.187Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "6aaf2b75-99d3-44ed-8de5-43202a567fb0",
+    "timestamp": "2026-04-01T14:53:02.844Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "916dd7d1-995b-4dbd-913a-b99be438d641",
+    "timestamp": "2026-04-01T14:53:03.087Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "6ef1a4c7-11a7-44c4-a698-647f4dd409e7",
+    "timestamp": "2026-04-01T14:53:03.103Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "67b873ad-35bd-42e7-88ee-d9e09d065460",
+    "timestamp": "2026-04-01T14:53:08.573Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/uw-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: uw-data)"
+    }
+  },
+  {
+    "id": "889d7d61-4c5f-4ff9-bea2-6ecda5568c27",
+    "timestamp": "2026-04-01T15:05:03.779Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a3ec25cb-1136-4ae5-9b37-7c54f946e40f",
+    "timestamp": "2026-04-01T15:05:04.936Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a2f711df-7d91-48d5-af3a-dc8f35daab94",
+    "timestamp": "2026-04-01T15:05:05.009Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "9f3263f0-f526-4d0e-aaf1-04b8ddafd10a",
+    "timestamp": "2026-04-01T15:05:05.032Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "81831135-e373-4927-af40-2df83d007d88",
+    "timestamp": "2026-04-01T15:05:11.919Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/tableau-dashboards",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "87345212-3d13-4494-8824-bf51ddc4e2a0",
+    "timestamp": "2026-04-01T15:05:12.021Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "21f72157-6e33-401f-ba56-16aa562ed167",
+    "timestamp": "2026-04-01T15:05:12.034Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "b239fa2d-e743-4c67-9a22-94871b427dc6",
+    "timestamp": "2026-04-01T15:05:20.980Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "af985c92-3fc0-4c0a-891e-1602f2b8cc99",
+    "timestamp": "2026-04-01T15:05:21.042Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "392f2882-175b-4943-b796-f38cdab6a652",
+    "timestamp": "2026-04-01T15:05:21.058Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "8fd80509-1057-4c7c-9f81-6796bea29a8b",
+    "timestamp": "2026-04-01T15:05:45.866Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/etl-reports",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4bcd0383-0534-4c60-a7e2-10fb8c32824d",
+    "timestamp": "2026-04-01T15:05:46.058Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "2e2d06b1-576b-4756-8514-9ef5192baca3",
+    "timestamp": "2026-04-01T15:05:46.070Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "76657951-5a14-4329-9224-4321e30612d3",
+    "timestamp": "2026-04-01T15:05:48.224Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "fff9b61f-85c2-4808-8da4-3a7893ae4bbe",
+    "timestamp": "2026-04-01T15:05:51.686Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/users",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c511abac-c8a7-4bb6-a024-96559a3e662a",
+    "timestamp": "2026-04-01T15:06:41.023Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/users",
+    "details": {
+      "method": "POST",
+      "description": "Created user "
+    }
+  },
+  {
+    "id": "32c268f2-ad10-4e3a-aa25-395599322146",
+    "timestamp": "2026-04-01T15:06:52.063Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/groups",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "287cd69b-aad9-4f32-bb73-1c56827b41e3",
+    "timestamp": "2026-04-01T15:06:53.177Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/access",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "7ba646de-d18a-4675-8bcd-3c57eb1db848",
+    "timestamp": "2026-04-01T15:06:55.569Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5737ccee-0633-46a7-86bf-c4c8e85a246f",
+    "timestamp": "2026-04-01T15:06:56.632Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/actions",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cbb727d3-b5a7-43d1-b86f-f671c0e9b2ed",
+    "timestamp": "2026-04-01T15:06:57.599Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/filters",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "0fb471d9-cf5c-4b7b-a776-c5ddcdcdd0d7",
+    "timestamp": "2026-04-01T15:06:58.633Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/audit-logs",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8286c194-bafe-4622-a12d-d96ecfb11b96",
+    "timestamp": "2026-04-01T15:07:07.643Z",
+    "userRole": "ADMIN",
+    "action": "logout"
+  },
+  {
+    "id": "a02d1087-e8c7-4bec-9cc3-957c50c2edd9",
+    "timestamp": "2026-04-01T15:07:07.720Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "a0a7d8cb-101c-4071-b8f8-913878699aa0",
+    "timestamp": "2026-04-01T15:07:07.836Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dce69d09-aade-405d-a525-abe4fc87a2a1",
+    "timestamp": "2026-04-01T15:07:09.661Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "48b660af-4607-4958-a629-a88f869b2074",
+    "timestamp": "2026-04-01T15:08:32.581Z",
+    "userRole": "USER",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "87ec2626-eca4-4fb8-a804-210cc9b72a37",
+    "timestamp": "2026-04-01T15:08:45.294Z",
+    "userRole": "USER",
+    "action": "logout"
+  },
+  {
+    "id": "8b4b8f21-fb32-4bed-9f54-3f81ffb47abe",
+    "timestamp": "2026-04-01T15:08:45.353Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "5e31ca42-5628-4eb4-a961-1484e1f39778",
+    "timestamp": "2026-04-01T15:08:45.419Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a1d505e0-2421-453f-bb28-9318bd2a595a",
+    "timestamp": "2026-04-01T15:08:46.979Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "b2efc833-849f-49d7-9fb6-7334c86bab98",
+    "timestamp": "2026-04-01T15:08:57.209Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8f2472c1-1630-4cb0-8ff1-096581bac4ad",
+    "timestamp": "2026-04-01T15:09:03.315Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "42119a98-a21a-446d-8f11-9bd0295aa96b",
+    "timestamp": "2026-04-01T15:09:06.497Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/filters",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b71bd2c2-b9f1-42c9-ab17-f2c356f04214",
+    "timestamp": "2026-04-01T15:09:07.936Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/users",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6e787089-7cfd-4232-90df-bf737867ee05",
+    "timestamp": "2026-04-01T15:09:16.599Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API PUT",
+    "page": "/api/users",
+    "details": {
+      "method": "PUT"
+    }
+  },
+  {
+    "id": "1d75efbc-eb79-435e-8940-f8d2e30bd94d",
+    "timestamp": "2026-04-01T15:09:24.541Z",
+    "userRole": "ADMIN",
+    "action": "logout"
+  },
+  {
+    "id": "4d25ffa9-3efc-4039-8de9-f42e97b134da",
+    "timestamp": "2026-04-01T15:09:24.598Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "46ed00de-31a7-48c4-b635-aa21cf4913f6",
+    "timestamp": "2026-04-01T15:09:24.636Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c3c0e045-5b84-49b7-bbc3-fb4eb714eb16",
+    "timestamp": "2026-04-01T15:09:26.066Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "c51cc772-8d20-4e27-851e-9d574e92c13c",
+    "timestamp": "2026-04-01T15:09:30.534Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6e004bbd-34d0-4452-b586-3b64a211871f",
+    "timestamp": "2026-04-01T15:09:33.109Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d133897c-142e-44f2-90cc-17b8d307d558",
+    "timestamp": "2026-04-01T15:09:38.562Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/users",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a68c32b5-ab01-4387-9c96-6211124a02e0",
+    "timestamp": "2026-04-01T15:09:43.476Z",
+    "userRole": "ADMIN",
+    "action": "logout"
+  },
+  {
+    "id": "a841be2e-334c-4bcc-8aba-d8a9ec45cdb0",
+    "timestamp": "2026-04-01T15:09:43.541Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "dbf6bd8b-78a3-4557-8004-bcfe620c4617",
+    "timestamp": "2026-04-01T15:09:43.632Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dc099aa5-3f8f-4444-a1b3-45aeb536782e",
+    "timestamp": "2026-04-01T15:09:45.175Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "5941cde2-cd61-434f-b17b-cdc9acd4374e",
+    "timestamp": "2026-04-01T15:09:54.541Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5381c475-e7ad-4f6e-9e8b-879931273f69",
+    "timestamp": "2026-04-01T15:09:58.373Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "71840463-e913-4939-ab45-41cb9a3dd267",
+    "timestamp": "2026-04-01T15:10:32.241Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5b59b67f-fa5a-470e-b809-7798aa0519e7",
+    "timestamp": "2026-04-01T15:10:34.194Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "de2fdf2e-65f6-43c3-b3a5-a97b3d96d06f",
+    "timestamp": "2026-04-01T15:10:34.385Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "6281e557-3595-4bf2-9fca-8c065a6be316",
+    "timestamp": "2026-04-01T15:10:34.397Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "97aa9725-34d2-419a-83b7-b47eca57d5b0",
+    "timestamp": "2026-04-01T15:10:35.524Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/tableau-dashboards",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c7408ae3-1fe7-4977-89a2-5ea72e55d335",
+    "timestamp": "2026-04-01T15:10:35.616Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "e9bd36ae-b5a5-4f9b-a964-b681a92e4736",
+    "timestamp": "2026-04-01T15:10:35.628Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "e93855de-3c69-49e5-85f9-9e855c31f462",
+    "timestamp": "2026-04-01T15:10:59.870Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2cd4e24f-933b-4a20-b55d-761f39d56655",
+    "timestamp": "2026-04-01T15:11:01.596Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ed8cd308-8045-4451-b2ec-6af402c750c2",
+    "timestamp": "2026-04-01T15:11:01.671Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "3ab7aa53-251c-4d07-b129-a66acd85d30d",
+    "timestamp": "2026-04-01T15:11:01.682Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "3f700b89-5186-4e3d-b890-b8067c746601",
+    "timestamp": "2026-04-01T15:11:04.644Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/etl-reports",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1abf1282-dfef-4aba-8a9a-a5c1a2fb2685",
+    "timestamp": "2026-04-01T15:11:04.699Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "78e56dd0-bf71-4593-b310-f0bc3abcbba8",
+    "timestamp": "2026-04-01T15:11:04.718Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "580e9da6-2a1c-4d7c-90a9-8d185edbaf02",
+    "timestamp": "2026-04-01T15:11:06.109Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d88bcc55-1545-4051-a15a-e83587e7dc6f",
+    "timestamp": "2026-04-01T15:11:15.697Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e8df4d41-6b0b-4b45-acc7-077365544757",
+    "timestamp": "2026-04-01T15:11:40.955Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e30b6058-d3de-47da-945f-ca7f2af5d07f",
+    "timestamp": "2026-04-01T15:11:41.050Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "bbbafed9-7b5a-4a59-8e47-0c0713667e19",
+    "timestamp": "2026-04-01T15:11:41.076Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "cb4df638-9d8e-4959-a1c2-d022926bcb3f",
+    "timestamp": "2026-04-01T15:11:42.291Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/sales-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: sales-data)"
+    }
+  },
+  {
+    "id": "4e43b7f3-1de6-4a58-b0aa-0de5bc336851",
+    "timestamp": "2026-04-01T15:11:49.978Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/sales-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: sales-data)"
+    }
+  },
+  {
+    "id": "54fc0df7-c7b0-48e7-ab31-3bb6469d16a2",
+    "timestamp": "2026-04-01T15:12:00.811Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a9319716-525e-4914-ae88-a4f5e570607b",
+    "timestamp": "2026-04-01T15:12:01.009Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "e986b5b3-7817-466b-a16a-ea54fc5fed59",
+    "timestamp": "2026-04-01T15:12:01.050Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "b0f306c7-8112-4f06-b001-01db97b47381",
+    "timestamp": "2026-04-01T15:12:06.042Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "b4ad6e8c-eed8-4e45-a399-df0b074ecc02",
+    "timestamp": "2026-04-01T15:12:09.470Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "9043bf09-e539-4f68-b297-58818f1dc087",
+    "timestamp": "2026-04-01T15:42:47.875Z",
+    "userRole": "ADMIN",
+    "username": "Test2",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
   }
 ]

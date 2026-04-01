@@ -1,10 +1,9 @@
 import { NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import pool from '@/lib/db';
 
-type FilterType = 'none' | 'date' | 'multi' | 'text' | 'number';
+export type FilterType = 'none' | 'date' | 'multi' | 'text' | 'number';
 
-type ColumnConfig = {
+export type ColumnConfig = {
   name: string;
   visible: boolean;
   filter: FilterType;
@@ -23,29 +22,23 @@ export type DatasetConfig = {
   updatedAt: string;
 };
 
-const DATA_FILE = path.join(process.cwd(), 'data', 'datasets.json');
-
-async function readDatasets(): Promise<DatasetConfig[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, 'utf8');
-    return JSON.parse(raw) as DatasetConfig[];
-  } catch {
-    return [];
-  }
-}
-
-async function writeDatasets(datasets: DatasetConfig[]) {
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(datasets, null, 2), 'utf8');
-}
-
 import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
 
 export async function GET() {
-  const datasets = await readDatasets();
-
   try {
+    const res = await pool.query('SELECT * FROM Dataset ORDER BY updated_at DESC');
+    const datasets: DatasetConfig[] = res.rows.map(row => ({
+      id: row.dataset_id,
+      displayLabel: row.dataset_label,
+      fileName: row.file_name,
+      filePath: row.file_path,
+      purpose: row.purpose || '',
+      columns: row.columns_json || [],
+      createdBy: row.created_by || 'ADMIN',
+      updatedAt: row.updated_at.toISOString(),
+    }));
+
     const cookieStore = await cookies();
     const role = cookieStore.get('role')?.value || 'USER';
     const userId = cookieStore.get('user_id')?.value;
@@ -69,28 +62,29 @@ export async function GET() {
       return NextResponse.json([]);
     }
 
-    const db = getDb();
+    const db = getDb(); // Still using json-db for Users/Groups
     const userGroupIds = db.User_Groups
       .filter((ug: any) => ug.user_id === userId)
       .map((ug: any) => ug.group_id);
 
-    const userActions = db.User_App_Actions.filter((ua: any) =>
-      ua.user_id === userId || userGroupIds.includes(ua.group_id)
-    );
+    // We'll also check the User_App_Actions table in DB for permissions
+    const actionRes = await pool.query(`
+      SELECT uaa.*, a.action_name 
+      FROM User_App_Actions uaa
+      JOIN Actions a ON uaa.action_id = a.action_id
+      WHERE uaa.user_id = $1 OR uaa.group_id = ANY($2::uuid[])
+    `, [userId, userGroupIds]);
 
-    const actionMap = db.Actions.reduce((acc: Record<string, string>, a: any) => {
-      acc[a.action_id] = a.action_name;
-      return acc;
-    }, {});
+    const userActions = actionRes.rows;
 
     const allowedDatasets = datasets.reduce((acc: any[], d: DatasetConfig) => {
       const datasetActions = userActions.filter((ua: any) => ua.dataset_id === d.id);
-      const hasHidden = datasetActions.some((ua: any) => actionMap[ua.action_id] === 'Hidden');
+      const hasHidden = datasetActions.some((ua: any) => ua.action_name === 'Hidden');
       if (hasHidden) return acc;
 
-      const hasDownload = datasetActions.some((ua: any) => actionMap[ua.action_id] === 'Download');
-      const hasView = datasetActions.some((ua: any) => actionMap[ua.action_id] === 'View');
-      const hasAIChat = datasetActions.some((ua: any) => actionMap[ua.action_id] === 'AI Chat');
+      const hasDownload = datasetActions.some((ua: any) => ua.action_name === 'Download');
+      const hasView = datasetActions.some((ua: any) => ua.action_name === 'View');
+      const hasAIChat = datasetActions.some((ua: any) => ua.action_name === 'AI Chat');
 
       if (hasDownload || hasView || hasAIChat) {
         acc.push({
@@ -104,62 +98,85 @@ export async function GET() {
     }, []);
 
     return NextResponse.json(allowedDatasets);
-  } catch (err) {
-    return NextResponse.json(datasets); // Fallback to all if auth check fails, though maybe it should be [] instead, but let's keep it safe or empty
+  } catch (err: any) {
+    console.error('API Error:', err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  try {
+    const body = await request.json();
 
-  const {
-    id,
-    displayLabel,
-    fileName,
-    filePath,
-    purpose,
-    columns,
-    createdBy = 'ADMIN',
-  } = body as Partial<DatasetConfig> & { columns?: ColumnConfig[] };
+    const {
+      id,
+      displayLabel,
+      fileName,
+      filePath,
+      purpose,
+      columns,
+      csvContent,
+      createdBy = 'ADMIN',
+    } = body as Partial<DatasetConfig> & { columns?: ColumnConfig[], csvContent?: string };
 
-  if (!displayLabel || !fileName || !filePath) {
-    return NextResponse.json(
-      { error: 'displayLabel, fileName and filePath are required.' },
-      { status: 400 },
-    );
+    if (!displayLabel || !fileName) {
+      return NextResponse.json(
+        { error: 'displayLabel and fileName are required.' },
+        { status: 400 },
+      );
+    }
+
+    const slugFromLabel = displayLabel
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+
+    const datasetId = id || slugFromLabel || `dataset-${Date.now()}`;
+    const now = new Date();
+
+    const query = `
+      INSERT INTO Dataset (dataset_id, dataset_label, file_name, file_path, purpose, columns_json, csv_content, created_by, updated_at)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      ON CONFLICT (dataset_id) DO UPDATE SET
+        dataset_label = EXCLUDED.dataset_label,
+        file_name = EXCLUDED.file_name,
+        file_path = EXCLUDED.file_path,
+        purpose = EXCLUDED.purpose,
+        columns_json = EXCLUDED.columns_json,
+        csv_content = EXCLUDED.csv_content,
+        updated_at = EXCLUDED.updated_at
+      RETURNING *
+    `;
+
+    const res = await pool.query(query, [
+      datasetId,
+      displayLabel,
+      fileName,
+      filePath || '',
+      purpose || '',
+      JSON.stringify(columns || []),
+      csvContent || null,
+      createdBy,
+      now
+    ]);
+
+    const row = res.rows[0];
+    const newConfig: DatasetConfig = {
+      id: row.dataset_id,
+      displayLabel: row.dataset_label,
+      fileName: row.file_name,
+      filePath: row.file_path,
+      purpose: row.purpose || '',
+      columns: row.columns_json || [],
+      createdBy: row.created_by || 'ADMIN',
+      updatedAt: row.updated_at.toISOString(),
+    };
+
+    return NextResponse.json(newConfig);
+  } catch (err: any) {
+    console.error('POST Error:', err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
   }
-
-  const now = new Date().toISOString();
-  const datasets = await readDatasets();
-
-  const slugFromLabel = displayLabel
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-
-  const datasetId = id || slugFromLabel || `dataset-${Date.now()}`;
-
-  const existingIndex = datasets.findIndex(d => d.id === datasetId);
-
-  const newConfig: DatasetConfig = {
-    id: datasetId,
-    displayLabel,
-    fileName,
-    filePath,
-    purpose: purpose || '',
-    columns: Array.isArray(columns) ? columns : [],
-    createdBy: existingIndex >= 0 ? datasets[existingIndex].createdBy : createdBy,
-    updatedAt: now,
-  };
-
-  if (existingIndex >= 0) {
-    datasets[existingIndex] = newConfig;
-  } else {
-    datasets.push(newConfig);
-  }
-
-  await writeDatasets(datasets);
-
-  return NextResponse.json(newConfig);
 }
+
 

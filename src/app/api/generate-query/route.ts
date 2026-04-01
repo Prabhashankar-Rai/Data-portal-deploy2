@@ -5,6 +5,7 @@ import { getDb, saveDb } from '@/lib/json-db';
 import fs from 'fs';
 import path from 'path';
 import NodeCache from 'node-cache';
+import pool from '@/lib/db';
 
 // Global cache for HMR dev environments
 const globalForCache = globalThis as unknown as {
@@ -77,22 +78,28 @@ export async function POST(req: NextRequest) {
 
         const openai = new OpenAI({ apiKey });
 
-        const datasetPath = path.join(process.cwd(), 'data', 'datasets.json');
-        let datasets = [];
+        // Fetch dataset from DB
+        let dataset: any = null;
         try {
-            const raw = fs.readFileSync(datasetPath, 'utf8');
-            datasets = JSON.parse(raw);
+            const res = await pool.query('SELECT * FROM Dataset WHERE dataset_id = $1', [datasetId]);
+            if (res.rows.length > 0) {
+                const row = res.rows[0];
+                dataset = {
+                    id: row.dataset_id,
+                    displayLabel: row.dataset_label,
+                    fileName: row.file_name,
+                    filePath: row.file_path,
+                    purpose: row.purpose,
+                    columns: row.columns_json,
+                    aiEnabled: true // Assuming database datasets are AI enabled by default for this app
+                };
+            }
         } catch (e) {
-            console.error("Error reading datasets", e);
+            console.error("Error reading dataset from DB", e);
         }
 
-        const dataset = datasets.find((d: any) => d.id === datasetId);
         if (!dataset) {
             return NextResponse.json({ error: 'Selected dataset not found.' }, { status: 404 });
-        }
-
-        if (!dataset.aiEnabled) {
-            return NextResponse.json({ error: 'The selected dataset is not enabled for AI queries by the administrator.' }, { status: 403 });
         }
 
         const lastUserMessage = [...messages].reverse().find(m => m.role === 'user')?.content || '';

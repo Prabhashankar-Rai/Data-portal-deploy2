@@ -2,10 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 import * as xlsx from 'xlsx';
 import path from 'path';
-import fs from 'fs';
 import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
-
+import pool from '@/lib/db';
 import NodeCache from 'node-cache';
 
 // Bypass Turbopack static tracing using eval
@@ -15,7 +14,7 @@ const duckdb = eval('require("duckdb")');
 const globalForCache = globalThis as unknown as {
   duckdbChatCache: NodeCache | undefined
 };
-export const chatCache = globalForCache.duckdbChatCache || new NodeCache({ stdTTL: 3600, checkperiod: 120 });
+const chatCache = globalForCache.duckdbChatCache || new NodeCache({ stdTTL: 3600, checkperiod: 120 });
 if (process.env.NODE_ENV !== "production") globalForCache.duckdbChatCache = chatCache;
 
 let cachedContext = '';
@@ -26,7 +25,7 @@ function getKnowledgeBaseContext() {
   try {
     const filePath = path.join(process.cwd(), 'public', 'data-download', 'PIB Knowledge Bank.xlsx');
 
-    if (!fs.existsSync(filePath)) {
+    if (!nodeFs.existsSync(filePath)) {
       console.error('Excel file not found at:', filePath);
       return '';
     }
@@ -39,10 +38,8 @@ function getKnowledgeBaseContext() {
     if (pibSheet) {
       const dashboards = xlsx.utils.sheet_to_json<any>(pibSheet, { raw: false });
 
-      // Deduplicate to save massive ammounts of tokens
       const uniqueItems = new Map<string, any>();
       dashboards.forEach(row => {
-        // Add Dashboard
         const dashName = row['Dashboard Name'];
         const dashUrl = row['Dashboard URL'];
         const dashDesc = row['Dashboard Description'];
@@ -50,7 +47,6 @@ function getKnowledgeBaseContext() {
           uniqueItems.set(dashName, { name: dashName, url: dashUrl, desc: dashDesc, type: 'Dashboard' });
         }
 
-        // Add View
         const viewNameKey = Object.keys(row).find(k => k.startsWith('View Name'));
         const viewName = viewNameKey ? row[viewNameKey] : null;
         const viewUrl = row['View URL'];
@@ -85,8 +81,6 @@ function getKnowledgeBaseContext() {
     return '';
   }
 }
-
-// Ensure DuckDB instance is ready
 
 async function getUserAccessFilters() {
   const cookieStore = await cookies();
@@ -132,9 +126,14 @@ function buildDuckDBViewQuery(filters: any[], csvPath: string): string {
   return query;
 }
 
+import { getWorkingDatasetPath } from '@/lib/dataset-utils';
+import { promises as fs } from 'fs';
+import * as nodeFs from 'fs';
+
 export async function POST(req: NextRequest) {
   let db: any = null;
   let conn: any = null;
+  let workingPath: string | null = null;
   try {
     const { messages, datasetId } = await req.json();
 
@@ -173,24 +172,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ...cachedPayload, cached: true });
     }
 
-    const datasetPath = path.join(process.cwd(), 'data', 'datasets.json');
-    let datasets = [];
+    // Use utility to get the working path (supports DB-backed CSVs)
+    let dataset: any = null; 
     try {
-      const raw = fs.readFileSync(datasetPath, 'utf8');
-      datasets = JSON.parse(raw);
-    } catch (e) {
-      console.error("Error reading datasets", e);
-    }
-
-    const dataset = datasets.find((d: any) => d.id === datasetId);
-    if (!dataset) {
-      return NextResponse.json({ error: 'Selected dataset not found.' }, { status: 404 });
-    }
-
-    // Support either absolute file paths or building from process.cwd()
-    let resolvedCsvPath = dataset.filePath;
-    if (!path.isAbsolute(resolvedCsvPath)) {
-      resolvedCsvPath = path.join(process.cwd(), 'public', 'data-download', path.basename(resolvedCsvPath));
+      workingPath = await getWorkingDatasetPath(datasetId);
+      // We still need the dataset metadata for column info later
+      const dsRes = await pool.query('SELECT columns_json FROM Dataset WHERE dataset_id = $1', [datasetId]);
+      dataset = { columns: dsRes.rows[0]?.columns_json || [] };
+    } catch (e: any) {
+      return NextResponse.json({ error: e.message || 'Dataset not found.' }, { status: 404 });
     }
 
     const openai = new OpenAI({ apiKey });
@@ -207,8 +197,8 @@ export async function POST(req: NextRequest) {
     try {
       const metricsPath = path.join(process.cwd(), 'data', 'ai-metrics.json');
       const normPath = path.join(process.cwd(), 'data', 'ai-column-aliases.json');
-      activeMetrics = JSON.parse(fs.readFileSync(metricsPath, 'utf8'));
-      const normalizations = JSON.parse(fs.readFileSync(normPath, 'utf8'));
+      activeMetrics = JSON.parse(nodeFs.readFileSync(metricsPath, 'utf8'));
+      const normalizations = JSON.parse(nodeFs.readFileSync(normPath, 'utf8'));
 
       metricRules = activeMetrics.map((m: any) => {
         let parsedFormula = m.formula;
@@ -230,16 +220,14 @@ export async function POST(req: NextRequest) {
       console.warn('Could not load metric definitions or aliases');
     }
 
-    // Prepare Schema context mapping
     let columnList = 'unknown';
     if (dataset.columns) {
       const availableCols = dataset.columns.filter((c: any) => !c.aiRestricted);
       columnList = availableCols.map((c: any) => `${c.name}${c.description ? ` (${c.description})` : ''}`).join(', ');
     }
 
-    // Create a secure view
     const viewName = 'insurance_data_filtered';
-    const viewQuery = buildDuckDBViewQuery(filters, resolvedCsvPath);
+    const viewQuery = buildDuckDBViewQuery(filters, workingPath || '');
     await runQuery(`CREATE OR REPLACE VIEW ${viewName} AS ${viewQuery}`);
 
     const systemPrompt = `You are a helpful and professional enterprise AI assistant for a data portal, with strong SQL reasoning skills.
@@ -272,10 +260,10 @@ ${metricRules}
 
 ---
 ### ANALYTICS & DATA QUERIES
-If the user asks an analytics or data query (e.g., "What is the total?", "Top 5 rows", "Compare data for 2024 vs 2025"), you MUST call the \`run_analytics_query\` function to execute SQL against the database. 
+If the user asks an analytics or data query (e.g., "What is the total?", "Top 5 rows", "Compare data for 2024 vs 2025"), you MUST call the 'run_analytics_query' function to execute SQL against the database. 
 DO NOT try to answer data questions without calling the function.
 
-The data is available in a view named: \`${viewName}\`
+The data is available in a view named: '${viewName}'
 Columns available in the dataset schema:
 ${columnList}
 
@@ -284,13 +272,14 @@ If a metric formula uses columns that are completely absent from this list, they
 CRITICAL SQL RULES FOR DUCKDB:
 1. ALWAYS use the required dataset view. EVERY query MUST contain a FROM clause.
 2. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
-3. NEVER write a generic SELECT without joining to the required dataset view. Avoid SELECT SUM minus SUM without FROM.5. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
-6. Always GROUP BY selected columns.
-7. DATA FILTERING rules apply only to agent queries.
-8. ALWAYS sort results using aggregated metrics.
-9. Avoid negative or zero divisor values.
-10. Use conditional aggregation for year comparisons.
-11. Include numerator and denominator columns for ratios.
+3. NEVER write a generic SELECT without joining to the required dataset view. Avoid SELECT SUM minus SUM without FROM.
+4. Always GROUP BY selected columns.
+5. DATA FILTERING rules apply only to agent queries.
+6. ALWAYS sort results using aggregated metrics.
+7. Avoid negative or zero divisor values.
+8. Use conditional aggregation for year comparisons.
+9. Include numerator and denominator columns for ratios.
+10. MONTH abbreviation formatting: Use strftime(date_column, '%b') instead of TO_CHAR.
 `;
 
     const runAnalyticsQuery = {
@@ -344,7 +333,6 @@ CRITICAL SQL RULES FOR DUCKDB:
         });
       }
 
-      // Generate short narration
       const narrationPrompt =
         "Provide a VERY CONCISE analytics insight (2-3 lines max) based on the user's question and this resulting data sample (top 5 rows): " +
         JSON.stringify(df.slice(0, 5)) +
@@ -352,33 +340,19 @@ CRITICAL SQL RULES FOR DUCKDB:
         messages[messages.length - 1].content +
         ". Write ONLY 2-3 business-focused lines. Be direct. DO NOT convert formatting. If it is a ratio, output a raw percentage (e.g. 91%), DO NOT prefix with RM or $ currency as ratios are not financial absolutes.";
 
-
-
-      // Generate short narration
       let insights = "Here is the data you requested.";
       let narrationUsage = { total_tokens: 0 };
 
       try {
         const narrationResponse = await openai.chat.completions.create({
           model: "gpt-4o-mini",
-          messages: [
-            {
-              role: "user",
-              content: narrationPrompt
-            }
-          ],
+          messages: [{ role: "user", content: narrationPrompt }],
           max_tokens: 120,
           temperature: 0.3
         });
 
-        insights =
-          narrationResponse.choices?.[0]?.message?.content ||
-          insights;
-
-        narrationUsage =
-          narrationResponse.usage ||
-          narrationUsage;
-
+        insights = narrationResponse.choices?.[0]?.message?.content || insights;
+        narrationUsage = narrationResponse.usage || narrationUsage;
       } catch (e) {
         console.error("Narration generation error:", e);
       }
@@ -400,7 +374,6 @@ CRITICAL SQL RULES FOR DUCKDB:
       return NextResponse.json(payload);
     }
 
-    // Normal text response
     const textPayload = {
       role: 'assistant',
       content: responseMessage.content || "I am unable to assist with that.",
@@ -414,19 +387,13 @@ CRITICAL SQL RULES FOR DUCKDB:
     console.error('AI Chat Error:', error);
     return NextResponse.json({ error: error.message || 'Failed to process AI request' }, { status: 500 });
   } finally {
-    if (conn) {
+    if (conn) try { conn.close(); } catch (e) { }
+    if (db) try { db.close(); } catch (e) { }
+    if (workingPath && workingPath.includes('dataset-')) {
       try {
-        conn.close();
-      } catch (e) {
-        console.error("Error closing DuckDB conn", e);
-      }
-    }
-    if (db) {
-      try {
-        db.close();
-      } catch (e) {
-        console.error("Error closing DuckDB database", e);
-      }
+        await fs.unlink(workingPath);
+        console.log(`[AIChat] Cleaned up temp file: ${workingPath}`);
+      } catch (e) { }
     }
   }
 }
