@@ -25,7 +25,11 @@ export async function middleware(req: NextRequest) {
 
       let detailedDescription = "";
       
-      if (isApiAction && req.method !== "DELETE" && !isLogin && req.headers.get("content-type")?.includes("application/json")) {
+    const contentType = req.headers.get("content-type") || "";
+    const isJson = contentType.includes("application/json");
+    const isMultipart = contentType.includes("multipart/form-data");
+    
+    if (isApiAction && req.method !== "DELETE" && !isLogin && isJson && !isMultipart) {
         try {
           const body = await req.clone().json();
           if (pathname === "/api/module-access") {

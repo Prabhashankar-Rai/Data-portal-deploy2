@@ -136,11 +136,15 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ...cachedPayload, cached: true });
     }
 
-    // Get or create the PostgreSQL table for this dataset
+    // Get or create the PostgreSQL table and associated pool for this dataset
     let tableName: string;
+    let dsPool: any;
     let dataset: any = null;
     try {
-      tableName = await getWorkingDatasetTable(datasetId);
+      const result = await getWorkingDatasetTable(datasetId);
+      tableName = result.tableName;
+      dsPool = result.pool;
+      
       const dsRes = await pool.query('SELECT columns_json FROM Dataset WHERE dataset_id = $1', [datasetId]);
       dataset = { columns: dsRes.rows[0]?.columns_json || [] };
     } catch (e: any) {
@@ -280,8 +284,8 @@ CRITICAL SQL RULES FOR POSTGRESQL:
       let df: any[] = [];
       let error = null;
       try {
-        console.log("Executing AI PostgreSQL SQL:", sql_query);
-        const res = await pool.query(sql_query);
+        console.log("Executing AI PostgreSQL SQL on selected pool:", sql_query);
+        const res = await dsPool.query(sql_query);
         df = res.rows;
       } catch (e: any) {
         console.error("SQL Error:", e);

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 import { cookies } from 'next/headers';
-import pool from '@/lib/db';
 import { getWorkingDatasetTable } from '@/lib/dataset-utils';
 
 export async function POST(req: NextRequest) {
@@ -23,10 +22,13 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
         }
 
-        // Get or create the PostgreSQL table for this dataset
+        // Get or create the PostgreSQL table and associated pool for this dataset
         let tableName: string;
+        let dsPool: any; // Use the pool returned by the utility
         try {
-            tableName = await getWorkingDatasetTable(datasetId);
+            const result = await getWorkingDatasetTable(datasetId);
+            tableName = result.tableName;
+            dsPool = result.pool;
         } catch (e: any) {
             return NextResponse.json({ error: e.message || 'Dataset synchronization failed' }, { status: 500 });
         }
@@ -37,11 +39,11 @@ export async function POST(req: NextRequest) {
         // The table name is quoted to handle any PostgreSQL-specific case sensitivity
         let finalQuery = sql_query.replace(/dataset_view/gi, `"${tableName}"`);
 
-        // Execute SQL on PostgreSQL
+        // Execute SQL on the correct PostgreSQL pool
         let df: any[] = [];
         try {
-            console.log("Executing PostgreSQL SQL:", finalQuery);
-            const res = await pool.query(finalQuery);
+            console.log("Executing PostgreSQL SQL on selected pool:", finalQuery);
+            const res = await dsPool.query(finalQuery);
             df = res.rows;
         } catch (e: any) {
             console.error("PostgreSQL Query Error:", e);

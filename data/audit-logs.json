@@ -51367,5 +51367,2905 @@
     "details": {
       "method": "GET"
     }
+  },
+  {
+    "id": "873d0024-d212-483a-ba9b-d0f1835151be",
+    "timestamp": "2026-04-02T08:35:38.072Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a1d7d811-ed56-4660-a11a-8be7ea228633",
+    "timestamp": "2026-04-02T08:37:28.464Z",
+    "userRole": "ADMIN",
+    "action": "logout"
+  },
+  {
+    "id": "405417f0-1ada-4d34-987c-c9f9aaceb1b0",
+    "timestamp": "2026-04-02T08:37:29.913Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signout",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "625f49a3-3a91-4e90-b6c4-a91612353b89",
+    "timestamp": "2026-04-02T08:40:34.818Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dd742736-4252-4015-a39d-ce73af32a651",
+    "timestamp": "2026-04-02T08:40:34.915Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "569df5e7-e235-4f87-95dd-7d11ae562227",
+    "timestamp": "2026-04-02T08:40:37.480Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "06a27539-eeeb-4427-a492-375a25fabaa5",
+    "timestamp": "2026-04-02T08:40:59.098Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c71f0719-3169-466f-81f7-a18478d11b4f",
+    "timestamp": "2026-04-02T08:40:59.196Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dc4ea187-18e7-4d5a-92b2-2b1cb1e66016",
+    "timestamp": "2026-04-02T08:41:03.163Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "ca5be59b-18d4-4367-8fa1-33c38e3c1a7e",
+    "timestamp": "2026-04-02T08:43:26.016Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2461a3f5-a06a-42c1-9c14-3caa64a94a4d",
+    "timestamp": "2026-04-02T08:43:26.092Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b87ccb5d-2de8-435f-bf9e-b52a8f4c0b32",
+    "timestamp": "2026-04-02T08:43:30.336Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "f1270780-02cf-42ca-b518-b5ce8ba43ed7",
+    "timestamp": "2026-04-02T08:43:31.088Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "407fd091-6b7e-4a27-b0bd-d354de3b5c51",
+    "timestamp": "2026-04-02T08:43:34.882Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "43505766-e758-46ae-bc56-8954d8c2b073",
+    "timestamp": "2026-04-02T08:43:35.192Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4deb39ea-a8b6-4341-bcca-a6e175f9e939",
+    "timestamp": "2026-04-02T08:43:37.433Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a72cdab6-53cb-43e3-85f7-2f933b57e2ac",
+    "timestamp": "2026-04-02T08:50:22.435Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "fbb1e3e1-9057-4da3-b663-f562049d4cca",
+    "timestamp": "2026-04-02T08:50:23.232Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d0283c15-ae3d-440c-8715-d9dba44076a9",
+    "timestamp": "2026-04-02T08:51:23.847Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b8f7f8f7-9007-4e1e-8390-5fba0d2d2631",
+    "timestamp": "2026-04-02T08:51:23.897Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ec4666d7-af1c-422d-b481-d0b1c4abfd86",
+    "timestamp": "2026-04-02T08:51:26.326Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "0f6ffbd2-cbd5-42e9-b266-07b0b1ab5d75",
+    "timestamp": "2026-04-02T08:51:27.175Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "463c9acf-9969-49e1-bb2d-d7583a1107f5",
+    "timestamp": "2026-04-02T09:04:34.583Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cf9f3064-3ed7-40c8-a263-b5fee42f3345",
+    "timestamp": "2026-04-02T09:04:38.780Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8db20560-3443-4a25-992f-a642288928c8",
+    "timestamp": "2026-04-02T09:04:45.760Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9f9bd7a9-266f-4df2-b867-8fb6ed11bce9",
+    "timestamp": "2026-04-02T09:04:45.816Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "06c377b8-6f34-46e7-ac04-a749c15ccbc4",
+    "timestamp": "2026-04-02T09:04:48.130Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "e4f08b21-4ec3-4c46-b28d-0ac7e9cfba27",
+    "timestamp": "2026-04-02T09:04:53.163Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "509c70ba-456b-490e-8816-8d685c35a517",
+    "timestamp": "2026-04-02T09:04:55.878Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5ce4fd45-6872-4f43-b823-b480e8331306",
+    "timestamp": "2026-04-02T09:05:01.233Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d16a81fe-d72a-43bf-9f15-8d58664e3c9e",
+    "timestamp": "2026-04-02T09:05:20.979Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "1c27f6be-bc91-4673-8e90-fc8de31f28c2",
+    "timestamp": "2026-04-02T09:06:41.362Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "7913f890-564d-4371-8532-1a8e4d5fdef6",
+    "timestamp": "2026-04-02T09:06:41.616Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1799599d-fd5c-414c-b0d7-dbc684d1f743",
+    "timestamp": "2026-04-02T09:06:41.673Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6162ac41-7c8d-45d1-bd91-ced63829d552",
+    "timestamp": "2026-04-02T09:06:41.747Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1749fad9-747f-4ce0-92dc-6d586cc4189c",
+    "timestamp": "2026-04-02T09:06:41.803Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5cb82969-2fb2-4afe-8d11-b8366c947b22",
+    "timestamp": "2026-04-02T09:06:41.878Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ede7bb10-fd0d-480c-b803-4a5e8014ef74",
+    "timestamp": "2026-04-02T09:06:41.983Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "7411228a-fafe-4da3-8da4-282e416c9aba",
+    "timestamp": "2026-04-02T09:06:42.043Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "81904661-c383-4f0d-81cd-22f2905ad028",
+    "timestamp": "2026-04-02T09:06:42.105Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9431d7d9-1ed8-4a2b-8728-6f45cb6277d5",
+    "timestamp": "2026-04-02T09:06:42.171Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c5d2aafc-b3cc-4522-abdf-eab54c303609",
+    "timestamp": "2026-04-02T09:06:42.238Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dbd0964f-44da-42d5-9e77-4262618d53c5",
+    "timestamp": "2026-04-02T09:06:42.313Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "72c9165f-d7d4-4648-b5c4-9a0742c55acf",
+    "timestamp": "2026-04-02T09:06:42.392Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1ad34d26-6359-4e7f-991a-d1e9d6080887",
+    "timestamp": "2026-04-02T09:06:42.495Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "070f8ccf-589b-44eb-9784-b124a519e566",
+    "timestamp": "2026-04-02T09:06:42.749Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d5bb2831-e2a5-49b9-b451-7690c5091fc9",
+    "timestamp": "2026-04-02T09:06:42.853Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e68324ae-db10-49bd-82da-ec65fb372bbb",
+    "timestamp": "2026-04-02T09:06:42.908Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ad1de668-33b9-4f95-acc3-f3b257d31d5a",
+    "timestamp": "2026-04-02T09:06:42.971Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "18362bbc-eb3d-4c1c-aa92-bef1f588286d",
+    "timestamp": "2026-04-02T09:06:43.074Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "f05dbaff-9f45-4d02-9dc1-2989b6086730",
+    "timestamp": "2026-04-02T09:06:43.141Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8683f1d6-7d4b-4daa-a182-018da5303a22",
+    "timestamp": "2026-04-02T09:06:43.228Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "46074984-8c39-4458-96c1-eabc99ef11db",
+    "timestamp": "2026-04-02T09:06:43.302Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5643a183-3516-440c-abed-e4d1e8a3ad67",
+    "timestamp": "2026-04-02T09:06:43.351Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9f24cd0c-0228-4377-8570-cdf9bb5270b0",
+    "timestamp": "2026-04-02T09:06:43.422Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cef3f1dc-f9ba-45c9-bc98-f53e9dff2940",
+    "timestamp": "2026-04-02T09:06:43.477Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cd4c3357-2f6d-4bbf-a90d-db11cc9876a3",
+    "timestamp": "2026-04-02T09:06:43.539Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e83186c3-30f6-48a2-87f6-f0021c37014e",
+    "timestamp": "2026-04-02T09:06:43.596Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ba920e8d-17a4-44d8-bfbe-1125239a0670",
+    "timestamp": "2026-04-02T09:06:43.657Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8853fbaa-e11a-449a-8966-0e8308a959aa",
+    "timestamp": "2026-04-02T09:06:43.757Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "fd6206c1-8bf4-458c-a348-2199e09448ee",
+    "timestamp": "2026-04-02T09:06:43.817Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a59d75af-3d4d-4cf8-8c46-48badc2294f1",
+    "timestamp": "2026-04-02T09:06:43.874Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1c02246c-a14e-4499-9624-50116e74b9d8",
+    "timestamp": "2026-04-02T09:06:43.995Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "411fc5bf-50b1-43ba-9205-378a7ced9c62",
+    "timestamp": "2026-04-02T09:06:44.120Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "948ad041-195a-4126-b184-e46a98e01591",
+    "timestamp": "2026-04-02T09:06:44.186Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "03bbde27-83ef-46e8-b3eb-489c312c012d",
+    "timestamp": "2026-04-02T09:06:44.249Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8632aa2c-29b3-42e5-b1e8-58fd53ca7ae0",
+    "timestamp": "2026-04-02T09:06:44.308Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "09a8a2b2-54ee-4398-8d56-632453c9de77",
+    "timestamp": "2026-04-02T09:06:44.417Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "779f9118-13a6-4f4f-a5b5-c39256ef44a1",
+    "timestamp": "2026-04-02T09:06:44.475Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2d30de96-4823-482b-aed6-5dd51c4edcb9",
+    "timestamp": "2026-04-02T09:06:44.538Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b1d60ae7-12e1-4ea2-93c7-e03853f889f6",
+    "timestamp": "2026-04-02T09:06:44.594Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "91be4e17-a11f-4a0b-9a01-7ed0e4d99af4",
+    "timestamp": "2026-04-02T09:06:44.653Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "48abb07a-a21e-4871-ab08-2bc6356f5409",
+    "timestamp": "2026-04-02T09:06:44.766Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "98b14d15-e8be-4892-b365-44c6e37aa633",
+    "timestamp": "2026-04-02T09:06:44.819Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d096e9db-c8f8-40cd-832f-237108350086",
+    "timestamp": "2026-04-02T09:06:44.886Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d3d1bf9b-afbe-4fb5-be10-d9e2d275e37a",
+    "timestamp": "2026-04-02T09:06:44.940Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "70cb2435-e542-472d-92f4-99036d176b7d",
+    "timestamp": "2026-04-02T09:06:45.007Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "495f2395-9fcd-4d32-9af4-e0ff9a1e1860",
+    "timestamp": "2026-04-02T09:06:45.111Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "0ace4a8f-c699-4707-90d6-6920613dc7d1",
+    "timestamp": "2026-04-02T09:06:45.179Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "32f406cf-4ffb-4956-9cdc-d730c0b180b4",
+    "timestamp": "2026-04-02T09:06:45.253Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "448ab7b1-9764-4e10-8a6e-02c38cff8419",
+    "timestamp": "2026-04-02T09:06:45.322Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8185b638-e2dc-4835-b5e8-4943614124e1",
+    "timestamp": "2026-04-02T09:06:45.377Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8a22e481-b196-4443-83a5-d000b875e111",
+    "timestamp": "2026-04-02T09:06:45.484Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d965faf8-0a0d-4b35-8b70-3f31df1d7afc",
+    "timestamp": "2026-04-02T09:06:45.562Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "65fa5205-7a29-4e35-b937-2fe1cf298601",
+    "timestamp": "2026-04-02T09:06:45.625Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ec42da6a-a5c1-42e6-bba9-69025f66bb71",
+    "timestamp": "2026-04-02T09:06:45.693Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b9031299-0e63-4386-81d5-bd2ec0659d1e",
+    "timestamp": "2026-04-02T09:06:45.770Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ef47aa80-2c96-4255-aa3d-bafc8600a3ad",
+    "timestamp": "2026-04-02T09:06:45.833Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "147dfd75-7c8c-493e-b0e8-fa3936430a9d",
+    "timestamp": "2026-04-02T09:06:45.891Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "71bdb32a-22cd-4ea7-8349-e0218bb6499c",
+    "timestamp": "2026-04-02T09:06:45.946Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "82c88de9-091b-4d78-b848-80c3d32a38cf",
+    "timestamp": "2026-04-02T09:06:46.005Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "372482e4-3ef4-4c6c-a378-07af580bbc1f",
+    "timestamp": "2026-04-02T09:06:46.063Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e9eb3ee9-a108-4cf8-b5c6-ed43d51a1545",
+    "timestamp": "2026-04-02T09:06:46.125Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c9acd537-7b39-461a-aded-f0ae58f8f3a1",
+    "timestamp": "2026-04-02T09:06:46.236Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "288b6739-b3ba-462a-89e2-7034ebb92fdb",
+    "timestamp": "2026-04-02T09:06:46.306Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "48e1d4d5-7425-4b82-8bf8-8702864119a0",
+    "timestamp": "2026-04-02T09:06:46.376Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "51340219-bf2d-4148-a320-ee826a38685c",
+    "timestamp": "2026-04-02T09:06:46.430Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9823d791-6806-4740-a829-e43fcfbcdb92",
+    "timestamp": "2026-04-02T09:06:46.499Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d1648cdc-a27c-47e1-b1a5-135a9af3edf0",
+    "timestamp": "2026-04-02T09:06:46.598Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3ceea575-71d4-4f24-a1d0-01b24c171b00",
+    "timestamp": "2026-04-02T09:06:46.652Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "f24fabc2-157e-454c-8584-759528fba501",
+    "timestamp": "2026-04-02T09:06:46.722Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "47e04769-9bf5-4025-9408-55597a497d7f",
+    "timestamp": "2026-04-02T09:06:46.779Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6fb842ee-74ba-4b19-8836-42d2acb12112",
+    "timestamp": "2026-04-02T09:06:46.840Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4be6f71f-e1be-4826-b0bd-74c1b35d0d04",
+    "timestamp": "2026-04-02T09:06:46.897Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cf3d796b-0959-45f6-b226-334bb1c31a5f",
+    "timestamp": "2026-04-02T09:06:46.967Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1d471bd5-97c6-4ea8-a6b9-66d3d6ca79ad",
+    "timestamp": "2026-04-02T09:06:47.023Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2c1ec3c8-01f5-4c1d-96b9-86a8a96fe3a2",
+    "timestamp": "2026-04-02T09:06:47.088Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3090d8e1-ea57-4e01-a664-185a999a6225",
+    "timestamp": "2026-04-02T09:06:47.146Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a25091f6-49c9-4acf-844d-2686226ec38e",
+    "timestamp": "2026-04-02T09:06:47.203Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "fa01fd59-f6d2-485e-9506-297f8df2514d",
+    "timestamp": "2026-04-02T09:06:47.261Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dfa896d1-8e18-4e95-992f-70afad759a1c",
+    "timestamp": "2026-04-02T09:06:47.324Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "30c2e4d3-07dd-4ff6-85ba-b7bd1ee398ae",
+    "timestamp": "2026-04-02T09:06:47.426Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8c1909eb-dafb-4862-aab8-449631fa36d2",
+    "timestamp": "2026-04-02T09:06:47.493Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5bf291ea-3f6f-436a-880f-18ca6e2b0639",
+    "timestamp": "2026-04-02T09:06:47.550Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "c13691ac-964c-4919-8f8e-498b581dc095",
+    "timestamp": "2026-04-02T09:06:47.601Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6f19a0a1-8e99-4287-8a8d-4b71555cd2f9",
+    "timestamp": "2026-04-02T09:06:47.664Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "f30e9593-ee62-4dcd-977c-4f1a9a8e8a79",
+    "timestamp": "2026-04-02T09:06:47.724Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1140ba64-7b98-4e8b-8c51-b0e2eef7825c",
+    "timestamp": "2026-04-02T09:06:47.785Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "447c66c8-c89b-4d04-ae03-7ea6d66e6736",
+    "timestamp": "2026-04-02T09:06:47.836Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3260b910-ed18-462f-8789-eecb0445d227",
+    "timestamp": "2026-04-02T09:06:47.909Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "225102a5-8352-4615-9801-70f1930baf0c",
+    "timestamp": "2026-04-02T09:06:47.964Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a074f8d9-5942-4303-8740-2a38cf9f9dd1",
+    "timestamp": "2026-04-02T09:09:42.544Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5211d4e3-228e-4a70-9bc5-9d2006d89fef",
+    "timestamp": "2026-04-02T09:09:42.583Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "PAGE_VISIT",
+    "page": "/login",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6a876342-e551-4a72-980f-ee4f89e4ec64",
+    "timestamp": "2026-04-02T09:09:44.543Z",
+    "userRole": "SYSTEM",
+    "username": "Unknown",
+    "action": "API POST",
+    "page": "/api/auth/signin/azure-ad",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "cef6e11f-992b-42bd-8c3c-de1d893919bb",
+    "timestamp": "2026-04-02T09:10:00.709Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e720c772-10d9-457e-9602-f7195770f4e7",
+    "timestamp": "2026-04-02T09:10:02.464Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5c88a3e8-a2a9-4434-9217-526fbe813fef",
+    "timestamp": "2026-04-02T09:10:04.430Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "519dd34b-69d0-4b6b-a2dc-f8d148747de4",
+    "timestamp": "2026-04-02T09:11:06.517Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9a1c161e-b62d-4094-b055-f8e6bd1cc517",
+    "timestamp": "2026-04-02T09:11:07.629Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "60dd2e50-e4d9-46e9-a4b7-ade39c7bf67f",
+    "timestamp": "2026-04-02T09:11:10.346Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6c3d103b-ea97-47b4-849b-3eaf8692bf16",
+    "timestamp": "2026-04-02T09:11:10.632Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "7a3364c5-c435-454f-aa8a-8c0f3ed5586f",
+    "timestamp": "2026-04-02T09:11:10.966Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "719cf1c1-ee1f-4dba-b1da-ee001cc51d07",
+    "timestamp": "2026-04-02T09:11:10.998Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "1ef688e7-5e42-47e0-8c10-805e1c4a29a3",
+    "timestamp": "2026-04-02T09:11:21.951Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cc1c2fe6-b685-4890-b2fb-3bda4346ec06",
+    "timestamp": "2026-04-02T09:11:24.685Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4de41a44-6b09-4e8f-83d3-f6982828fd27",
+    "timestamp": "2026-04-02T09:12:09.538Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1463bf80-7da0-46bc-b082-f95fede4b1a9",
+    "timestamp": "2026-04-02T09:15:30.595Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "9eb29a77-4645-49f0-9f7c-84337d286ffb",
+    "timestamp": "2026-04-02T09:19:15.613Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "8c7b72d2-2be5-4501-8c2d-12a0502a2158",
+    "timestamp": "2026-04-02T09:21:48.865Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "fffabdc7-2ad2-4709-a7b1-556003c97264",
+    "timestamp": "2026-04-02T09:21:56.068Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "44bf9f28-08cb-498a-9269-8862620e4288",
+    "timestamp": "2026-04-02T09:22:40.371Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "dce35c3b-fced-4084-bc7d-fd012ade0cc5",
+    "timestamp": "2026-04-02T09:23:06.022Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "74d90ee7-77ba-4251-abb5-00182ecfb639",
+    "timestamp": "2026-04-02T09:23:26.560Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "3bd0e634-eee5-48eb-93dd-2362c1854adb",
+    "timestamp": "2026-04-02T09:26:12.049Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "a5d99d9d-c62b-4ad3-a55a-cdb5b1b20ea4",
+    "timestamp": "2026-04-02T09:26:41.124Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "5466bbbd-8d83-48d9-8d3c-fb12b04f53de",
+    "timestamp": "2026-04-02T09:27:02.102Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "80a9c2a4-a475-43d8-a4dd-837ddab57b3a",
+    "timestamp": "2026-04-02T09:27:35.669Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ec6932c9-f783-459d-822a-b83f3b97d61e",
+    "timestamp": "2026-04-02T09:28:04.503Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "65e784e4-9cd6-4de8-b71d-6eba3cbb38a1",
+    "timestamp": "2026-04-02T09:28:24.821Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4e9a26dd-7ca3-45f5-a8bf-c13c335ab846",
+    "timestamp": "2026-04-02T09:28:38.480Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "15f5ffb7-a685-47de-a426-3213fb481445",
+    "timestamp": "2026-04-02T09:29:16.400Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "91c4fd2e-5531-40de-9a5d-6ea7b63fd273",
+    "timestamp": "2026-04-02T09:30:41.210Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "e47b8391-0564-4d20-bedc-12825531d772",
+    "timestamp": "2026-04-02T09:31:06.858Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "2965a4d6-ecdb-47ea-87fd-cc708241ebe2",
+    "timestamp": "2026-04-02T09:32:46.191Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "d9e125c8-7cde-4640-8eb0-cef861583019",
+    "timestamp": "2026-04-02T09:33:10.666Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "68290d53-6ac7-4952-bcdf-005cf915b216",
+    "timestamp": "2026-04-02T09:35:48.105Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1412f57a-cc8f-48fe-a100-3a5c0d75e540",
+    "timestamp": "2026-04-02T09:35:57.243Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "6bd08e96-af0b-4d57-9a30-8af8ecaa63d6",
+    "timestamp": "2026-04-02T09:35:58.108Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "fc359d55-c060-431f-96ac-775462645033",
+    "timestamp": "2026-04-02T09:36:06.593Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "63f85cfb-fc81-47f0-be70-13295b385727",
+    "timestamp": "2026-04-02T09:40:11.089Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "4a1b641a-e15b-4f3c-b688-ae296077ce77",
+    "timestamp": "2026-04-02T09:40:29.616Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "fd77da6c-91a1-422a-a297-732681c4c073",
+    "timestamp": "2026-04-02T09:46:20.027Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "cc5a449e-71a5-4d7f-b3cd-2da6677a81ff",
+    "timestamp": "2026-04-02T09:46:50.769Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "474740fa-7cd3-4b4e-bf92-fc3f67e70221",
+    "timestamp": "2026-04-02T09:46:51.114Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "0f9731eb-8a98-4f9e-91cc-f653021cf296",
+    "timestamp": "2026-04-02T09:46:51.167Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "ec8e323d-bd1f-4967-aa2c-cada7126e451",
+    "timestamp": "2026-04-02T09:46:58.108Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d6a60ff0-fa02-4d5d-9767-979b29e797be",
+    "timestamp": "2026-04-02T09:46:59.102Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "a2d8aa3e-7ab8-4040-8bf5-b4736db7dc1f",
+    "timestamp": "2026-04-02T09:46:59.143Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "db0ba928-1c37-46e4-b8f2-a2e8a4821030",
+    "timestamp": "2026-04-02T09:47:00.934Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "18bf2a48-86ee-4789-abfa-fe6289ee8674",
+    "timestamp": "2026-04-02T09:47:03.296Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "7799f336-0fb0-44de-a77d-e3e21d3d53fd",
+    "timestamp": "2026-04-02T09:47:28.381Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "37cde1bc-8882-4cf2-94ac-f8ecd96b4ef5",
+    "timestamp": "2026-04-02T09:47:55.316Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "3ec5679a-f12e-4a85-87fa-576e233155d5",
+    "timestamp": "2026-04-02T09:50:38.325Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "dcab683a-a625-40b1-b40d-c989894c7941",
+    "timestamp": "2026-04-02T09:51:02.025Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "3d68fd9e-7cea-4c99-a881-ecf170008a35",
+    "timestamp": "2026-04-02T09:51:23.095Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/dashboard",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "2325b44d-ea25-4f8a-999e-00cc079c3eb5",
+    "timestamp": "2026-04-02T09:51:36.856Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e5caa37c-a257-46ee-b7a3-9cdd8717a8c6",
+    "timestamp": "2026-04-02T09:51:37.328Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "bde76c35-3bdb-4682-9802-8274621facac",
+    "timestamp": "2026-04-02T09:51:43.650Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "1e4be543-fdd5-40b9-912d-5bb1fa0dc619",
+    "timestamp": "2026-04-02T09:51:44.195Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "ad932b4c-9f38-4c76-a958-d08c4ea5a922",
+    "timestamp": "2026-04-02T09:51:52.235Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cbfd58e8-a428-4862-a2f0-100bdc1e32e8",
+    "timestamp": "2026-04-02T09:51:52.893Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "bc8e8311-78e4-499e-9e84-cd53f8aac7fb",
+    "timestamp": "2026-04-02T09:52:31.499Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "bca2cab4-053a-4257-b6e8-85f7adb22f88",
+    "timestamp": "2026-04-02T09:52:36.799Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "e180b271-d978-45e0-803f-d2f7cc397c3c",
+    "timestamp": "2026-04-02T09:52:41.696Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/tableau-dashboards",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "10ee28f6-a910-496b-a85f-5ea2b12a81e7",
+    "timestamp": "2026-04-02T09:52:42.452Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "135d89c6-e081-4894-8ae8-ce5a9bb63ab6",
+    "timestamp": "2026-04-02T09:52:42.480Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "5a0175fe-6bf2-48ae-99bd-a4303de5c98d",
+    "timestamp": "2026-04-02T09:52:42.872Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cb62fcd3-fc2b-45f6-a3f7-c12e28af9eb8",
+    "timestamp": "2026-04-02T09:52:43.005Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "52130464-e48e-484f-874f-59a334cf8ccc",
+    "timestamp": "2026-04-02T09:52:43.042Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "d47a92b9-439d-45fa-91bf-a71b447fdc9f",
+    "timestamp": "2026-04-02T09:52:44.475Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: final-warehouse-dataset)"
+    }
+  },
+  {
+    "id": "6baa6fc5-fc6c-4fbd-bb14-d787b601d46b",
+    "timestamp": "2026-04-02T09:52:50.755Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "dd5fb43d-6f93-489e-81c6-b27201fa5fc2",
+    "timestamp": "2026-04-02T09:53:00.990Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "191d90db-da6f-4d08-b08d-7fd2dead5b60",
+    "timestamp": "2026-04-02T09:53:01.030Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/tableau-dashboards"
+  },
+  {
+    "id": "bc75cf98-95a7-46d5-a276-79dbcd43f699",
+    "timestamp": "2026-04-02T09:53:04.379Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "338d47cf-4437-420a-b097-d996b15d39e0",
+    "timestamp": "2026-04-02T09:53:04.486Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "972f20a4-3f4b-44a3-893a-003ddf1b18e7",
+    "timestamp": "2026-04-02T09:53:04.520Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "94b45a77-f933-4110-a77f-de89b11b78b8",
+    "timestamp": "2026-04-02T09:53:06.374Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/etl-reports",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "f5917b7f-36eb-4d61-9164-5658f393399b",
+    "timestamp": "2026-04-02T09:53:07.128Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "b4dab8eb-d75e-4c68-8e75-ce0ade338020",
+    "timestamp": "2026-04-02T09:53:07.172Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/etl-reports"
+  },
+  {
+    "id": "0f9dd95f-0466-40b5-add1-c995a5352c4c",
+    "timestamp": "2026-04-02T09:53:08.353Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "b4f7cdf8-26d9-4d77-88eb-625b661862ab",
+    "timestamp": "2026-04-02T09:53:10.018Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "0a1269a2-8a3c-4a16-9f85-2bc9e5e8512c",
+    "timestamp": "2026-04-02T09:54:00.278Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "dd3e1bba-5745-4897-9b2e-fb655365f1b0",
+    "timestamp": "2026-04-02T09:54:00.429Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "1abb4b18-c0ef-4b07-bfd5-ca0f5397a3e2",
+    "timestamp": "2026-04-02T09:54:00.469Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "75428673-c72f-441e-bfe0-add61192d01f",
+    "timestamp": "2026-04-02T09:54:24.455Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "e358a04a-465c-4435-a73f-712d921e1f34",
+    "timestamp": "2026-04-02T09:54:30.019Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "d42dc9ed-473e-4471-bbc7-8d4de4399354",
+    "timestamp": "2026-04-02T09:57:58.249Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "d93c9ef1-afdf-41d4-a152-5021e460196b",
+    "timestamp": "2026-04-02T09:57:58.493Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "66bd1b86-a33e-4775-b2f7-0083b5ff186e",
+    "timestamp": "2026-04-02T09:57:58.527Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "22d9da8f-6e4a-48e1-a674-edf137e58a77",
+    "timestamp": "2026-04-02T09:58:02.498Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: final-warehouse-dataset)"
+    }
+  },
+  {
+    "id": "b651fec1-6a1b-4796-a092-90be4b10a2ff",
+    "timestamp": "2026-04-02T09:58:08.249Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "ce346354-d01e-4acc-aaf5-cb4abc38e371",
+    "timestamp": "2026-04-02T09:58:19.321Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ad62146e-0456-4d58-88e8-bf1d37a996ae",
+    "timestamp": "2026-04-02T09:58:52.463Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "500dd2b0-e776-4f4d-96f1-81db28a13963",
+    "timestamp": "2026-04-02T09:59:16.989Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "686ef119-808a-4623-9586-5ae015ba76b9",
+    "timestamp": "2026-04-02T09:59:33.552Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "fefcc715-11f0-4e7c-b9cd-f9e8972786eb",
+    "timestamp": "2026-04-02T09:59:56.493Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "fcd95ad3-1bd6-4c88-b691-fd3eb2cd84e0",
+    "timestamp": "2026-04-02T09:59:57.420Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "21c080a7-860b-4c18-add7-580fd5f8e01c",
+    "timestamp": "2026-04-02T10:00:06.491Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: production-lob-data)"
+    }
+  },
+  {
+    "id": "930e30a2-6190-47be-b2a5-72fafd706d2c",
+    "timestamp": "2026-04-02T10:00:38.538Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "40205476-a87d-4a78-91e6-cbed2cc1202e",
+    "timestamp": "2026-04-02T10:00:59.105Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "5187d97e-f4f5-4e54-aa17-4036882fd218",
+    "timestamp": "2026-04-02T10:00:59.602Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "8e4df0f2-627f-4868-91f4-398925d92d18",
+    "timestamp": "2026-04-02T10:01:06.066Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "9e1242e8-a917-4e1f-a9c6-0164e80d8b1d",
+    "timestamp": "2026-04-02T10:01:07.396Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "6819820e-a4d4-4af6-a171-ac428cf5873f",
+    "timestamp": "2026-04-02T10:01:14.799Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: production-lob-data)"
+    }
+  },
+  {
+    "id": "896f67ff-5e03-4ca0-8568-66818062bcd7",
+    "timestamp": "2026-04-02T10:01:43.996Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "a4025962-aba8-4a27-b308-48870141a9c4",
+    "timestamp": "2026-04-02T10:02:05.148Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "1d6f9ab1-ee11-4ef7-9936-779742420c1e",
+    "timestamp": "2026-04-02T10:02:33.251Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "771f147d-f5f6-407f-a6c0-33cf687816e3",
+    "timestamp": "2026-04-02T10:02:33.588Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "4382614f-1e20-41b0-aace-ad91b43b10de",
+    "timestamp": "2026-04-02T10:02:40.120Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3d8be770-5204-46c4-ac8e-77a8036f9857",
+    "timestamp": "2026-04-02T10:02:40.533Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "77328a8b-b6df-4422-b8d8-82d3482ae86b",
+    "timestamp": "2026-04-02T10:02:49.343Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: final-warehouse-dataset)"
+    }
+  },
+  {
+    "id": "7d34ee85-39bc-42ef-9ea4-533175ff879a",
+    "timestamp": "2026-04-02T10:03:25.129Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "40596dd2-db8d-4238-8b04-b6ef6bc61798",
+    "timestamp": "2026-04-02T10:03:53.997Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8e308273-b9e0-46c1-80ab-cb3269e38b37",
+    "timestamp": "2026-04-02T10:04:18.976Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "d4949baf-94b3-46a7-964c-8a68d744c9d0",
+    "timestamp": "2026-04-02T10:06:21.354Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "4dbdba18-c4a1-46eb-8dcc-a1e64a464e2e",
+    "timestamp": "2026-04-02T10:06:21.810Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "8ce11176-0902-45ba-a88c-1e64305d1732",
+    "timestamp": "2026-04-02T10:06:34.321Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: production-lob-data)"
+    }
+  },
+  {
+    "id": "5edadb86-e14e-4909-a099-88885c98bdc7",
+    "timestamp": "2026-04-02T10:10:29.950Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/production-lob-data/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: production-lob-data)"
+    }
+  },
+  {
+    "id": "b1cf8d88-ca6e-4fbb-aa2e-a34bd0674b87",
+    "timestamp": "2026-04-02T10:10:42.169Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/final-warehouse-dataset/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: final-warehouse-dataset)"
+    }
+  },
+  {
+    "id": "f65894c4-3699-4d12-8617-7abb339267d3",
+    "timestamp": "2026-04-02T10:10:50.597Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "41cea908-361c-47ec-a616-089b9fba4a85",
+    "timestamp": "2026-04-02T10:10:54.531Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "90c19d0d-c275-443e-b154-442b39f31f7b",
+    "timestamp": "2026-04-02T10:12:00.501Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "af619b90-8f4d-4999-a0ab-a958598512b1",
+    "timestamp": "2026-04-02T10:12:03.689Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "82462764-dec0-425f-a5ff-6912e1771c9e",
+    "timestamp": "2026-04-02T10:12:11.425Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "98f9a068-fa39-4cb3-af31-16bdee46de3e",
+    "timestamp": "2026-04-02T10:12:11.533Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "3ca8d964-34ff-40b0-be57-ca833ed1a10f",
+    "timestamp": "2026-04-02T10:12:11.573Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "7f867504-a5dd-4579-94f8-80ed4d4f4b94",
+    "timestamp": "2026-04-02T10:12:13.619Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/new/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: new)"
+    }
+  },
+  {
+    "id": "a7f3af03-1dd1-4dd6-8652-c76ece34d076",
+    "timestamp": "2026-04-02T10:17:04.446Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/new/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: new)"
+    }
+  },
+  {
+    "id": "f420830b-e37a-499c-824a-4f0cce4220e3",
+    "timestamp": "2026-04-02T10:28:00.859Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/new/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "3100b77a-cf66-42ba-9874-42000bcf2867",
+    "timestamp": "2026-04-02T10:28:18.196Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/new/data",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "0645c39f-65d1-409b-a377-4779a50a5f88",
+    "timestamp": "2026-04-02T10:32:32.362Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "a872f22b-d71f-4949-81ef-03016d951303",
+    "timestamp": "2026-04-02T10:32:32.661Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "0600cd41-2abc-48fc-b040-ff7ad193bece",
+    "timestamp": "2026-04-02T10:32:32.695Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "1da56246-b483-4b18-b93e-c11822a08ddc",
+    "timestamp": "2026-04-02T10:32:35.526Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "69a22512-9bc2-474f-9085-d31c3719d050",
+    "timestamp": "2026-04-02T10:32:37.256Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "32077d71-2667-4915-b9fc-46bad8ae051e",
+    "timestamp": "2026-04-02T10:32:40.701Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "cc3b1e85-5819-4822-b652-2561dd44e948",
+    "timestamp": "2026-04-02T10:32:40.887Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "2b4e215e-84d3-4ac9-8fa2-393aeba9384a",
+    "timestamp": "2026-04-02T10:32:40.907Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "2fddee65-4c0d-481a-bd88-97ba2b43c821",
+    "timestamp": "2026-04-02T10:32:43.073Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3fdec642-e197-4395-9c06-129375bcb281",
+    "timestamp": "2026-04-02T10:32:43.676Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "d785c723-bfd1-4ad3-b743-05a4f21e38d4",
+    "timestamp": "2026-04-02T10:32:45.056Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "ff3ff6f8-ae5a-4dab-8c3d-7e0daec4df71",
+    "timestamp": "2026-04-02T10:32:47.816Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "62e074bf-73f6-4c2f-a773-6e230da61959",
+    "timestamp": "2026-04-02T10:33:22.326Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "5d13bf0f-aa2d-4a21-ab51-eb2175a804d3",
+    "timestamp": "2026-04-02T11:40:43.419Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "62d2ca79-c5ad-4736-b542-d49626307115",
+    "timestamp": "2026-04-02T11:41:26.288Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "d3ef49db-a8c4-495c-8b88-d7d6e66cbb1c",
+    "timestamp": "2026-04-02T11:41:48.021Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/admin/datasets",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "e38c3c43-2df0-452b-9bed-fffaae162d9b",
+    "timestamp": "2026-04-02T11:41:55.719Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets/preview-columns",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "2ecb6759-bc3a-4d7b-845f-f32cc53f6aa7",
+    "timestamp": "2026-04-02T11:42:18.115Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API DELETE",
+    "page": "/api/datasets/new",
+    "details": {
+      "method": "DELETE"
+    }
+  },
+  {
+    "id": "bedb13f7-499f-444b-b341-e6abd6e04cb7",
+    "timestamp": "2026-04-02T11:42:28.189Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/datasets",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "c5ace2aa-263a-4887-95a9-0178026f0ca6",
+    "timestamp": "2026-04-02T11:42:39.009Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/download",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "3e76f6da-eb31-4fba-b38e-1e8b337fa638",
+    "timestamp": "2026-04-02T11:42:39.465Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "9f516312-3a86-4a9d-a0a7-71cfe839c9ce",
+    "timestamp": "2026-04-02T11:42:39.561Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/download"
+  },
+  {
+    "id": "ad25c3ae-3cc2-4f69-85a3-8882d7c9e97c",
+    "timestamp": "2026-04-02T11:42:45.001Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "DATA_DOWNLOAD",
+    "page": "/api/datasets/new/data",
+    "details": {
+      "method": "GET",
+      "description": "User downloaded dataset (ID: new)"
+    }
+  },
+  {
+    "id": "b76cd45c-07c6-4069-847e-0f67657b76fe",
+    "timestamp": "2026-04-02T11:43:47.743Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "PAGE_VISIT",
+    "page": "/ai-chat",
+    "details": {
+      "method": "GET"
+    }
+  },
+  {
+    "id": "8aacc78c-8946-431b-a410-200c32cdae64",
+    "timestamp": "2026-04-02T11:43:48.508Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "c746d5ae-765a-42fc-bdf2-bdd989599323",
+    "timestamp": "2026-04-02T11:43:48.576Z",
+    "userRole": "ADMIN",
+    "action": "page_visit",
+    "page": "/ai-chat"
+  },
+  {
+    "id": "7f4533e1-dba6-4744-96d1-27bdaaaa4294",
+    "timestamp": "2026-04-02T11:43:56.586Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/generate-query",
+    "details": {
+      "method": "POST"
+    }
+  },
+  {
+    "id": "ca703749-9a35-49bb-a15a-b43cf0a9e4c4",
+    "timestamp": "2026-04-02T11:44:00.155Z",
+    "userRole": "ADMIN",
+    "username": "Prabhashankar Rai",
+    "action": "API POST",
+    "page": "/api/run-csv-query",
+    "details": {
+      "method": "POST"
+    }
   }
 ]

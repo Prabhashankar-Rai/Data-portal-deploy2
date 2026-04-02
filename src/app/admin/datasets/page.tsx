@@ -15,21 +15,26 @@ type ColumnConfig = {
 type DatasetConfig = {
   id: string;
   displayLabel: string;
+  sourceType: 'FILE' | 'WAREHOUSE';
   fileName: string;
   filePath: string;
+  warehouseTable?: string;
   purpose: string;
   columns: ColumnConfig[];
   createdBy: string;
   updatedAt: string;
 };
 
-const emptyForm: Omit<DatasetConfig, 'id' | 'createdBy' | 'updatedAt'> & { csvContent?: string } = {
+const emptyForm: Omit<DatasetConfig, 'id' | 'createdBy' | 'updatedAt'> & { csvContent?: string, file?: File | null } = {
   displayLabel: '',
+  sourceType: 'FILE',
   fileName: '',
   filePath: '',
+  warehouseTable: '',
   purpose: '',
   columns: [],
   csvContent: '',
+  file: null,
 };
 
 export default function DatasetAdminPage() {
@@ -61,8 +66,10 @@ export default function DatasetAdminPage() {
     setEditing(ds);
     setForm({
       displayLabel: ds.displayLabel,
+      sourceType: ds.sourceType || 'FILE',
       fileName: ds.fileName,
       filePath: ds.filePath,
+      warehouseTable: ds.warehouseTable || '',
       purpose: ds.purpose,
       columns: ds.columns || [],
       csvContent: '', // Don't load full content in edit mode unless re-uploading
@@ -74,33 +81,46 @@ export default function DatasetAdminPage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Read only the first 10KB for the preview/visual check
     const reader = new FileReader();
     reader.onload = (event) => {
       const content = event.target?.result as string;
+      const firstLine = content.split(/\r?\n/)[0];
       setForm(prev => ({
         ...prev,
         fileName: file.name,
-        csvContent: content,
-        filePath: `[Upload: ${file.name}]`, // Visual indicator
+        csvContent: content.slice(0, 10000), // Only keep a small sample in state
+        file: file, // Store the actual file for saving
+        filePath: `[Upload: ${file.name}]`, 
       }));
     };
-    reader.readAsText(file);
+    // Use slice to read only the beginning of the file for preview
+    reader.readAsText(file.slice(0, 10000));
   };
 
   const handleLoadColumns = async () => {
-    if (!form.filePath && !form.csvContent) {
+    if (form.sourceType === 'FILE' && !form.filePath && !form.csvContent) {
       setError('Please provide a file path or upload a file before loading columns.');
+      return;
+    }
+    if (form.sourceType === 'WAREHOUSE' && !form.warehouseTable) {
+      setError('Please provide a table name from your warehouse.');
       return;
     }
     setError(null);
     setLoadingColumns(true);
     try {
+      // For preview, we only send the first line to the server
+      const firstLine = form.csvContent?.split(/\r?\n/)[0] || '';
+      
       const res = await fetch('/api/datasets/preview-columns', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
+          sourceType: form.sourceType,
           filePath: form.filePath,
-          csvContent: form.csvContent 
+          warehouseTable: form.warehouseTable,
+          csvContent: firstLine // Only send the header line
         }),
       });
       const data = await res.json();
@@ -123,20 +143,38 @@ export default function DatasetAdminPage() {
   };
 
   const handleSave = async () => {
-    if (!form.displayLabel || !form.fileName) {
+    if (!form.displayLabel || (form.sourceType === 'FILE' && !form.fileName)) {
       setError('Display label and file name are required.');
+      return;
+    }
+    if (form.sourceType === 'WAREHOUSE' && !form.warehouseTable) {
+      setError('Warehouse table name is required.');
       return;
     }
     setSaving(true);
     setError(null);
     try {
+      const formData = new FormData();
+      if (editing) formData.append('id', editing.id);
+      formData.append('displayLabel', form.displayLabel);
+      formData.append('sourceType', form.sourceType);
+      formData.append('fileName', form.fileName || (form.sourceType === 'WAREHOUSE' ? form.warehouseTable || '' : ''));
+      formData.append('filePath', form.filePath);
+      formData.append('warehouseTable', form.warehouseTable || '');
+      formData.append('purpose', form.purpose);
+      formData.append('columns', JSON.stringify(form.columns));
+      
+      // If we have a File object, send it as binary
+      if (form.file) {
+        formData.append('file', form.file);
+      } else if (form.csvContent) {
+        // Fallback for edge cases
+        formData.append('csvContent', form.csvContent);
+      }
+
       const res = await fetch('/api/datasets', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...(editing ? { id: editing.id } : {}),
-          ...form,
-        }),
+        body: formData, // Sending as FormData
       });
       const data = await res.json();
       if (!res.ok) {
@@ -189,7 +227,7 @@ export default function DatasetAdminPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Dataset Registry</h1>
         <p className="mt-1 text-sm text-gray-600">
-          Register and manage datasets that appear in the Data Portal. Now supports direct cloud upload!
+          Register and manage datasets. You can upload CSV files or connect directly to your **Postgres Warehouse** tables.
         </p>
       </div>
 
@@ -217,7 +255,7 @@ export default function DatasetAdminPage() {
                   <div>
                     <div className="font-semibold text-gray-900">{ds.displayLabel}</div>
                     <div className="text-xs text-gray-500">
-                      File: {ds.fileName} &middot; Last updated:{' '}
+                      Source: {ds.sourceType === 'WAREHOUSE' ? `Warehouse (${ds.warehouseTable})` : `File (${ds.fileName})`} &middot; Updated:{' '}
                       {new Date(ds.updatedAt).toLocaleString()}
                     </div>
                     {ds.purpose && (
@@ -261,40 +299,87 @@ export default function DatasetAdminPage() {
                 Display Label
               </label>
               <input
+                id="displayLabelInput"
+                name="displayLabel"
                 type="text"
                 value={form.displayLabel}
                 onChange={e => setForm(f => ({ ...f, displayLabel: e.target.value }))}
-                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 placeholder-gray-400 opacity-100"
                 placeholder="e.g. Policy Data"
+                required
+                disabled={false}
               />
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="block text-xs font-semibold text-gray-700">
-                  Upload CSV File (Direct to Cloud)
-                </label>
+            <div className="flex gap-4 p-3 rounded-lg bg-blue-50 border border-blue-100">
+              <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer">
                 <input
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileChange}
-                  className="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-1.5 text-xs shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  type="radio"
+                  name="sourceType"
+                  value="FILE"
+                  checked={form.sourceType === 'FILE'}
+                  onChange={() => setForm(f => ({ ...f, sourceType: 'FILE', fileName: f.file?.name || '' }))}
+                  className="accent-blue-600"
                 />
+                File Upload / Path
+              </label>
+              <label className="flex items-center gap-2 text-xs font-semibold text-gray-700 cursor-pointer">
+                <input
+                  type="radio"
+                  name="sourceType"
+                  value="WAREHOUSE"
+                  checked={form.sourceType === 'WAREHOUSE'}
+                  onChange={() => setForm(f => ({ ...f, sourceType: 'WAREHOUSE' }))}
+                  className="accent-blue-600"
+                />
+                Warehouse Table (Direct)
+              </label>
+            </div>
+
+            {form.sourceType === 'FILE' ? (
+              <div className="grid gap-4 md:grid-cols-2">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700">
+                    Upload CSV File (Direct to Cloud)
+                  </label>
+                  <input
+                    type="file"
+                    accept=".csv"
+                    onChange={handleFileChange}
+                    className="mt-1 w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-1.5 text-xs shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-gray-700">
+                    Manual File Path (Legacy / Local)
+                  </label>
+                  <input
+                    type="text"
+                    value={form.filePath}
+                    onChange={e => setForm(f => ({ ...f, filePath: e.target.value }))}
+                    disabled={!!form.csvContent}
+                    className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100"
+                    placeholder="e.g. C:\Data\policy.csv"
+                  />
+                </div>
               </div>
+            ) : (
               <div>
                 <label className="block text-xs font-semibold text-gray-700">
-                  Manual File Path (Legacy / Local)
+                  Data Warehouse Table Name
                 </label>
                 <input
                   type="text"
-                  value={form.filePath}
-                  onChange={e => setForm(f => ({ ...f, filePath: e.target.value }))}
-                  disabled={!!form.csvContent}
-                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100 disabled:bg-gray-100"
-                  placeholder="e.g. C:\Data\policy.csv"
+                  value={form.warehouseTable}
+                  onChange={e => setForm(f => ({ ...f, warehouseTable: e.target.value }))}
+                  className="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  placeholder="e.g. public.sales_leads"
                 />
+                <p className="mt-1 text-[10px] text-gray-500">
+                  Ensure the table exists in your PIB_PRD database.
+                </p>
               </div>
-            </div>
+            )}
 
             <div>
               <label className="block text-xs font-semibold text-gray-700">
@@ -313,13 +398,19 @@ export default function DatasetAdminPage() {
               <div>
                 <div className="text-xs font-semibold text-gray-700">Columns</div>
                 <p className="text-xs text-gray-500">
-                  Load column names from the CSV, then choose visibility and filters.
+                  {form.sourceType === 'FILE' 
+                    ? 'Load column names from the CSV, then choose visibility and filters.'
+                    : 'Fetch column names from the database warehouse table.'}
                 </p>
               </div>
               <button
                 type="button"
                 onClick={handleLoadColumns}
-                disabled={loadingColumns || (!form.filePath && !form.csvContent)}
+                disabled={
+                  loadingColumns || 
+                  (form.sourceType === 'FILE' && !form.filePath && !form.csvContent) ||
+                  (form.sourceType === 'WAREHOUSE' && !form.warehouseTable)
+                }
                 className="rounded-md border border-gray-300 px-3 py-1.5 text-xs font-medium text-gray-700 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {loadingColumns ? 'Loading…' : 'Load Columns'}

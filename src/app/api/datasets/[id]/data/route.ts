@@ -4,21 +4,35 @@ import { cookies } from 'next/headers';
 import { getDb } from '@/lib/json-db';
 import { getWorkingDatasetTable } from '@/lib/dataset-utils';
 
+/**
+ * Correctly escape a schema-qualified table name for PostgreSQL.
+ * e.g. "ads.table" -> "\"ads\".\"table\""
+ */
+function formatTableName(name: string): string {
+    if (name.includes('.')) {
+        return name.split('.').map(part => `"${part}"`).join('.');
+    }
+    return `"${name}"`;
+}
+
 async function fetchDatasetMetadata(id: string) {
   try {
     const res = await pool.query('SELECT * FROM Dataset WHERE dataset_id = $1', [id]);
-    if (res.rows.length === 0) return null;
+    if (res.rows.length === 0) {
+      console.warn(`[DATA] Metadata not found for ID: ${id}`);
+      return null;
+    }
     const row = res.rows[0];
     return {
       id: row.dataset_id,
-      displayLabel: row.dataset_label,
+      displayLabel: row.dataset_label || row.dataset_name || id,
       fileName: row.file_name,
       filePath: row.file_path,
       purpose: row.purpose,
       columns: row.columns_json
     };
   } catch (e) {
-    console.error('Metadata fetch error:', e);
+    console.error(`[DATA] Metadata fetch error for ${id}:`, e);
     return null;
   }
 }
@@ -89,15 +103,20 @@ export async function GET(
   if (authResult.error) return NextResponse.json({ error: authResult.error }, { status: authResult.status });
 
   try {
-    const tableName = await getWorkingDatasetTable(requestedId);
+    const { tableName, pool: dsPool } = await getWorkingDatasetTable(requestedId);
     
-    // Get column names from PostgreSQL schema
-    const colRes = await pool.query(`
+    // Get column names from PostgreSQL schema of the correct pool
+    // We need to handle schema-qualified names for the information_schema query
+    const parts = tableName.split('.');
+    const tableOnly = parts.length > 1 ? parts[parts.length - 1] : parts[0];
+    const schemaOnly = parts.length > 1 ? parts[0] : 'public';
+
+    const colRes = await dsPool.query(`
         SELECT column_name 
         FROM information_schema.columns 
-        WHERE table_name = $1
+        WHERE table_name = $1 AND table_schema = $2
         ORDER BY ordinal_position
-    `, [tableName]);
+    `, [tableOnly, schemaOnly]);
     
     const validColumns = colRes.rows.map(r => r.column_name);
 
@@ -108,15 +127,25 @@ export async function GET(
     const filterOptions: Record<string, string[]> = {};
 
     if (isMeta) {
+        const formattedTable = formatTableName(tableName);
         // We limit distinct values to 100 for metadata performance
         for (const col of validColumns) {
-            const distinctRes = await pool.query(`
-                SELECT DISTINCT "${col}" 
-                FROM "${tableName}" 
-                WHERE "${col}" IS NOT NULL AND "${col}" != ''
-                LIMIT 100
-            `);
-            filterOptions[col] = distinctRes.rows.map(r => String(r[col])).sort();
+            try {
+                const distinctRes = await dsPool.query(`
+                    SELECT DISTINCT "${col}" 
+                    FROM ${formattedTable} 
+                    WHERE "${col}" IS NOT NULL
+                    LIMIT 100
+                `);
+                filterOptions[col] = distinctRes.rows
+                    .map(r => String(r[col]))
+                    .filter(v => v.trim() !== '')
+                    .sort();
+            } catch (colErr: any) {
+                // Skip columns that can't be listed (e.g. type mismatch)
+                console.warn(`[DATA] Skipping filter options for column "${col}": ${colErr.message}`);
+                filterOptions[col] = [];
+            }
         }
     }
 
@@ -152,14 +181,14 @@ export async function POST(
   }
 
   try {
-    const tableName = await getWorkingDatasetTable(requestedId);
+    const { tableName, pool: dsPool } = await getWorkingDatasetTable(requestedId);
     
     // Build WHERE clause
     const whereClauses: string[] = [];
     const queryParams: any[] = [];
 
     // Apply security row filters
-    rowFilters.forEach((f, i) => {
+    rowFilters.forEach((f) => {
         const col = f.column_name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
         queryParams.push(f.element_value.toLowerCase());
         whereClauses.push(`LOWER("${col}") ${f.operator === '!=' ? '!=' : '='} $${queryParams.length}`);
@@ -200,8 +229,9 @@ export async function POST(
             ? selectedColumns.map((c: string) => `"${c}"`).join(', ')
             : '*';
         
-        const previewRes = await pool.query(`
-            SELECT ${selectCols} FROM "${tableName}" 
+        const formattedTable = formatTableName(tableName);
+        const previewRes = await dsPool.query(`
+            SELECT ${selectCols} FROM ${formattedTable} 
             ${whereString} 
             LIMIT 100
         `, queryParams);
@@ -211,23 +241,21 @@ export async function POST(
 
     if (isExport) {
         // For export, we'll manually stream rows to avoid memory issues with huge datasets
-        const client = await pool.connect();
+        const client = await dsPool.connect();
         try {
             const selectCols = selectedColumns && selectedColumns.length > 0 
                 ? selectedColumns.map((c: string) => `"${c}"`).join(', ')
                 : '*';
             
-            // Note: In a real production app, we'd use pg-query-stream here.
-            // For now, we'll fetch in one go or use a cursor if available.
-            // Since this is a simple implementation, we'll do a basic SELECT.
+            const formattedTable = formatTableName(tableName);
             const exportRes = await client.query(`
-                SELECT ${selectCols} FROM "${tableName}" 
+                SELECT ${selectCols} FROM ${formattedTable} 
                 ${whereString}
             `, queryParams);
 
             const csvContent = [
                 selectedColumns.join(','),
-                ...exportRes.rows.map(row => 
+                ...exportRes.rows.map((row: any) => 
                     selectedColumns.map((c: string) => {
                         const val = String(row[c] || '');
                         return val.includes(',') || val.includes('"') 

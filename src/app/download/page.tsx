@@ -175,19 +175,24 @@ export default function Download() {
   const actPreview = async () => {
     setIsPreviewing(true);
     setPreview([]);
+    setLoadError(null);
     try {
        const res = await fetch(`/api/datasets/${encodeURIComponent(currentDataset!.id)}/data`, {
          method: 'POST',
          headers: { 'Content-Type': 'application/json' },
          body: JSON.stringify({ action: 'preview', filters, selectedColumns })
        });
-       if (!res.ok) throw new Error('Preview failed');
+       if (!res.ok) {
+         const errorBody = await res.json().catch(() => ({}));
+         throw new Error(errorBody.error || 'Preview failed');
+       }
        const data = await res.json();
        setPreview(data.rows || []);
        setStep(4);
-    } catch (e) {
-       console.error(e);
-       setStep(4);
+    } catch (e: any) {
+       console.error('Preview error:', e);
+       setLoadError(e.message || 'Preview failed');
+       // We stay on step 3 but show the error
     } finally {
        setIsPreviewing(false);
     }
