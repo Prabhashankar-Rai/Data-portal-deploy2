@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OpenAI } from 'openai';
 import { cookies } from 'next/headers';
-import { getDb, saveDb } from '@/lib/json-db';
 import fs from 'fs';
 import path from 'path';
 import NodeCache from 'node-cache';
@@ -48,27 +47,26 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized to use AI chat.' }, { status: 403 });
         }
 
-        const db = getDb();
-
-        let actualUserId = userId;
-        const userRec = db.Users?.find((u: any) => u.email === userId || u.username === userId || u.user_id === userId);
-        if (userRec) {
-            actualUserId = userRec.user_id;
-        }
+        const pool = (await import('@/lib/db')).default;
 
         // Quota Management
-        if (!db.User_Quotas) db.User_Quotas = [];
-        let userQuota = db.User_Quotas.find((q: any) => q.user_id === actualUserId);
+        let userQuota: any = null;
+        if (role !== 'ADMIN') {
+            const quotaRes = await pool.query('SELECT * FROM User_Quotas WHERE user_id::text = $1', [userId]);
+            userQuota = quotaRes.rows[0];
 
-        if (!userQuota && role !== 'ADMIN') {
-            // Initialize default quota
-            userQuota = { user_id: actualUserId, tokens_used: 0, limit: 100000 };
-            db.User_Quotas.push(userQuota);
-            saveDb(db);
-        }
+            if (!userQuota) {
+                // Initialize default quota
+                const initRes = await pool.query(
+                    'INSERT INTO User_Quotas (user_id, tokens_used, token_limit) VALUES ($1::uuid, 0, 100000) RETURNING *',
+                    [userId]
+                );
+                userQuota = initRes.rows[0];
+            }
 
-        if (role !== 'ADMIN' && userQuota && userQuota.tokens_used >= userQuota.limit) {
-            return NextResponse.json({ error: 'Quota exceeded. Please recharge your API usage limits.' }, { status: 403 });
+            if (userQuota.tokens_used >= userQuota.token_limit) {
+                return NextResponse.json({ error: 'Quota exceeded. Please recharge your API usage limits.' }, { status: 403 });
+            }
         }
 
         const apiKey = process.env.OPENAI_API_KEY;
@@ -184,10 +182,10 @@ export async function POST(req: NextRequest) {
             }, { status: 400 });
         }
 
-        // --- SQL CACHE EXECUTION ---
-        const cacheKey = `sql_${datasetId}_${Buffer.from(lastUserMessage.toLowerCase()).toString('base64').substring(0, 64)}`;
+        // --- SQL CACHE EXECUTION (v5) ---
+        const cacheKey = `sql_v5_${datasetId}_${Buffer.from(lastUserMessage.toLowerCase()).toString('base64').substring(0, 64)}`;
         if (sqlCache.has(cacheKey)) {
-            console.log("CACHE HIT: Serving cached SQL generation for:", lastUserMessage);
+            console.log("CACHE HIT (v5): Serving cached SQL generation for:", lastUserMessage);
             const cachedPayload = sqlCache.get(cacheKey) as any;
             return NextResponse.json({ ...cachedPayload, cached: true });
         }
@@ -212,22 +210,26 @@ export async function POST(req: NextRequest) {
 
         const systemPrompt = `You are an Insurance Analytics AI. Target table: \`dataset_view\`. Output JSON strictly.
 
-DuckDB SQL RULES:
-1. CRITICAL: The ONLY valid table is \`"dataset_view"\`. NEVER use 'src' or any schema column as the FROM table. EVERY query must contain \`FROM "dataset_view"\`.
+Postgres SQL RULES:
+1. CRITICAL: The ONLY valid table is \`dataset_view\` (do NOT use double quotes here). NEVER use 'src' or any schema column as the FROM table. EVERY query must contain \`FROM dataset_view\`.
 2. Schema columns: ${columnList}
 3. Restricted: ${restrictedList}
 4. ONLY use exact DB column names from Schema above (descriptions in parens are just hints). If asked about Restricted/Missing cols, return exactly: \`SELECT 'Error: The requested column has been restricted by the Administrator for AI analysis.' AS insight;\`
 5. Use double quotes for columns (\`"col"\`) and single quotes for strings/dates (\`'2025'\`, \`'%Y'\`).
-6. Mathematical columns MUST be cast natively: TRY_CAST("col" AS DOUBLE).
-7. Math Safety (CRITICAL): Wrap in COALESCE for nulls, and NULLIF for division by zero. Ex: \`(SUM(COALESCE(TRY_CAST("gic" AS DOUBLE), 0)) / NULLIF(SUM(COALESCE(TRY_CAST("gwp" AS DOUBLE), 0)), 0)) * 100\`
-8. Vague Metrics (e.g., "loss ratio"): Infer intent, use METRICS formulas below. Do not reject. Add 2-3 advanced metrics in \`follow_up_questions\`.
-9. Date Filtering (CRITICAL): NEVER use \`LIKE\` on a DATE column. To filter by year, dynamically identify the correct date column from the "Schema columns" (e.g., \`ac_month_date\`, \`ac_date\`, or similar depending on the dataset). Then use: \`EXTRACT(YEAR FROM "<actual_date_column>") = 2025\` or \`STRFTIME('%Y', "<actual_date_column>") = '2025'\`. DO NOT hallucinate column names.
+6. Mathematical columns MUST be cast natively: CAST("col" AS NUMERIC).
+7. Math Safety (CRITICAL): Wrap in COALESCE for nulls, and NULLIF for division by zero. Ex: \`(SUM(COALESCE(CAST("gic" AS NUMERIC), 0)) / NULLIF(SUM(COALESCE(CAST("gwp" AS NUMERIC), 0)), 0)) * 100\`
+8. Vague Metrics (e.g., "loss ratio"): Infer intent, use METRICS formulas below. Do not reject. Add 2-3 advanced metrics in \`follow_up_questions\` (adhering strictly to Rule 20).
+9. Date Filtering (CRITICAL): NEVER use \`LIKE\` on a DATE column. To filter by year, dynamically identify the correct date column from the "Schema columns" (e.g., \`ac_month_date\`, \`ac_date\`, or similar depending on the dataset). Since columns are stored as TEXT, YOU MUST CAST: \`EXTRACT(YEAR FROM CAST("<actual_date_column>" AS DATE)) = 2025\` or \`to_char(CAST("<actual_date_column>" AS DATE), 'YYYY') = '2025'\`. DO NOT hallucinate column names.
 10. NEVER write a generic SELECT statement without joining to the dataset view when checking aggregate conditional data. (E.g. No \`SELECT (SUM(...) FILTER...) - SUM(...)\` without a FROM clause!)
 11. CRITICAL COLUMN MAPPING: The formulas in METRICS below use FRIENDLY names (e.g., 'Gross Incurred Claim'). YOU MUST map these friendly names to the EXACT database column names provided in the 'Schema columns' list (e.g., 'gic'). DO NOT use the friendly names directly in your SQL!
 12. DATA FILTERING: For agent-related queries ONLY (e.g., extracting or grouping by 'agent_name' or 'agent_no'), append \`WHERE src <> 'JRNL'\`. For ALL OTHER general and overall business queries (like grouping by 'lob', 'year', 'branch'), DO NOT exclude anything. You MUST include all 'src' types to match system dashboards.
 13. PREVENTING NEGATIVE/ZERO PREMIUMS: For any ratio metric or ranking involving premiums (like Retention Ratio), you MUST append a \`HAVING SUM(denominator) > 0 AND SUM(numerator) > 0\` clause to filter out entities with negative or zero premium totals.
-14. TIME COMPARISONS: When asked to compare metrics across different years, DO NOT group by year putting years in rows. Instead, use conditional aggregation to put them side-by-side as columns. Example: \`SUM(TRY_CAST(gwp AS DOUBLE)) FILTER (WHERE EXTRACT(YEAR FROM actual_date_column) = 2024) AS gwp_2024\`.
+14. TIME COMPARISONS: When asked to compare metrics across different years, DO NOT group by year putting years in rows. Instead, use conditional aggregation to put them side-by-side as columns. Example: \`SUM(COALESCE(CAST(gwp AS NUMERIC), 0)) FILTER (WHERE EXTRACT(YEAR FROM CAST(actual_date_column AS DATE)) = 2024) AS gwp_2024\`.
 16. ALWAYS sort results (ORDER BY priority): NEVER order by standard text columns unless specifically asked for alphabetical order. YOU MUST ORDER BY THE HIGHEST AGGREGATED METRIC ALIAS DESCENDING. Example: If returning \`lob, SUM(gwp) FILTER(...) AS gwp_2024, SUM(gwp) FILTER(...) AS gwp_2025\`, you MUST end the query with \`ORDER BY gwp_2025 DESC NULLS LAST\` (sort by the newest/highest metric). Do NOT default to \`ORDER BY lob DESC\`.
+17. VISUALIZATION (CRITICAL): Always suggest a chart unless the result is a single number. For time series, use 'line'. For categorical comparisons, use 'bar'. For part-to-whole, use 'pie'. Default to 'bar'.
+18. TEXT FORMATTING: In your 'explanation', always format numbers over 1000 with commas and prefix currency with 'RM'. Ensure ratios are shown as percentages with 2 decimals.
+19. POSTGRES TYPE CONVERSION: Remember that SUM and other aggregates on NUMERIC columns return values that should be handled as floating point numbers in the app. Ensure your SQL doesn't do unnecessary integer truncation.
+20. FOLLOW-UP QUESTIONS: You MUST ONLY suggest follow-up questions that can be answered using the "Schema columns" in Rule 2. DO NOT suggest comparisons, groupings, or filters for data points that are not present in this dataset. (e.g., No "branch" questions if "branch" is not in Schema).
 
 JSON Schema: { "sql_query": "SELECT ...", "suggested_chart": "bar|line|pie|none", "follow_up_questions": ["q1","q2"] }`;
 
@@ -254,17 +256,15 @@ JSON Schema: { "sql_query": "SELECT ...", "suggested_chart": "bar|line|pie|none"
             const outputTokens = completion.usage?.completion_tokens || 0;
             const totalTokens = inputTokens + outputTokens;
 
-            userQuota.tokens_used += totalTokens;
+            await pool.query(
+                'UPDATE User_Quotas SET tokens_used = tokens_used + $1 WHERE user_id::text = $2',
+                [totalTokens, userId]
+            );
 
-            db.Token_Usage.push({
-                user_id: actualUserId,
-                timestamp: new Date().toISOString(),
-                input_tokens: inputTokens,
-                output_tokens: outputTokens,
-                total_tokens: totalTokens,
-                endpoint: '/api/generate-query'
-            });
-            saveDb(db);
+            await pool.query(
+                'INSERT INTO Token_Usage (user_id, input_tokens, output_tokens, total_tokens, endpoint) VALUES ($1::uuid, $2, $3, $4, $5)',
+                [userId, inputTokens, outputTokens, totalTokens, '/api/generate-query']
+            );
         }
 
         const finalPayload = {

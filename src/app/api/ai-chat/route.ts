@@ -3,7 +3,6 @@ import { OpenAI } from 'openai';
 import * as xlsx from 'xlsx';
 import path from 'path';
 import { cookies } from 'next/headers';
-import { getDb } from '@/lib/json-db';
 import pool from '@/lib/db';
 import NodeCache from 'node-cache';
 import * as nodeFs from 'fs';
@@ -89,24 +88,26 @@ async function getUserAccessFilters() {
   if (role === 'ADMIN') return [];
   if (!userId) return null;
 
-  const dbJson = getDb();
-  const userGroupIds = dbJson.User_Groups
-    .filter((ug: any) => ug.user_id === userId)
-    .map((ug: any) => ug.group_id);
+  try {
+    // Fetch user groups
+    const groupRes = await pool.query('SELECT group_id FROM User_Group WHERE user_id::text = $1', [userId]);
+    const userGroupIds = groupRes.rows.map((r: any) => r.group_id);
 
-  let rowFilters = dbJson.User_Access_Filter.filter((f: any) =>
-    userGroupIds.includes(f.group_id)
-  );
+    if (userGroupIds.length === 0) return [];
 
-  const accessElements = dbJson.Access_Elements.reduce((acc: Record<string, string>, e: any) => {
-    acc[e.element_id] = e.generic_column_name;
-    return acc;
-  }, {});
+    // Fetch row filters for these groups
+    const filterRes = await pool.query(`
+      SELECT f.*, e.generic_column_name as column_name
+      FROM User_Access_Filter f
+      JOIN Access_Elements e ON f.element_id = e.element_id
+      WHERE f.group_id = ANY($1::uuid[])
+    `, [userGroupIds]);
 
-  return rowFilters.map((f: any) => ({
-    ...f,
-    column_name: accessElements[f.element_id]
-  })).filter((f: any) => f.column_name);
+    return filterRes.rows;
+  } catch (err) {
+    console.error("Error fetching user access filters for AI Chat:", err);
+    return [];
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -194,12 +195,21 @@ export async function POST(req: NextRequest) {
       columnList = availableCols.map((c: any) => `${c.name}${c.description ? ` (${c.description})` : ''}`).join(', ');
     }
 
-    const viewName = 'insurance_data_filtered';
-    // Note: In PostgreSQL, we'll use the table name directly.
-    // The system prompt will be updated to use the real table name.
+    const viewName = 'dataset_view';
+    const rowFilters = filters || [];
+    let securityWhereClause = '';
+    if (rowFilters.length > 0) {
+      const clauses = rowFilters.map((f: any, idx: number) => {
+        const col = f.column_name.toLowerCase().replace(/[^a-z0-9_]/g, '_');
+        const val = f.element_value.toLowerCase();
+        return `LOWER("${col}") ${f.operator === '!=' ? '!=' : '='} '${val.replace(/'/g, "''")}'`;
+      });
+      securityWhereClause = `WHERE ${clauses.join(' AND ')}`;
+    }
+
+    const secureCTE = `WITH ${viewName} AS (SELECT * FROM "${tableName}" ${securityWhereClause})`;
 
     const systemPrompt = `You are a helpful and professional enterprise AI assistant for a data portal, with strong SQL reasoning skills.
-
 Your primary role is to help users navigate dashboards, metrics, and answer data questions. 
 
 When a user asks about dashboards or definitions, use the Knowledge Base Data below:
@@ -231,7 +241,9 @@ ${metricRules}
 If the user asks an analytics or data query (e.g., "What is the total?", "Top 5 rows", "Compare data for 2024 vs 2025"), you MUST call the 'run_analytics_query' function to execute SQL against the database. 
 DO NOT try to answer data questions without calling the function.
 
-The data is available in a table named: '"${tableName}"'
+The ONLY table you can query is for analytics is: \`${viewName}\` (it is an already filtered subquery containing the data the user is authorized to see).
+EVERY analytics query must contain \`FROM ${viewName}\`. DO NOT use "${tableName}" directly.
+
 Columns available in the dataset schema:
 ${columnList}
 
@@ -239,12 +251,11 @@ If a metric formula uses columns that are completely absent from this list, they
 
 CRITICAL SQL RULES FOR POSTGRESQL:
 1. ALWAYS use the required dataset table. EVERY query MUST contain a FROM clause.
-2. Quote the table name precisely: "${tableName}"
-3. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
-4. Always GROUP BY selected columns.
-5. Use conditional aggregation for year comparisons (CASE WHEN year = 2024 THEN value ELSE 0 END).
-6. Include numerator and denominator columns for ratios.
-7. Use common PostgreSQL date functions like DATE_PART or TO_CHAR if needed.
+2. NEVER hallucinate metrics. If a column is not in schema, it does not exist.
+3. Always GROUP BY selected columns.
+4. Use conditional aggregation for year comparisons (CASE WHEN year = 2024 THEN value ELSE 0 END).
+5. Include numerator and denominator columns for ratios.
+6. Use common PostgreSQL date functions like DATE_PART or TO_CHAR if needed.
 `;
 
     const runAnalyticsQuery = {
@@ -282,14 +293,15 @@ CRITICAL SQL RULES FOR POSTGRESQL:
       const { sql_query, chart_type, chart_orientation } = args;
 
       let df: any[] = [];
-      let error = null;
+      let error: any = null;
       try {
-        console.log("Executing AI PostgreSQL SQL on selected pool:", sql_query);
-        const res = await dsPool.query(sql_query);
+        const finalSqlQuery = `${secureCTE} ${sql_query}`;
+        console.log("Executing AI PostgreSQL SQL with security CTE:", finalSqlQuery);
+        const res = await dsPool.query(finalSqlQuery);
         df = res.rows;
       } catch (e: any) {
         console.error("SQL Error:", e);
-        error = e.message;
+        error = e;
       }
 
       if (error) {

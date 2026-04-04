@@ -37,7 +37,8 @@ export async function POST(req: NextRequest) {
 
         // 1. Map 'dataset_view' to the real table name in the query
         // The table name is quoted to handle any PostgreSQL-specific case sensitivity
-        let finalQuery = sql_query.replace(/dataset_view/gi, `"${tableName}"`);
+        // We use a regex that handles both "dataset_view" and dataset_view to avoid double-quoting
+        let finalQuery = sql_query.replace(/"?dataset_view"?/gi, `"${tableName}"`);
 
         // Execute SQL on the correct PostgreSQL pool
         let df: any[] = [];
@@ -59,19 +60,34 @@ export async function POST(req: NextRequest) {
         try {
             const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
             const safeSample = df.slice(0, 5);
-            const prompt = `User Question: ${question}\nData Sample:\n${JSON.stringify(safeSample)}\n\nReturn JSON with explanation and recommendation.`;
+            const prompt = `Concise Business Analyst. Analyze data for: "${question}".
+Sample: ${JSON.stringify(safeSample)}
+Format: Markdown executive summary (bold keys, bullet trends) + 1-2 strategies. 
+Rules: No raw JSON/tech jargon. Currency: RM 1,234.56.
+JSON response: { "explanation": "md", "recommendation": "md" }`;
 
             const response = await openai.chat.completions.create({
-                model: "gpt-4o",
-                temperature: 0.3,
+                model: "gpt-4o-mini",
+                temperature: 0.1,
                 messages: [{ role: "user", content: prompt }],
                 response_format: { type: "json_object" }
             });
 
             if (response.choices[0].message.content) {
                 const parsed = JSON.parse(response.choices[0].message.content);
-                insights = parsed.explanation || insights;
-                recommendation = parsed.recommendation || "";
+                
+                // Ensure insights and recommendation are strings to prevent React rendering errors
+                if (parsed.explanation) {
+                    insights = typeof parsed.explanation === 'object' 
+                        ? JSON.stringify(parsed.explanation) 
+                        : String(parsed.explanation);
+                }
+                
+                if (parsed.recommendation) {
+                    recommendation = typeof parsed.recommendation === 'object' 
+                        ? JSON.stringify(parsed.recommendation) 
+                        : String(parsed.recommendation);
+                }
             }
         } catch (e) {
             console.error("Insight generation error:", e);

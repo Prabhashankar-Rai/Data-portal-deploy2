@@ -1,11 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/json-db';
-import crypto from 'crypto';
-
 export async function GET() {
     try {
-        const db = getDb();
-        return NextResponse.json({ data: db.User_Module_Access || [] });
+        const pool = (await import('@/lib/db')).default;
+        const res = await pool.query('SELECT module_access_id as access_id, module_id, group_id, user_id FROM User_Module');
+        return NextResponse.json({ data: res.rows });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -13,7 +11,6 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const db = getDb();
         const body = await request.json();
         const { type, entity_id, module_id, assigned } = body;
 
@@ -21,28 +18,21 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Missing required mapping parameters.' }, { status: 400 });
         }
 
-        if (!db.User_Module_Access) db.User_Module_Access = [];
+        const pool = (await import('@/lib/db')).default;
 
-        let mappings = db.User_Module_Access;
-
-        // Remove existing identical mapping to prevent duplicates
-        mappings = mappings.filter((m: any) =>
-            !(m.module_id === module_id &&
-                (type === 'user' ? m.user_id === entity_id : m.group_id === entity_id))
-        );
-
-        // If assigned = true, reconstruct the mapping
-        if (assigned) {
-            mappings.push({
-                access_id: crypto.randomUUID(),
-                user_id: type === 'user' ? entity_id : null,
-                group_id: type === 'group' ? entity_id : null,
-                module_id: module_id
-            });
+        if (type === 'user') {
+            // Remove existing mapping for this user/module
+            await pool.query('DELETE FROM User_Module WHERE user_id = $1 AND module_id = $2', [entity_id, module_id]);
+            if (assigned) {
+                await pool.query('INSERT INTO User_Module (user_id, module_id) VALUES ($1, $2)', [entity_id, module_id]);
+            }
+        } else if (type === 'group') {
+            // Remove existing mapping for this group/module
+            await pool.query('DELETE FROM User_Module WHERE group_id = $1 AND module_id = $2', [entity_id, module_id]);
+            if (assigned) {
+                await pool.query('INSERT INTO User_Module (group_id, module_id) VALUES ($1, $2)', [entity_id, module_id]);
+            }
         }
-
-        db.User_Module_Access = mappings;
-        saveDb(db);
 
         return NextResponse.json({ message: 'User Module Access updated.' }, { status: 200 });
     } catch (error: any) {

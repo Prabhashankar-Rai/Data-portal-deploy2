@@ -1,6 +1,6 @@
 import { NextAuthOptions } from "next-auth";
 import AzureADProvider from "next-auth/providers/azure-ad";
-import { getDb } from "@/lib/json-db";
+import pool from "@/lib/db";
 
 export const authOptions: NextAuthOptions = {
     providers: [
@@ -36,44 +36,44 @@ export const authOptions: NextAuthOptions = {
                 return true;
             }
 
-            const db = getDb();
-            const dbUser = db.Users.find((u: any) =>
-                u.email?.toLowerCase().trim() === email ||
-                u.username?.toLowerCase().trim() === email
-            );
+            try {
+                const res = await pool.query(
+                    'SELECT * FROM Users WHERE LOWER(user_email) = $1 OR LOWER(user_name) = $1',
+                    [email]
+                );
+                const dbUser = res.rows[0];
 
-            if (!dbUser) {
-                console.warn(`Unauthorized login attempt from ${email}. Not found in local DB.`);
-                return false; 
+                if (!dbUser) {
+                    console.warn(`Unauthorized login attempt from ${email}. Not found in PostgreSQL.`);
+                    return false; 
+                }
+                return true; 
+            } catch (err) {
+                console.error("Database error during NextAuth signIn:", err);
+                return false;
             }
-
-            return true; 
         },
         async jwt({ token, user, profile }) {
             if (user || profile) {
                 const email = (token.email || user?.email || (profile as any)?.preferred_username || "").toLowerCase().trim();
                 token.email = email;
 
-                if (email === "prabhashankar.rai@fairfaxasia.com") {
-                    token.role = "ADMIN";
-                    token.user_id = "prabhashankar.rai";
-                    token.username = "Prabhashankar Rai";
-                    console.log("JWT: Matched admin bypass for:", email);
-                } else {
-                    const db = getDb();
-                    const dbUser = db.Users.find((u: any) =>
-                        u.email?.toLowerCase().trim() === email ||
-                        u.username?.toLowerCase().trim() === email
-                    );
+                const res = await pool.query(
+                    'SELECT * FROM Users WHERE LOWER(user_email) = $1 OR LOWER(user_name) = $1',
+                    [email]
+                );
+                const dbUser = res.rows[0];
 
-                    if (dbUser) {
-                        token.role = dbUser.role || "USER"; 
-                        token.user_id = dbUser.user_id;
-                        token.username = dbUser.username;
-                    }
+                if (dbUser) {
+                    token.role = dbUser.user_role || "USER"; 
+                    token.user_id = dbUser.user_id;
+                    token.username = dbUser.user_name;
+                    console.log(`JWT: Resolved role (${token.role}) from PG for:`, email);
+                } else {
+                    console.warn(`JWT: User not found in PG:`, email);
+                    token.role = "USER";
                 }
             }
-            console.log("JWT Returning Token containing role:", token.role);
             return token;
         },
         async session({ session, token }) {

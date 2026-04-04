@@ -1,35 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/json-db';
 import crypto from 'crypto';
 
 export async function GET() {
     try {
-        const db = getDb();
+        const pool = (await import('@/lib/db')).default;
+        
+        // Fetch all actions from PostgreSQL
+        const res = await pool.query('SELECT * FROM Actions ORDER BY action_name ASC');
+        let actions = res.rows;
 
-        // Auto-seed actions array
-        if (db.Actions.length === 0) {
-            db.Actions = [
-                { action_id: crypto.randomUUID(), action_name: 'View' },
-                { action_id: crypto.randomUUID(), action_name: 'Download' },
-                { action_id: crypto.randomUUID(), action_name: 'Create' },
-                { action_id: crypto.randomUUID(), action_name: 'Hidden' },
-                { action_id: crypto.randomUUID(), action_name: 'AI Chat' },
-            ];
-            saveDb(db);
-        } else {
-            let changed = false;
-            if (!db.Actions.some((a: any) => a.action_name === 'Hidden')) {
-                db.Actions.push({ action_id: crypto.randomUUID(), action_name: 'Hidden' });
-                changed = true;
+        const mandatoryActions = ['View', 'Download', 'Create', 'Hidden', 'AI Chat'];
+        let updated = false;
+
+        for (const actionName of mandatoryActions) {
+            if (!actions.some((a: any) => a.action_name === actionName)) {
+                await pool.query(
+                    'INSERT INTO Actions (action_id, action_name) VALUES (gen_random_uuid(), $1)',
+                    [actionName]
+                );
+                updated = true;
             }
-            if (!db.Actions.some((a: any) => a.action_name === 'AI Chat')) {
-                db.Actions.push({ action_id: crypto.randomUUID(), action_name: 'AI Chat' });
-                changed = true;
-            }
-            if (changed) saveDb(db);
         }
 
-        return NextResponse.json({ data: db.Actions });
+        if (updated) {
+            const reRes = await pool.query('SELECT * FROM Actions ORDER BY action_name ASC');
+            actions = reRes.rows;
+        }
+
+        return NextResponse.json({ data: actions });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }

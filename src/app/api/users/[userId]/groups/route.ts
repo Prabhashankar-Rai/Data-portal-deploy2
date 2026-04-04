@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/json-db';
 
 export async function GET(
     request: Request,
@@ -7,14 +6,17 @@ export async function GET(
 ) {
     try {
         const { userId } = await params;
+        const pool = (await import('@/lib/db')).default;
 
-        const db = getDb();
+        // Fetch groups for user with names
+        const res = await pool.query(`
+            SELECT ug.group_id, g.group_name 
+            FROM User_Group ug
+            JOIN Groups g ON ug.group_id = g.group_id
+            WHERE ug.user_id = $1
+        `, [userId]);
 
-        // User Group 
-        const userGroups = db.User_Groups
-            .filter((ug: any) => ug.user_id === userId);
-
-        return NextResponse.json({ data: userGroups }); // Returns mappings representing Group ID and Group Name.
+        return NextResponse.json({ data: res.rows }); 
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -32,24 +34,29 @@ export async function POST(
             return NextResponse.json({ error: 'groupIds must be an array' }, { status: 400 });
         }
 
-        const db = getDb();
+        const pool = (await import('@/lib/db')).default;
 
-        // Clear existing groups for user
-        db.User_Groups = db.User_Groups.filter((ug: any) => ug.user_id !== userId);
+        // Use a transaction to ensure atomic update
+        const client = await pool.connect();
+        try {
+            await client.query('BEGIN');
+            // Clear existing groups for user
+            await client.query('DELETE FROM User_Group WHERE user_id = $1', [userId]);
 
-        // Insert new User_Groups
-        for (const groupId of groupIds) {
-            const g = db.Groups.find((grp: any) => grp.group_id === groupId);
-            if (g) {
-                db.User_Groups.push({
-                    user_id: userId,
-                    group_id: groupId,
-                    group_name: g.group_name
-                });
+            // Insert new User_Group mappings
+            for (const groupId of groupIds) {
+                await client.query(
+                    'INSERT INTO User_Group (user_id, group_id) VALUES ($1, $2)',
+                    [userId, groupId]
+                );
             }
+            await client.query('COMMIT');
+        } catch (e) {
+            await client.query('ROLLBACK');
+            throw e;
+        } finally {
+            client.release();
         }
-
-        saveDb(db);
 
         return NextResponse.json({ message: 'User Groups updated successfully' }, { status: 200 });
     } catch (error: any) {

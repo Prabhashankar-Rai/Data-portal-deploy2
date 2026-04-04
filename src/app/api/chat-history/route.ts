@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getDb } from '@/lib/json-db';
 
 export async function GET(req: NextRequest) {
     try {
@@ -12,19 +11,21 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized.' }, { status: 403 });
         }
 
-        const dbJson = getDb();
-        
-        let history = dbJson.Chat_History || [];
-        
-        // If not admin, only show their own history
+        const pool = (await import('@/lib/db')).default;
+
+        let query = 'SELECT * FROM Chat_History';
+        let vals: any[] = [];
+
         if (role !== 'ADMIN') {
-            history = history.filter((h: any) => h.user_id === userId);
+            query += ' WHERE user_id::text = $1';
+            vals = [userId];
         }
 
-        // Sort by timestamp descending
-        history.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+        query += ' ORDER BY timestamp DESC';
 
-        return NextResponse.json({ history });
+        const res = await pool.query(query, vals);
+
+        return NextResponse.json({ history: res.rows });
 
     } catch (error: any) {
         console.error('Chat History Fetch Error:', error);

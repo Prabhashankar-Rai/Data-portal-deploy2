@@ -1,39 +1,40 @@
-import fs from 'fs';
-import path from 'path';
+import pool from './db';
 
-const AUDIT_FILE = path.join(process.cwd(), 'data', 'audit-logs.json');
-
-export function getAuditLogs() {
-  if (!fs.existsSync(AUDIT_FILE)) {
-    if (!fs.existsSync(path.dirname(AUDIT_FILE))) {
-      fs.mkdirSync(path.dirname(AUDIT_FILE), { recursive: true });
-    }
-    fs.writeFileSync(AUDIT_FILE, JSON.stringify([]));
-  }
-  return JSON.parse(fs.readFileSync(AUDIT_FILE, 'utf-8'));
-}
-
-export function saveAuditLogs(logs: any) {
-  if (!fs.existsSync(path.dirname(AUDIT_FILE))) {
-    fs.mkdirSync(path.dirname(AUDIT_FILE), { recursive: true });
-  }
-  fs.writeFileSync(AUDIT_FILE, JSON.stringify(logs, null, 2));
-}
-
-export function logServerAction(userRole: string, username: string | undefined, action: string, page?: string, details?: any) {
+/**
+ * Fetches audit logs from the PostgreSQL database.
+ * Returns latest logs first.
+ */
+export async function getAuditLogs() {
   try {
-    const logs = getAuditLogs();
-    logs.push({
-      id: crypto.randomUUID(),
-      timestamp: new Date().toISOString(),
-      userRole,
-      username,
-      action,
-      page,
-      details
-    });
-    saveAuditLogs(logs);
-  } catch (err) {
-    console.error('Failed to write server audit log:', err);
+    const res = await pool.query('SELECT * FROM AuditLog ORDER BY timestamp DESC');
+    return res.rows.map(row => ({
+      ...row,
+      userRole: row.user_role, // map snake_case to camelCase for UI compatibility
+    }));
+  } catch (err: any) {
+    console.error('Failed to read audit logs from DB:', err.message || err);
+    return [];
   }
+}
+
+/**
+ * Logs a server action to the PostgreSQL database.
+ * This is now asynchronous and much faster than file-based logging.
+ */
+export async function logServerAction(userRole: string, username: string | undefined, action: string, page?: string, details?: any) {
+  try {
+    // Map to the AuditLog table columns
+    await pool.query(
+      'INSERT INTO AuditLog (user_role, username, action, page, details) VALUES ($1, $2, $3, $4, $5)',
+      [userRole, username, action, page, details]
+    );
+  } catch (err: any) {
+    console.error('Failed to write server audit log to DB:', err.message || err);
+  }
+}
+
+// Keep these for backward compatibility if any old code still uses them, 
+// although they should be replaced by the async versions above.
+export function saveAuditLogs(logs: any) {
+  console.warn('saveAuditLogs (JSON) is deprecated. Use async logServerAction (DB) instead.');
 }

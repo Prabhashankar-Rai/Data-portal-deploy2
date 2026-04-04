@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
-import { getDb } from '@/lib/json-db';
 
 export async function GET(req: NextRequest) {
     try {
@@ -12,12 +11,13 @@ export async function GET(req: NextRequest) {
             return NextResponse.json({ error: 'Unauthorized.' }, { status: 403 });
         }
 
-        const dbJson = getDb();
-        
-        let quota = dbJson.User_Quotas?.find((q: any) => q.user_id === userId);
+        const pool = (await import('@/lib/db')).default;
+
+        const res = await pool.query('SELECT * FROM User_Quotas WHERE user_id::text = $1', [userId]);
+        let quota = res.rows[0];
 
         if (!quota) {
-            quota = { user_id: userId, tokens_used: 0, limit: 100000 };
+            quota = { user_id: userId, tokens_used: 0, token_limit: 100000 };
         }
 
         return NextResponse.json({ quota });

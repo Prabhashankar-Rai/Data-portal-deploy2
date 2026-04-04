@@ -25,7 +25,6 @@ export type DatasetConfig = {
 };
 
 import { cookies } from 'next/headers';
-import { getDb } from '@/lib/json-db';
 
 export async function GET() {
   try {
@@ -66,10 +65,9 @@ export async function GET() {
       return NextResponse.json([]);
     }
 
-    const db = getDb(); // Still using json-db for Users/Groups
-    const userGroupIds = db.User_Groups
-      .filter((ug: any) => ug.user_id === userId)
-      .map((ug: any) => ug.group_id);
+    // Fetch user groups from PostgreSQL
+    const groupRes = await pool.query('SELECT group_id FROM User_Group WHERE user_id = $1', [userId]);
+    const userGroupIds = groupRes.rows.map((r: any) => r.group_id);
 
     // We'll also check the User_App_Actions table in DB for permissions
     const actionRes = await pool.query(`

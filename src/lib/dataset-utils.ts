@@ -118,7 +118,14 @@ export async function getWorkingDatasetTable(datasetId: string): Promise<{ table
             await pool.query(insertQuery, values);
         }
 
-        console.log(`[DatasetUtils] Table ${tableName} created and populated for ${datasetId}.`);
+        // --- NEW: Add indexes to all columns to speed up filtering ---
+        console.log(`[DatasetUtils] Creating indexes for ${tableName}...`);
+        const indexPromises = sanitizedHeaders.map(h => 
+            pool.query(`CREATE INDEX IF NOT EXISTS "${tableName}_${h}_idx" ON "${tableName}" ("${h}")`)
+        );
+        await Promise.all(indexPromises);
+
+        console.log(`[DatasetUtils] Table ${tableName} created, populated and indexed for ${datasetId}.`);
         return { tableName, pool };
     } catch (err) {
         console.error(`[DatasetUtils] Error synchronizing table for ${datasetId}:`, err);

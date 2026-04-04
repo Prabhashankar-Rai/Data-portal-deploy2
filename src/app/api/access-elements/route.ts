@@ -1,23 +1,33 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/json-db';
 
 export async function GET() {
     try {
-        const db = getDb();
+        const pool = (await import('@/lib/db')).default;
 
-        if (!db.Access_Elements || db.Access_Elements.length === 0) {
-            db.Access_Elements = [
-                { element_id: 1, element_name: 'Reporting Line', element_datatype: 'Character', generic_column_name: 'REPORTING_LINE' },
-                { element_id: 2, element_name: 'Reporting Branch', element_datatype: 'Character', generic_column_name: 'REPORTING_BRANCH' },
-                { element_id: 3, element_name: 'Source', element_datatype: 'Character', generic_column_name: 'SOURCE' },
-                { element_id: 4, element_name: 'Line of Business', element_datatype: 'Character', generic_column_name: 'LOB' },
-                { element_id: 5, element_name: 'UW Period', element_datatype: 'date', generic_column_name: 'UW_DATE' },
-                { element_id: 6, element_name: 'AC Period', element_datatype: 'date', generic_column_name: 'AC_DATE' }
+        const res = await pool.query('SELECT * FROM Access_Elements ORDER BY element_id ASC');
+        let elements = res.rows;
+
+        // Auto-seed if empty
+        if (elements.length === 0) {
+            const seed = [
+                ['Reporting Line', 'Character', 'REPORTING_LINE'],
+                ['Reporting Branch', 'Character', 'REPORTING_BRANCH'],
+                ['Source', 'Character', 'SOURCE'],
+                ['Line of Business', 'Character', 'LOB'],
+                ['UW Period', 'date', 'UW_DATE'],
+                ['AC Period', 'date', 'AC_DATE']
             ];
-            saveDb(db);
+            for (const [name, type, col] of seed) {
+                await pool.query(
+                    'INSERT INTO Access_Elements (element_name, element_datatype, generic_column_name) VALUES ($1, $2, $3)',
+                    [name, type, col]
+                );
+            }
+            const reRes = await pool.query('SELECT * FROM Access_Elements ORDER BY element_id ASC');
+            elements = reRes.rows;
         }
 
-        return NextResponse.json({ data: db.Access_Elements });
+        return NextResponse.json({ data: elements });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -32,22 +42,16 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        const db = getDb();
-        if (!db.Access_Elements) db.Access_Elements = [];
+        const pool = (await import('@/lib/db')).default;
+        
+        const formattedCol = generic_column_name.toUpperCase().replace(/\s+/g, '_');
 
-        const newId = Math.max(0, ...db.Access_Elements.map((e: any) => e.element_id)) + 1;
+        const res = await pool.query(
+            'INSERT INTO Access_Elements (element_name, element_datatype, generic_column_name) VALUES ($1, $2, $3) RETURNING *',
+            [element_name, element_datatype, formattedCol]
+        );
 
-        const newElement = {
-            element_id: newId,
-            element_name,
-            element_datatype,
-            generic_column_name: generic_column_name.toUpperCase().replace(/\s+/g, '_')
-        };
-
-        db.Access_Elements.push(newElement);
-        saveDb(db);
-
-        return NextResponse.json({ message: 'Access element created successfully', data: newElement }, { status: 201 });
+        return NextResponse.json({ message: 'Access element created successfully', data: res.rows[0] }, { status: 201 });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -62,23 +66,19 @@ export async function PUT(req: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        const db = getDb();
-        if (!db.Access_Elements) return NextResponse.json({ error: 'No elements found' }, { status: 404 });
+        const pool = (await import('@/lib/db')).default;
+        const formattedCol = generic_column_name.toUpperCase().replace(/\s+/g, '_');
 
-        const index = db.Access_Elements.findIndex((e: any) => e.element_id === element_id);
-        if (index === -1) {
+        const res = await pool.query(
+            'UPDATE Access_Elements SET element_name = $1, element_datatype = $2, generic_column_name = $3 WHERE element_id = $4 RETURNING *',
+            [element_name, element_datatype, formattedCol, element_id]
+        );
+
+        if (res.rowCount === 0) {
             return NextResponse.json({ error: 'Element not found' }, { status: 404 });
         }
 
-        db.Access_Elements[index] = {
-            ...db.Access_Elements[index],
-            element_name,
-            element_datatype,
-            generic_column_name: generic_column_name.toUpperCase().replace(/\s+/g, '_')
-        };
-        saveDb(db);
-
-        return NextResponse.json({ message: 'Access element updated successfully', data: db.Access_Elements[index] }, { status: 200 });
+        return NextResponse.json({ message: 'Access element updated successfully', data: res.rows[0] }, { status: 200 });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
@@ -93,21 +93,12 @@ export async function DELETE(req: Request) {
             return NextResponse.json({ error: 'Missing element_id' }, { status: 400 });
         }
 
-        const db = getDb();
-        if (!db.Access_Elements) return NextResponse.json({ error: 'No elements found' }, { status: 404 });
+        const pool = (await import('@/lib/db')).default;
+        
+        const res = await pool.query('DELETE FROM Access_Elements WHERE element_id = $1', [element_id]);
 
-        const index = db.Access_Elements.findIndex((e: any) => e.element_id === element_id);
-        if (index === -1) {
+        if (res.rowCount === 0) {
             return NextResponse.json({ error: 'Element not found' }, { status: 404 });
-        }
-
-        db.Access_Elements.splice(index, 1);
-        saveDb(db);
-
-        // Optional: Cascade delete filters that used this element (business logic dependent)
-        if (db.User_Access_Filter) {
-            db.User_Access_Filter = db.User_Access_Filter.filter((f: any) => f.element_id !== element_id);
-            saveDb(db);
         }
 
         return NextResponse.json({ message: 'Access element deleted successfully' }, { status: 200 });

@@ -30,19 +30,34 @@ type Message = {
 const COLORS = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf'];
 
 function formatMetric(value: any, columnName: string = '') {
-    if (typeof value === 'number') {
-        const lowerCol = columnName.toLowerCase();
+    const numValue = (typeof value === 'number') ? value : parseFloat(value);
+    
+    if (!isNaN(numValue) && isFinite(numValue)) {
+        const lowerCol = (columnName || '').toLowerCase();
+        
+        // 1. Ratios (%)
         const isRatio = ['ratio', 'rate', 'growth', 'achievement', 'margin', '%', 'percentage'].some(kw => lowerCol.includes(kw));
-        const isPlainNumber = ['year', 'id', 'rank', 'month', 'count', 'no_of'].some(kw => lowerCol.includes(kw));
+        if (isRatio) {
+            return `${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(numValue)}%`;
+        }
 
-        if (isPlainNumber) {
-            return value.toString();
+        // 2. Premiums (RM) - Only if it contains known premium keywords
+        const isPremium = ['gwp', 'nwp', 'gep', 'nep', 'premium', 'claim', 'loss', 'amount', 'total'].some(kw => lowerCol.includes(kw));
+        
+        // 3. Plain Numbers (IDs, years, codes, etc.) - If it's explicitly an ID/Code or NOT a premium
+        const isPlainNumber = ['year', 'id', 'rank', 'month', 'count', 'no_of', 'agent', 'code', 'branch_no'].some(kw => lowerCol.includes(kw));
+
+        if (isPremium && !isPlainNumber) {
+            return `RM ${new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(numValue)}`;
         }
         
-        if (isRatio) {
-            return `${new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(value)}%`;
+        // Default for numeric values (commas but no RM/decimals if it's an ID)
+        if (isPlainNumber) {
+            return numValue.toString();
         }
-        return `RM ${new Intl.NumberFormat('en-US', { maximumFractionDigits: 0 }).format(value)}`;
+
+        // General fallback for unknown numeric columns
+        return new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 }).format(numValue);
     }
     return value;
 }
@@ -68,7 +83,24 @@ function DataVisualization({ msg }: { msg: Message }) {
     let isComparison = msg.chart_type === 'comparison';
     let yearCols: string[] = [];
     let xCol = columns[0];
-    const numericCols = columns.filter(c => typeof data[0][c] === 'number');
+    // Helper to detect numbers even in string format (Postgres NUMERIC/MONEY often return strings)
+    const isNumeric = (val: any) => {
+        if (typeof val === 'number') return true;
+        if (typeof val !== 'string') return false;
+        return !isNaN(parseFloat(val)) && isFinite(Number(val));
+    };
+
+    const numericCols = columns.filter(c => isNumeric(data[0][c]));
+
+    // Map data to ensure numeric types for Recharts
+    const chartData = data.map(row => {
+        const newRow = { ...row };
+        numericCols.forEach(col => {
+            const val = row[col];
+            newRow[col] = typeof val === 'number' ? val : parseFloat(val);
+        });
+        return newRow;
+    });
 
     if (isComparison || yearCols.length >= 2) {
         yearCols = columns.filter(c => /20\d{2}/.test(c));
@@ -128,7 +160,7 @@ function DataVisualization({ msg }: { msg: Message }) {
                                     {isTopAgents && <td className="px-4 py-2 font-medium text-gray-500">{idx + 1}</td>}
                                     {columns.map(col => (
                                         <td key={`${idx}-${col}`} className="px-4 py-2 text-gray-800 whitespace-nowrap">
-                                            {typeof row[col] === 'number' ? formatMetric(row[col], col) : row[col]}
+                                            {formatMetric(row[col], col)}
                                         </td>
                                     ))}
                                 </tr>
@@ -195,7 +227,7 @@ function DataVisualization({ msg }: { msg: Message }) {
                                     <Legend />
                                 </PieChart>
                             ) : msg.chart_type === 'line' ? (
-                                <LineChart data={data} margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
+                                <LineChart data={chartData} margin={{ top: 20, right: 30, left: 40, bottom: 20 }}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                                     <XAxis dataKey={xCol} tick={{ fontSize: 12, fill: '#6B7280' }} tickLine={false} axisLine={{ stroke: '#E5E7EB' }} />
                                     <YAxis tickFormatter={(val) => numericCols.some(c => ['ratio','rate','growth','%'].some(kw => c.toLowerCase().includes(kw))) ? `${val}%` : `RM ${(val / 1000).toFixed(0)}k`} tick={{ fontSize: 12, fill: '#6B7280' }} tickLine={false} axisLine={false} />
@@ -206,7 +238,7 @@ function DataVisualization({ msg }: { msg: Message }) {
                                     ))}
                                 </LineChart>
                             ) : (
-                                <BarChart data={isTopAgents ? rankData : data} margin={{ top: 20, right: 30, left: 40, bottom: 20 }} barSize={32}>
+                                <BarChart data={isTopAgents ? rankData : chartData} margin={{ top: 20, right: 30, left: 40, bottom: 20 }} barSize={32}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                                     <XAxis dataKey={isTopAgents ? "AgentID" : xCol} tick={{ fontSize: 12, fill: '#6B7280' }} tickLine={false} axisLine={{ stroke: '#E5E7EB' }} />
                                     <YAxis tickFormatter={(val) => numericCols.some(c => ['ratio','rate','growth','%'].some(kw => c.toLowerCase().includes(kw))) ? `${val}%` : `RM ${(val / 1000).toFixed(0)}k`} tick={{ fontSize: 12, fill: '#6B7280' }} tickLine={false} axisLine={false} />
@@ -557,7 +589,7 @@ export default function AIChat() {
                                                     <>
                                                         {msg.explanation && (
                                                             <div className="prose prose-sm prose-indigo max-w-none text-[15px] leading-relaxed mb-6 font-sans">
-                                                                <ReactMarkdown>{msg.explanation}</ReactMarkdown>
+                                                                <ReactMarkdown>{String(msg.explanation)}</ReactMarkdown>
                                                             </div>
                                                         )}
                                                         <DataVisualization msg={msg} />
@@ -568,7 +600,7 @@ export default function AIChat() {
                                                                     <div className="shrink-0 mt-0.5"><span className="text-xl">💡</span></div>
                                                                     <div className="text-[14px] text-indigo-900 font-medium leading-relaxed">
                                                                         <span className="font-bold block mb-1">Business Recommendation</span>
-                                                                        {msg.recommendation}
+                                                                        {String(msg.recommendation)}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -621,7 +653,7 @@ export default function AIChat() {
                                                                 }
                                                             }}
                                                         >
-                                                            {msg.content}
+                                                            {String(msg.content)}
                                                         </ReactMarkdown>
                                                     </div>
                                                 )}

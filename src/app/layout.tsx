@@ -28,6 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        suppressHydrationWarning
       >
         <Suspense fallback={<div>Loading application...</div>}>
           <LayoutWrapper>{children}</LayoutWrapper>

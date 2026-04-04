@@ -1,34 +1,34 @@
 import { NextResponse } from 'next/server';
-import { getDb, saveDb } from '@/lib/json-db';
 import crypto from 'crypto';
 
 export async function GET() {
     try {
-        const db = getDb();
+        const pool = (await import('@/lib/db')).default;
+        
+        // Fetch all modules from PostgreSQL
+        const res = await pool.query('SELECT * FROM Module ORDER BY module_name ASC');
+        let modules = res.rows;
 
-        // Clean up Service Desk from DB if it exists
-        if (db.Modules.some((m: any) => m.module_name === 'Service Desk')) {
-            db.Modules = db.Modules.filter((m: any) => m.module_name !== 'Service Desk');
-            // Clean up related access if needed (assuming cascaded elsewhere, or just orphan it)
-            db.User_Module_Access = db.User_Module_Access.filter((uma: any) => 
-                db.Modules.some((m: any) => m.module_id === uma.module_id)
-            );
-            saveDb(db);
-        }
-
-        // Auto-seed modules if empty since we already have a sidebar
-        if (db.Modules.length === 0) {
-            db.Modules = [
-                { module_id: crypto.randomUUID(), module_name: 'Dashboard' },
-                { module_id: crypto.randomUUID(), module_name: 'AI Chat' },
-                { module_id: crypto.randomUUID(), module_name: 'Tableau Dashboards' },
-                { module_id: crypto.randomUUID(), module_name: 'Data Download' },
-                { module_id: crypto.randomUUID(), module_name: 'ETL Reports' }
+        // Auto-seed modules if the table is completely empty (safeguard)
+        if (modules.length === 0) {
+            const seedModules = [
+                ['Dashboard', 'Main dashboard overview'],
+                ['AI Chat', 'AI-powered data inquiry'],
+                ['Tableau Dashboards', 'Embedded Tableau analytics'],
+                ['Data Download', 'Dataset export and preview'],
+                ['ETL Reports', 'Data pipeline status']
             ];
-            saveDb(db);
+            for (const [name, purpose] of seedModules) {
+                await pool.query(
+                    'INSERT INTO Module (module_id, module_name, module_purpose) VALUES (gen_random_uuid(), $1, $2)',
+                    [name, purpose]
+                );
+            }
+            const reRes = await pool.query('SELECT * FROM Module ORDER BY module_name ASC');
+            modules = reRes.rows;
         }
 
-        return NextResponse.json({ data: db.Modules });
+        return NextResponse.json({ data: modules });
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
